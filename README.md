@@ -13,8 +13,8 @@
 - Выполнение заданий учащимся с возможностью прикреплять ответ в виде файла;
 - Просмотр списка заданий.
 # Реализация приложения
-...[Backend](https://github.com/daniilShestopalov/Group_project_on_programming-_technologies-ProjectPal-/tree/main/Backend)
-...[Frontend](https://github.com/daniilShestopalov/Group_project_on_programming-_technologies-ProjectPal-/tree/main/Frontend)
+- [Backend](https://github.com/daniilShestopalov/Group_project_on_programming-_technologies-ProjectPal-/tree/main/Backend)
+- [Frontend](https://github.com/daniilShestopalov/Group_project_on_programming-_technologies-ProjectPal-/tree/main/Frontend)
 # Документация
 
 # Средства рализиции
