@@ -1,4 +1,4 @@
-# Group_project_on_programming-_technologies-ProjectPal
+# Group_project_on_programming_technologies_ProjectPal
 Проект "Система для управления и отслеживания выполнения домашних заданий и проектов для школьников и студентов" или рабочее название "ProjectPal"
 Выполняют студенты 6 группы:
   1. [Шестопалов Даниил](https://github.com/daniilShestopalov) - тимлид, backend разработчик;
