@@ -23,7 +23,6 @@
 - [Сопроводительное письмо](https://github.com/daniilShestopalov/Group_project_on_programming-_technologies-ProjectPal-/blob/main/Documents/%D0%A1%D0%BE%D0%BF%D1%80%D0%BE%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5%20%D0%BF%D0%B8%D1%81%D1%8C%D0%BC%D0%BE.pdf)
 # Средства рализиции
 - [Figma](https://www.figma.com/file/S7XxRPfQKmesjIxc8riuUV/ProjectPal?type=design&node-id=0%3A1&mode=design&t=DXrIDECJ5bJ7ee6C-1)
-- [Miro](https://miro.com/app/board/uXjVNot3RTI=/?share_link_id=960633347704)
 - [Trello](https://trello.com/invite/b/gXJcIMx4/ATTI2618eef655ef09bb2d0c8ff3fc2abc842EF5F6AA/приложение-projectpal)
 # Видео
 [Видео-презентация приложения](https://youtu.be/KM90MIGSXtA)
