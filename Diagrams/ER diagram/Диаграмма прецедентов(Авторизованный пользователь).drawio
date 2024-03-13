@@ -1,0 +1,147 @@
+<mxfile host="app.diagrams.net" modified="2024-03-13T15:40:46.642Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="7muI_AYxG8a6iL9gI7gN" version="24.0.5" type="device">
+  <diagram name="Страница — 1" id="Cg9e4lRFs6lyY9MizwPD">
+    <mxGraphModel dx="1221" dy="647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Sueicobwrdl7SZPW2hEC-1" value="Авторизированный&lt;div&gt;пользователь&lt;/div&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-2" value="Выйти из учетной записи" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="10" width="150" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;endArrow=none;endFill=0;dashed=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-7" target="Sueicobwrdl7SZPW2hEC-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-50" value="&amp;lt;&amp;lt;Extended&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Sueicobwrdl7SZPW2hEC-9">
+          <mxGeometry x="0.1529" y="-2" relative="1" as="geometry">
+            <mxPoint x="-3" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-7" value="Просмотреть календарь" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="130" width="145" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-8" value="Просмотреть конкретный день" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="437.5" y="130" width="152.5" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-11" value="Взаимодействие с заданиями/проектами" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="216.25" y="260" width="137.5" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-16" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=0;exitX=1;exitY=0;exitDx=0;exitDy=0;dashed=1;startArrow=none;startFill=0;endFill=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-11" target="Sueicobwrdl7SZPW2hEC-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="340" as="sourcePoint" />
+            <mxPoint x="390" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-49" value="&amp;lt;&amp;lt;Extended&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Sueicobwrdl7SZPW2hEC-16">
+          <mxGeometry x="0.2104" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-17" value="Просмотреть задание/проект" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="445" y="230" width="137.5" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-20" value="Проверить состояние выполнения задания/проекта" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="431.25" y="320" width="165" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-21" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=1;exitDx=0;exitDy=0;startArrow=classic;startFill=1;dashed=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-11" target="Sueicobwrdl7SZPW2hEC-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="340" as="sourcePoint" />
+            <mxPoint x="390" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-47" value="&amp;lt;&amp;lt;Extended&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Sueicobwrdl7SZPW2hEC-21">
+          <mxGeometry x="0.1859" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-22" value="" style="endArrow=none;html=1;rounded=0;entryX=0.015;entryY=0.597;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-11" target="Sueicobwrdl7SZPW2hEC-17">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="340" as="sourcePoint" />
+            <mxPoint x="390" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-48" value="&amp;lt;&amp;lt;Extended&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Sueicobwrdl7SZPW2hEC-22">
+          <mxGeometry x="-0.036" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-23" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-1" target="Sueicobwrdl7SZPW2hEC-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="110" y="230" as="sourcePoint" />
+            <mxPoint x="160" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-24" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-1" target="Sueicobwrdl7SZPW2hEC-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="340" as="sourcePoint" />
+            <mxPoint x="390" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-26" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-1" target="Sueicobwrdl7SZPW2hEC-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="340" as="sourcePoint" />
+            <mxPoint x="390" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-27" value="Настроить профиль" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="216.25" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-28" value="Просмотреть профиль другого пользователя" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200.5" y="490" width="164" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-30" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-1" target="Sueicobwrdl7SZPW2hEC-27">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="70" y="480" as="sourcePoint" />
+            <mxPoint x="120" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-31" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-1" target="Sueicobwrdl7SZPW2hEC-28">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="340" as="sourcePoint" />
+            <mxPoint x="390" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=none;endFill=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-33" target="Sueicobwrdl7SZPW2hEC-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-46" value="&amp;lt;&amp;lt;Extended&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Sueicobwrdl7SZPW2hEC-37">
+          <mxGeometry x="-0.1353" y="-2" relative="1" as="geometry">
+            <mxPoint x="4" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-33" value="Изменить личные данные" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="453.75" y="420" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-35" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-27" target="Sueicobwrdl7SZPW2hEC-33">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="240" y="420" as="sourcePoint" />
+            <mxPoint x="290" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-45" value="&amp;lt;&amp;lt;Extended&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Sueicobwrdl7SZPW2hEC-35">
+          <mxGeometry x="0.0513" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-36" value="Изменить аватар" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="420" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-40" value="Пожаловаться на профиль" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="453.75" y="520" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-42" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;startArrow=classic;startFill=1;dashed=1;" edge="1" parent="1" source="Sueicobwrdl7SZPW2hEC-28" target="Sueicobwrdl7SZPW2hEC-40">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="240" y="420" as="sourcePoint" />
+            <mxPoint x="290" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sueicobwrdl7SZPW2hEC-44" value="&amp;lt;&amp;lt;Extended&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Sueicobwrdl7SZPW2hEC-42">
+          <mxGeometry x="0.0865" y="-4" relative="1" as="geometry">
+            <mxPoint x="2" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
