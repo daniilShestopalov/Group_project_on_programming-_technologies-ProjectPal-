@@ -18,5 +18,5 @@
 # Документация
 
 # Средства рализиции
-
+- [Figma](https://www.figma.com/file/S7XxRPfQKmesjIxc8riuUV/ProjectPal?type=design&node-id=0%3A1&mode=design&t=DXrIDECJ5bJ7ee6C-1)
 # Видео 
