@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../presentation/pages/home_page.dart';
-import '../presentation/pages/welcome_page_1.dart';
-import '../presentation/pages/welcome_page_2.dart';
+import '../presentation/pages/welcome_page/welcome_page_1.dart';
 
 class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {

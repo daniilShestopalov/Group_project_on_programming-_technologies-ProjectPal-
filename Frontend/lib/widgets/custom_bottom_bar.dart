@@ -2,8 +2,9 @@ import 'package:project_pal/core/app_export.dart';
 
 class CustomBottomBar extends StatelessWidget {
   final String currentPage;
+  final int userId;
 
-  const CustomBottomBar({Key? key, required this.currentPage}) : super(key: key);
+  const CustomBottomBar({Key? key, required this.currentPage, required this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class CustomBottomBar extends StatelessWidget {
         children: [
           Expanded(
             child: _buildBottomBarItem(
+              context: context,
               icon: Icons.calendar_today,
               text: 'Календарь',
               pageName: 'calendar',
@@ -31,6 +33,7 @@ class CustomBottomBar extends StatelessWidget {
           ),
           Expanded(
             child: _buildBottomBarItem(
+              context: context,
               icon: Icons.home,
               text: 'Главная',
               pageName: 'main',
@@ -38,9 +41,10 @@ class CustomBottomBar extends StatelessWidget {
           ),
           Expanded(
             child: _buildBottomBarItem(
+              context: context,
               icon: Icons.assignment,
               text: 'Задания',
-              pageName: 'tasks',
+              pageName: 'task',
             ),
           ),
         ],
@@ -48,11 +52,8 @@ class CustomBottomBar extends StatelessWidget {
     );
   }
 
-
-
-
-
   Widget _buildBottomBarItem({
+    required BuildContext context,
     required IconData icon,
     required String text,
     required String pageName,
@@ -62,7 +63,22 @@ class CustomBottomBar extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // Обработка нажатия на кнопку
+        // Навигация при нажатии на элемент
+        if (!isSelected) {
+          switch (pageName) {
+            case 'calendar':
+              AppRoutes.navigateToPageWithFadeTransition(context, CalendarPage(userId: userId)); // Пример использования маршрутов
+              break;
+            case 'main':
+              AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: userId));
+              break;
+            case 'task':
+              AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: userId));
+              break;
+            default:
+              break;
+          }
+        }
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

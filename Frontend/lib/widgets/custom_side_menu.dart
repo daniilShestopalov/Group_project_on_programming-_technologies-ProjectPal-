@@ -3,9 +3,12 @@ import 'package:project_pal/core/app_export.dart';
 class CustomSideMenu extends StatelessWidget {
   final FigmaTextStyles figmaTextStyles;
 
+  final int userId;
+
   const CustomSideMenu({
     Key? key,
     required this.figmaTextStyles,
+    required this.userId,
   }) : super(key: key);
 
   @override
@@ -17,16 +20,16 @@ class CustomSideMenu extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             CustomText(
-              text: 'Третьяков Данила Сергеевич',
+              text: DataUtils.getUserFullNameById(userId),
               style: figmaTextStyles.mediumText.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),
             ),
             SizedBox(height: 5),
             CustomText(
-              text: 'Студент',
+              text: DataUtils.getRoleName(DataUtils.getUserRoleById(userId)),
               style: figmaTextStyles.regularText.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),
@@ -36,21 +39,21 @@ class CustomSideMenu extends StatelessWidget {
               icon: Icons.person,
               text: 'Профиль',
               onTap: () {
-                // Действия при выборе пункта меню "Профиль"
+                AppRoutes.navigateToPageWithFadeTransition(context, ProfilePage(userId: userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.group,
               text: 'Группы',
               onTap: () {
-                // Действия при выборе пункта меню "Группы"
+                AppRoutes.navigateToPageWithFadeTransition(context, GroupsPage(userId: userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.people,
               text: 'Преподаватели',
               onTap: () {
-                // Действия при выборе пункта меню "Преподаватели"
+                AppRoutes.navigateToPageWithFadeTransition(context, ProfessorPage(userId: userId,));
               },
             ),
             SizedBox(height: 20),
@@ -70,21 +73,21 @@ class CustomSideMenu extends StatelessWidget {
               icon: Icons.home,
               text: 'Главная',
               onTap: () {
-                // Действия при выборе пункта меню "Главная"
+                AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.calendar_today,
               text: 'Календарь',
               onTap: () {
-                // Действия при выборе пункта меню "Календарь"
+                AppRoutes.navigateToPageWithFadeTransition(context, CalendarPage(userId: userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.assignment,
               text: 'Задания',
               onTap: () {
-                // Действия при выборе пункта меню "Задания"
+                AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: userId));
               },
             ),
             SizedBox(height: 20),
@@ -97,7 +100,7 @@ class CustomSideMenu extends StatelessWidget {
               icon: Icons.settings,
               text: 'Настройки',
               onTap: () {
-                // Действия при выборе пункта меню "Настройки"
+                AppRoutes.navigateToPageWithFadeTransition(context, SettingsPage(userId: userId,));
               },
             ),
             _buildMenuItem(

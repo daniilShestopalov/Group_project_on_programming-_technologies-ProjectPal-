@@ -7,10 +7,13 @@ class FigmaColors {
   static const Color whiteBackground = Color(0xfff7faf8);
   static const Color darkBlueMain = Color(0xff20395c);
   static const Color contrastToMain = Color(0xff009caf);
-  static const Color exitColor = Color(0xff98bdc9);
+  static const Color exitColor = Color(0xff82bdcc);
   static const Color selectorColor = Color(0xff0078d2);
   static const Color whiteText = Color(0xffffffff);
   static const Color red = Color(0xffd00f0f);
+  static const Color exitDayColor = Color(0xff98BDC9);
+  static const Color workDayColor = Color(0xffC6D8DE);
+  static const Color editTask = Color(0xffFCEBC1);
 }
 
 class FigmaTextStyles {

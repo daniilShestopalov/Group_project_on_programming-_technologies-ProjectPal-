@@ -1,17 +1,17 @@
 import 'package:project_pal/core/app_export.dart';
 
-class MainPage extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
 
   final int userId;
 
-  const MainPage({Key? key, required this.userId}) : super(key: key);
+  const SettingsPage({Key? key, required this.userId}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _SettingsPageState createState() => _SettingsPageState();
 
 }
 
-class _MainPageState extends State<MainPage> {
+class _SettingsPageState extends State<SettingsPage> {
 
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -28,7 +28,7 @@ class _MainPageState extends State<MainPage> {
         userId: widget.userId,
       ),
       drawer: CustomSideMenu(figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
-      body: MainPageContent(userId: widget.userId),
+      body: SettingsPageContent(userId: widget.userId),
       bottomNavigationBar: CustomBottomBar(currentPage: 'main', userId: widget.userId,),
     );
   }

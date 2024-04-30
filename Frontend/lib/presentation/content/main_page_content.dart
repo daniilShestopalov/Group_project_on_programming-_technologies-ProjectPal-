@@ -1,7 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class MainPageContent extends StatefulWidget {
+  final int userId;
+
+  const MainPageContent({Key? key, required this.userId}) : super(key: key);
+
   @override
   _MainPageContentState createState() => _MainPageContentState();
 }
@@ -9,54 +15,26 @@ class MainPageContent extends StatefulWidget {
 class _MainPageContentState extends State<MainPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
 
-  SortOrder sortOrder = SortOrder.ascending;
-  int selectedIndex = 0;
-
-  List<TaskBlockWidget> taskBlocks = [
-    TaskBlockWidget(
-      subject: 'Алгебра',
-      date: '21.09',
-      teacher: 'Маэстро',
-      tasks: [
-        Task(description: 'Описание задачи 1', isCompleted: true),
-        Task(description: 'Описание задачи 2', isCompleted: false),
-        Task(description: 'Описание задачи 3', isCompleted: false),
-      ],
-    ),
-    TaskBlockWidget(
-      subject: 'Геометрия',
-      date: '22.09',
-      teacher: 'Обэмэ',
-      tasks: [
-        Task(description: 'Описание задачи 1', isCompleted: true),
-        Task(description: 'Описание задачи 2', isCompleted: true),
-      ],
-    ),
-    TaskBlockWidget(
-      subject: 'Русский Язык',
-      date: '01.10',
-      teacher: 'Абоба',
-      tasks: [
-        Task(description: 'Описание задачи 1', isCompleted: true),
-        Task(description: 'Описание задачи 2', isCompleted: true),
-        Task(description: 'Описание задачи 3', isCompleted: true),
-      ],
-    ),
-  ];
+  // Допустим, у вас есть переменная для отслеживания выполненных задач
+  int completedTasks = 1;
+  int totalTasks = 3; // Просто для примера, замените это на реальное количество задач
 
   @override
   Widget build(BuildContext context) {
+    // Рассчитаем процент выполнения задач
+    double completionPercentage = completedTasks / totalTasks;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Блок 1
+        // Ваш текущий контент
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: 'Добрый день,\nДанила',
+                text: 'Добрый день,\n' + DataUtils.getUserNameById(widget.userId),
                 style: figmaTextStyles.header2Regular.copyWith(
                   color: FigmaColors.darkBlueMain,
                 ),
@@ -67,136 +45,101 @@ class _MainPageContentState extends State<MainPageContent> {
                   Expanded(
                     child: Center(
                       child: CustomText(
-                        text: 'Задания на сегодня',
+                        text: 'Ваша статистика',
                         style: figmaTextStyles.header1Medium.copyWith(
                           color: FigmaColors.darkBlueMain,
                         ),
                       ),
                     ),
                   ),
-                  SortIcon(
-                    initialOrder: sortOrder,
-                    onSortChanged: (order) {
-                      setState(() {
-                        sortOrder = order;
-                        sortTasksByDeadline();
-                      });
-                    },
-                  ),
                 ],
               ),
               SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  for (int index = 0; index < 3; index++)
-                    UnderlineText(
-                      text: index == 0
-                          ? 'По дедлайну'
-                          : index == 1
-                          ? 'По преподавателю'
-                          : 'По предмету',
-                      textStyle: figmaTextStyles.caption1Regular.copyWith(
-                        color: index == selectedIndex
-                            ? FigmaColors.darkBlueMain
-                            : FigmaColors.exitColor,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                          sortTasksBy(index);
-                        });
-                      },
-                    ),
-                ],
-              ),
             ],
           ),
         ),
-        // Блок 2
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView.builder(
-              itemCount: taskBlocks.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 16),
-                  child: TaskBlockWidget(
-                    subject: taskBlocks[index].subject,
-                    date: taskBlocks[index].date,
-                    teacher: taskBlocks[index].teacher,
-                    tasks: taskBlocks[index].tasks,
-                  ),
-                );
-              },
+        // Добавим круг под текущим содержимым и выровняем его по центру
+        Center(
+          child: Container(
+            width: 300, // Задаем ширину круга (можно настроить по вашему усмотрению)
+            height: 300, // Задаем высоту круга
+            child: CustomPaint(
+              painter: CirclePainter(
+                progress: completionPercentage,
+                startColor: FigmaColors.darkBlueMain,
+                endColor: FigmaColors.contrastToMain,
+              ),
             ),
           ),
         ),
+        SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Center(
+                child: CustomText(
+                  text: 'Всего заданий: 3',
+                  style: figmaTextStyles.header2Medium.copyWith(
+                    color: FigmaColors.darkBlueMain,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Center(
+              child: CustomText(
+              text: 'Выполнено заданий: 1',
+              style: figmaTextStyles.header2Medium.copyWith(
+              color: FigmaColors.darkBlueMain,
+              ),
+              ),
+              ),
+            ),
       ],
     );
   }
+}
 
-  void sortTasksByDeadline() {
-    setState(() {
-      taskBlocks.sort((a, b) {
-        List<String> partsA = a.date.split('.');
-        List<String> partsB = b.date.split('.');
+class CirclePainter extends CustomPainter {
+  final double progress;
+  final Color startColor;
+  final Color endColor;
 
-        int dayA = int.parse(partsA[0]);
-        int monthA = int.parse(partsA[1]);
-        int dayB = int.parse(partsB[0]);
-        int monthB = int.parse(partsB[1]);
+  CirclePainter({
+    required this.progress,
+    required this.startColor,
+    required this.endColor,
+  });
 
-        if (sortOrder == SortOrder.ascending) {
-          if (monthA != monthB) {
-            return monthA.compareTo(monthB);
-          } else {
-            return dayA.compareTo(dayB);
-          }
-        } else {
-          if (monthA != monthB) {
-            return monthB.compareTo(monthA);
-          } else {
-            return dayB.compareTo(dayA);
-          }
-        }
-      });
-    });
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = startColor
+      ..style = PaintingStyle.fill;
+
+    // Вычисляем центр и радиус круга
+    Offset center = Offset(size.width / 2, size.height / 2);
+    double radius = min(size.width / 2, size.height / 2);
+
+    // Рисуем фоновый круг
+    canvas.drawCircle(center, radius, paint);
+
+    // Рассчитываем угол заливки в зависимости от прогресса выполнения
+    double sweepAngle = 2 * pi * progress;
+
+    // Рисуем заливку
+    paint.color = endColor;
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      -pi / 2, // начальный угол
+      sweepAngle, // угол заливки
+      true,
+      paint,
+    );
   }
 
-  void sortTasksByTeacher() {
-    setState(() {
-      taskBlocks.sort((a, b) {
-        return a.teacher.compareTo(b.teacher);
-      });
-    });
-  }
-
-  void sortTasksBySubject() {
-    setState(() {
-      taskBlocks.sort((a, b) {
-        return a.subject.compareTo(b.subject);
-      });
-    });
-  }
-
-
-  void sortTasksBy(int index) {
-    // Implement sorting logic based on index here
-    // You can call different sorting methods based on the selected index
-    switch (index) {
-      case 0:
-        sortTasksByDeadline();
-        break;
-      case 1:
-        sortTasksByTeacher();
-        break;
-      case 2:
-        sortTasksBySubject();
-        break;
-      default:
-        break;
-    }
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
   }
 }

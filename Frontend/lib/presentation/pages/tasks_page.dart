@@ -1,35 +1,31 @@
 import 'package:project_pal/core/app_export.dart';
 
-class MainPage extends StatefulWidget {
+class TasksPage extends StatefulWidget {
 
   final int userId;
 
-  const MainPage({Key? key, required this.userId}) : super(key: key);
+  const TasksPage({Key? key, required this.userId}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
-
+  _TasksPageState createState() => _TasksPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-
-
+class _TasksPageState extends State<TasksPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
         onMenuPressed: () {
           _scaffoldKey.currentState?.openDrawer();
         },
-        userId: widget.userId,
+          userId: widget.userId,
       ),
       drawer: CustomSideMenu(figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
-      body: MainPageContent(userId: widget.userId),
-      bottomNavigationBar: CustomBottomBar(currentPage: 'main', userId: widget.userId,),
+      body: TasksPageContent(userId: widget.userId),
+      bottomNavigationBar: CustomBottomBar(currentPage: 'task', userId: widget.userId,), // Добавляем кастомный нижний бар
     );
   }
 }

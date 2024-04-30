@@ -5,6 +5,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final bool enabled;
+  final TextEditingController? controller; // Обновлено: контроллер может быть null
   final FigmaTextStyles figmaTextStyles;
 
   const CustomTextField({
@@ -12,14 +13,16 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
-    this.enabled = true, // По умолчанию поле активно
-    required this.figmaTextStyles
+    this.enabled = true,
+    this.controller, // Обновлено: контроллер может быть null
+    required this.figmaTextStyles,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      enabled: enabled, // Установка активности поля
+      controller: controller, // Используем контроллер, если он предоставлен
+      enabled: enabled,
       keyboardType: keyboardType,
       obscureText: obscureText,
       style: figmaTextStyles.headerTextRegular.copyWith(

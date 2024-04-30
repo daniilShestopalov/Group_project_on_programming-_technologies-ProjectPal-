@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onMenuPressed;
-  final VoidCallback? onProfilePressed;
+  final int userId;
 
   const CustomAppBar({
     Key? key,
     this.onMenuPressed,
-    this.onProfilePressed,
+    required this.userId,
   }) : super(key: key);
 
   @override
@@ -28,7 +29,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.account_circle),
-          onPressed: onProfilePressed,
+          onPressed: () {
+            AppRoutes.navigateToPageWithFadeTransition(context, ProfilePage(userId: userId));
+          },
         ),
       ],
     );
