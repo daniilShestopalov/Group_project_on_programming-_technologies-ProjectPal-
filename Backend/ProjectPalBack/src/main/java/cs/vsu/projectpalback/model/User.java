@@ -3,6 +3,8 @@ package cs.vsu.projectpalback.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "user")
@@ -38,6 +40,11 @@ public class User {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Group group;
 
 }
 
