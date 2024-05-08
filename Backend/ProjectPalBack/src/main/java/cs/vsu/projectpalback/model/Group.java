@@ -19,4 +19,5 @@ public class Group {
 
     @Column(name = "course_number", nullable = false)
     private int courseNumber;
+
 }

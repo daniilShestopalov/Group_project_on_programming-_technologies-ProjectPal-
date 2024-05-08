@@ -25,4 +25,5 @@ public class Complaint {
     @JoinColumn(name = "complained_about_user_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User complainedAbout;
+
 }

@@ -38,4 +38,5 @@ public class ProjectAnswer {
 
     @Column(name = "file_link", columnDefinition = "TEXT")
     private String fileLink;
+
 }

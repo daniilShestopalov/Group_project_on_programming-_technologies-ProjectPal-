@@ -37,4 +37,5 @@ public class Project {
 
     @Column(name = "end_date")
     private LocalDateTime endDate;
+
 }
