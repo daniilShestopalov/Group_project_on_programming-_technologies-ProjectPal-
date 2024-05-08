@@ -1,0 +1,48 @@
+package cs.vsu.projectpalback.model;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = "user")
+@Getter
+@Setter
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "login")
+    private String login;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "name", length = 50)
+    private String name;
+
+    @Column(name = "surname", length = 50)
+    private String surname;
+
+    @Column(name = "patronymic", length = 50)
+    private String patronymic;
+
+    @Column(name = "phone_number", length = 20)
+    private String phoneNumber;
+
+    @Column(name = "avatar_link", columnDefinition = "TEXT")
+    private String avatarLink;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+}
+
+enum Role {
+    ПРЕПОДАВАТЕЛЬ,
+    АДМИН,
+    УЧАЩИЙСЯ
+}
