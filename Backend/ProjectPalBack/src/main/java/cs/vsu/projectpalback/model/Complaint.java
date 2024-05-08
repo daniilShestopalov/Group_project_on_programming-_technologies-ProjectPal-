@@ -17,12 +17,12 @@ public class Complaint {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "complaint_sender_user_id", referencedColumnName = "id")
+    @JoinColumn(name = "complaint_sender_user_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User complaintSender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "complained_about_user_id", referencedColumnName = "id")
+    @JoinColumn(name = "complained_about_user_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User complainedAbout;
 }
