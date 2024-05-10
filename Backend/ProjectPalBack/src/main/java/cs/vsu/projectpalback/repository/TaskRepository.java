@@ -4,9 +4,13 @@ import cs.vsu.projectpalback.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
-    //TODO: поиск по группе
-    //TODO: поск по преподователю
+
+    List<Task> findByGroupId(Integer groupId);
+    List<Task> findByTeacherId(Integer teacherId);
+
 
 }

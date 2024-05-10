@@ -1,5 +1,6 @@
 package cs.vsu.projectpalback.model;
 
+import cs.vsu.projectpalback.model.enumerate.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,10 +47,4 @@ public class User {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Group group;
 
-}
-
-enum Role {
-    ПРЕПОДАВАТЕЛЬ,
-    АДМИН,
-    УЧАЩИЙСЯ
 }

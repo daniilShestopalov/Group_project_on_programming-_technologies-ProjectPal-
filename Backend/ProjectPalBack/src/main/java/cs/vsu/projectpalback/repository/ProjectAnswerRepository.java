@@ -4,7 +4,10 @@ import cs.vsu.projectpalback.model.ProjectAnswer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ProjectAnswerRepository extends JpaRepository<ProjectAnswer,Integer> {
-    //TODO: поиск по проекту
+
+    Optional<ProjectAnswer> findByProjectId(Integer projectId);
 }
