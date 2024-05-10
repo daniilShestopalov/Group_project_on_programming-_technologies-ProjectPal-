@@ -1,5 +1,6 @@
 package cs.vsu.projectpalback.model;
 
+import cs.vsu.projectpalback.model.enumerate.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "login")
+    @Column(name = "login", unique = true, nullable = false)
     private String login;
 
     @Column(name = "password")
@@ -46,10 +47,4 @@ public class User {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Group group;
 
-}
-
-enum Role {
-    ПРЕПОДАВАТЕЛЬ,
-    АДМИН,
-    УЧАЩИЙСЯ
 }

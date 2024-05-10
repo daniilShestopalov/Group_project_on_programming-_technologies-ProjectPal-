@@ -8,7 +8,7 @@ CREATE TYPE user_role AS ENUM ('ПРЕПОДАВАТЕЛЬ', 'АДМИН', 'УЧ
 
 CREATE TABLE "user" (
                       id SERIAL PRIMARY KEY,
-                      login VARCHAR(255),
+                      login VARCHAR(255) UNIQUE,
                       password VARCHAR(255),
                       name VARCHAR(50),
                       surname VARCHAR(50),
