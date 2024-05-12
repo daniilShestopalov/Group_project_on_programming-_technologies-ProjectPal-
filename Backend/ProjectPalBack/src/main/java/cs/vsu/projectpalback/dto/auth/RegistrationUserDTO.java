@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RegistrationUserDto {
+public class RegistrationUserDTO {
 
     @NotNull(message = "Login cannot be null")
     private String login;
