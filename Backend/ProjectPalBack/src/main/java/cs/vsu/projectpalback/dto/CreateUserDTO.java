@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserDTO {
+public class CreateUserDTO {
 
     private int id;
 
     @NotNull(message = "Login cannot be null")
     private String login;
+
+    @NotNull(message = "Password cannot be null")
+    private String password;
 
     @NotNull(message = "Name cannot be null")
     private String name;
