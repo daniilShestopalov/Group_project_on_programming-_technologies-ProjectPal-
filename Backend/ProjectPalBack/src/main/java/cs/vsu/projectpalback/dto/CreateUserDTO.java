@@ -1,6 +1,7 @@
 package cs.vsu.projectpalback.dto;
 
 import cs.vsu.projectpalback.model.enumerate.Role;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,16 +12,16 @@ public class CreateUserDTO {
 
     private int id;
 
-    @NotNull(message = "Login cannot be null")
+    @NotBlank(message = "Login is required")
     private String login;
 
-    @NotNull(message = "Password cannot be null")
+    @NotBlank(message = "Password is required")
     private String password;
 
-    @NotNull(message = "Name cannot be null")
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotNull(message = "Surname cannot be null")
+    @NotBlank(message = "Surname is required")
     private String surname;
 
     private String patronymic;

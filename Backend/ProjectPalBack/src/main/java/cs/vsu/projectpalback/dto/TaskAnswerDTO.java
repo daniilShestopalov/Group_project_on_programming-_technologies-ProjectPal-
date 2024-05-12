@@ -1,6 +1,6 @@
 package cs.vsu.projectpalback.dto;
 
-import cs.vsu.projectpalback.model.User;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -15,7 +15,7 @@ public class TaskAnswerDTO {
     private int taskId;
 
     @NotNull(message = "Student user id cannot be null")
-    private User student;
+    private int studentUserId;
 
     @NotNull(message = "Submission date cannot be null")
     private LocalDateTime submissionDate;
@@ -26,7 +26,7 @@ public class TaskAnswerDTO {
 
     private Integer grade;
 
-    @NotNull(message = "File link cannot be null")
+    @NotBlank(message = "File link is required")
     private String fileLink;
 
 }

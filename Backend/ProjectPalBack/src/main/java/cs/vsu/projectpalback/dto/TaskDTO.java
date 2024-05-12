@@ -1,5 +1,6 @@
 package cs.vsu.projectpalback.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ public class TaskDTO {
 
     private int id;
 
-    @NotNull(message = "Task name cannot be null")
+    @NotBlank(message = "Name is required")
     private String name;
 
     @NotNull(message = "Teacher user id cannot be null")

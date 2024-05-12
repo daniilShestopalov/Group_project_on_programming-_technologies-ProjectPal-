@@ -1,5 +1,6 @@
 package cs.vsu.projectpalback.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -22,7 +23,7 @@ public class ProjectAnswerDTO {
 
     private Integer grade;
 
-    @NotNull(message = "File link cannot be null")
+    @NotBlank(message = "File link is required")
     private String fileLink;
 
 }

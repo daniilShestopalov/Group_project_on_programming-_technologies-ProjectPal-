@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PasswordResetRequestDTO {
+public class AuthUserDTO {
 
-    @NotBlank(message = "Email is required")
+    @NotBlank(message = "Login is required")
     @Email(message = "Invalid email format")
-    private String email;
+    private String login;
 
+    @NotBlank(message = "Password is required")
+    private String password;
 }

@@ -1,6 +1,6 @@
 package cs.vsu.projectpalback.dto.auth;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TmpInitialLoginUserDTO {
 
-    @NotNull(message = "Temp login cannot be null")
+    @NotBlank(message = "Temp login is required")
     private String tempLogin;
 
-    @NotNull(message = "Temp password cannot be null")
+    @NotBlank(message = "Temp password is required")
     private String tempPassword;
 
 }
