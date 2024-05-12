@@ -1,5 +1,6 @@
 package cs.vsu.projectpalback.dto.auth;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class RegistrationUserDTO {
 
     @NotNull(message = "Login cannot be null")
+    @Email(message = "Invalid email format")
     private String login;
 
     @NotNull(message = "Phone number cannot be null")
