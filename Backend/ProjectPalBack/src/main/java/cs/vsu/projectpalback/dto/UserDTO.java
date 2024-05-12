@@ -21,7 +21,6 @@ public class UserDTO {
 
     private String patronymic;
 
-    @NotNull(message = "Phone number cannot be null")
     private String phoneNumber;
 
     private String avatarLink;
