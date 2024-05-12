@@ -48,4 +48,5 @@ public class AuthModel implements Authentication {
 
     @Override
     public String getName() { return name; }
+
 }
