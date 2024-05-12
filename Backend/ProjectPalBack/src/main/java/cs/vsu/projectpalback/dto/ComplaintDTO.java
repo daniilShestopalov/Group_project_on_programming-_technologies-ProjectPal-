@@ -10,11 +10,10 @@ public class ComplaintDTO {
 
     private int id;
 
-    @NotNull(message = "Sender user ID cannot be null")
+    @NotNull(message = "Sender user id cannot be null")
     private int complaintSenderUserId;
 
-    @NotNull(message = "Complained about user ID cannot be null")
+    @NotNull(message = "Complained about user id cannot be null")
     private int complainedAboutUserId;
-
 
 }

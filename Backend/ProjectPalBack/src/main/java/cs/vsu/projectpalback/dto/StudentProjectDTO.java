@@ -15,4 +15,5 @@ public class StudentProjectDTO {
 
     @NotNull(message = "Project id cannot be null")
     private int projectId;
+
 }

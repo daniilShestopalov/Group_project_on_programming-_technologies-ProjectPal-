@@ -15,4 +15,5 @@ public class GroupDTO {
 
     @NotNull(message = "Course number cannot be null")
     private int courseNumber;
+
 }

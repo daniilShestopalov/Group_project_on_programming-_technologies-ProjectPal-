@@ -29,4 +29,5 @@ public class TaskDTO {
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
+
 }

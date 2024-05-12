@@ -33,4 +33,5 @@ public class CreateUserDTO {
     private Role role;
 
     private Integer groupId;
+
 }
