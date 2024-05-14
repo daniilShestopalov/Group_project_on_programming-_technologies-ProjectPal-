@@ -4,6 +4,7 @@ import cs.vsu.projectpalback.dto.UserDTO;
 import cs.vsu.projectpalback.dto.UserWithoutPasswordDTO;
 import cs.vsu.projectpalback.model.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -18,10 +19,12 @@ public interface UserMapper {
 
     List<User> toEntityList(List<UserDTO> userDTOList);
 
-    default UserWithoutPasswordDTO toDTOWithoutPassword(User user) {
+    default UserWithoutPasswordDTO toDtoWithoutPassword(User user) {
         UserDTO userDTO = toDto(user);
         return new UserWithoutPasswordDTO(userDTO);
     }
 
     List<UserWithoutPasswordDTO> toDtoListWithoutPassword(List<User> userList);
+
+    void updateEntityFromDto(UserDTO dto, @MappingTarget User entity);
 }
