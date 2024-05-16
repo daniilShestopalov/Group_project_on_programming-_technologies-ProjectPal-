@@ -10,6 +10,7 @@ import cs.vsu.projectpalback.model.enumerate.Role;
 import cs.vsu.projectpalback.repository.GroupRepository;
 import cs.vsu.projectpalback.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -101,7 +102,7 @@ public class UserService {
         }
     }
 
-    public UserDTO updateUser(UserDTO userDTO) {
+    public UserDTO updateUser(@NotNull UserDTO userDTO) {
         Optional<User> existingUserOptional = userRepository.findById(userDTO.getId());
         if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
