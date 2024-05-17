@@ -8,8 +8,8 @@ import cs.vsu.projectpalback.dto.auth.TmpInitialLoginUserDTO;
 import cs.vsu.projectpalback.mapper.UserWithoutPasswordMapper;
 import cs.vsu.projectpalback.model.User;
 import cs.vsu.projectpalback.repository.UserRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
