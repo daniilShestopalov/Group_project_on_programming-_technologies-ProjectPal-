@@ -2,19 +2,37 @@ package cs.vsu.projectpalback.mapper;
 
 import cs.vsu.projectpalback.dto.ComplaintDTO;
 import cs.vsu.projectpalback.model.Complaint;
-import org.mapstruct.Mapper;
+import cs.vsu.projectpalback.repository.UserRepository;
+import org.mapstruct.*;
+import cs.vsu.projectpalback.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface ComplaintMapper {
+@Mapper(componentModel = "spring", uses = UserRepository.class)
+public abstract class ComplaintMapper {
 
-    ComplaintDTO toDto(Complaint complaint);
+    @Autowired
+    private UserRepository userRepository;
 
-    Complaint toEntity(ComplaintDTO complaintDTO);
+    @Mappings({
+            @Mapping(source = "complaintSender.id", target = "complaintSenderUserId"),
+            @Mapping(source = "complainedAbout.id", target = "complainedAboutUserId")
+    })
+    public abstract ComplaintDTO toDto(Complaint complaint);
 
-    List<ComplaintDTO> toDtoList(List<Complaint> complaints);
+    @Mappings({
+            @Mapping(source = "complaintSenderUserId", target = "complaintSender", qualifiedByName = "userFromId"),
+            @Mapping(source = "complainedAboutUserId", target = "complainedAbout", qualifiedByName = "userFromId")
+    })
+    public abstract Complaint toEntity(ComplaintDTO complaintDTO);
 
-    List<Complaint> toEntityList(List<ComplaintDTO> complaintDTOs);
+    public abstract List<ComplaintDTO> toDtoList(List<Complaint> complaints);
 
+    public abstract List<Complaint> toEntityList(List<ComplaintDTO> complaintDTOs);
+
+    @Named("userFromId")
+    protected User userFromId(int id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }

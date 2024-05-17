@@ -1,20 +1,46 @@
 package cs.vsu.projectpalback.mapper;
 
 import cs.vsu.projectpalback.dto.TaskDTO;
+import cs.vsu.projectpalback.model.Group;
 import cs.vsu.projectpalback.model.Task;
+import cs.vsu.projectpalback.model.User;
+import cs.vsu.projectpalback.repository.GroupRepository;
+import cs.vsu.projectpalback.repository.UserRepository;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface TaskMapper {
+@Mapper(componentModel = "spring", uses = {UserRepository.class, GroupRepository.class})
+public abstract class TaskMapper {
 
-    TaskDTO toDto(Task task);
+    @Autowired
+    private UserRepository userRepository;
 
-    Task toEntity(TaskDTO taskDTO);
+    @Autowired
+    private GroupRepository groupRepository;
 
-    List<TaskDTO> toDtoList(List<Task> tasks);
+    @Mapping(source = "teacher.id", target = "teacherUserId")
+    @Mapping(source = "group.id", target = "groupId")
+    public abstract TaskDTO toDto(Task task);
 
-    List<Task> toEntityList(List<TaskDTO> taskDTOs);
+    @Mapping(source = "teacherUserId", target = "teacher", qualifiedByName = "userFromId")
+    @Mapping(source = "groupId", target = "group", qualifiedByName = "groupFromId")
+    public abstract Task toEntity(TaskDTO taskDTO);
 
+    public abstract List<TaskDTO> toDtoList(List<Task> tasks);
+
+    public abstract List<Task> toEntityList(List<TaskDTO> taskDTOs);
+
+    @Named("userFromId")
+    protected User userFromId(int id) {
+        return userRepository.getReferenceById(id);
+    }
+
+    @Named("groupFromId")
+    protected Group groupFromId(int id) {
+        return groupRepository.findById(id).orElse(null);
+    }
 }

@@ -9,8 +9,9 @@ import cs.vsu.projectpalback.model.User;
 import cs.vsu.projectpalback.model.enumerate.Role;
 import cs.vsu.projectpalback.repository.GroupRepository;
 import cs.vsu.projectpalback.repository.UserRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -92,10 +93,16 @@ public class UserService {
         }
     }
 
-    public void deleteUser(int id) {
+    public boolean deleteUser(int id) {
         try {
-            userRepository.deleteById(id);
-            LOGGER.info("User deleted with id: {}", id);
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
+                userRepository.deleteById(id);
+                LOGGER.info("User deleted with id: {}", id);
+                return true;
+            }
+            return false;
+
         } catch (Exception e) {
             LOGGER.error("Error deleting user with id: {}", id, e);
             throw new RuntimeException("Error deleting user", e);

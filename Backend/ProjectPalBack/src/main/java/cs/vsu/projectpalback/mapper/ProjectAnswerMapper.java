@@ -1,20 +1,34 @@
 package cs.vsu.projectpalback.mapper;
 
 import cs.vsu.projectpalback.dto.ProjectAnswerDTO;
+import cs.vsu.projectpalback.model.Project;
 import cs.vsu.projectpalback.model.ProjectAnswer;
+import cs.vsu.projectpalback.repository.ProjectRepository;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface ProjectAnswerMapper {
+@Mapper(componentModel = "spring", uses = ProjectRepository.class)
+public abstract class ProjectAnswerMapper {
 
-    ProjectAnswerDTO toDto(ProjectAnswer projectAnswer);
+    @Autowired
+    protected ProjectRepository projectRepository;
 
-    ProjectAnswer toEntity(ProjectAnswerDTO projectAnswerDTO);
+    @Mapping(source = "project.id", target = "projectId")
+    public abstract ProjectAnswerDTO toDto(ProjectAnswer projectAnswer);
 
-    List<ProjectAnswerDTO> toDtoList(List<ProjectAnswer> projectAnswerList);
+    @Mapping(source = "projectId", target = "project", qualifiedByName = "projectFromId")
+    public abstract ProjectAnswer toEntity(ProjectAnswerDTO projectAnswerDTO);
 
-    List<ProjectAnswer> toEntityList(List<ProjectAnswerDTO> projectAnswerDTOList);
+    public abstract List<ProjectAnswerDTO> toDtoList(List<ProjectAnswer> projectAnswerList);
 
+    public abstract List<ProjectAnswer> toEntityList(List<ProjectAnswerDTO> projectAnswerDTOList);
+
+    @Named("projectFromId")
+    protected Project projectFromId(int id) {
+        return projectRepository.findById(id).orElse(null);
+    }
 }
