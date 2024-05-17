@@ -28,6 +28,7 @@ public abstract class UserMapper {
 
     public abstract List<User> toEntityList(List<UserDTO> userDTOList);
 
+    @Mapping(source = "groupId", target = "group", qualifiedByName = "groupFromId")
     public abstract void updateEntityFromDto(UserDTO dto, @MappingTarget User entity);
 
     @Named("groupFromId")
