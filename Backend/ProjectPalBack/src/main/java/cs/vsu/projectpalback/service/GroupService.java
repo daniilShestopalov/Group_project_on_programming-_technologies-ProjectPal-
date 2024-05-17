@@ -24,6 +24,7 @@ public class GroupService {
     private final GroupMapper groupMapper;
 
     public List<GroupDTO> getAllGroups() {
+        LOGGER.info("Fetching all groups");
         List<Group> groups = groupRepository.findAll();
         return groupMapper.toDtoList(groups);
     }
