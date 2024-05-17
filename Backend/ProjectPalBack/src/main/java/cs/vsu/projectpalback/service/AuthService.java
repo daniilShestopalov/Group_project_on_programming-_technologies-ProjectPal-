@@ -10,6 +10,8 @@ import cs.vsu.projectpalback.model.User;
 import cs.vsu.projectpalback.repository.UserRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class AuthService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     private final UserService userService;
 
@@ -28,17 +32,24 @@ public class AuthService {
     private final UserRepository userRepository;
 
     public UserWithoutPasswordDTO authenticate(@NotNull AuthUserDTO authUserDTO) {
+        logger.info("Authenticating user with login: {}", authUserDTO.getLogin());
         Optional<User> userOptional = userRepository.findByLogin(authUserDTO.getLogin());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (!passwordEncoder.matches(authUserDTO.getPassword(), user.getPassword())) {
+            if (passwordEncoder.matches(authUserDTO.getPassword(), user.getPassword())) {
+                logger.info("Authentication successful for user: {}", user.getLogin());
                 return userWithoutPasswordMapper.toDto(user);
+            } else {
+                logger.warn("Authentication failed for user: {}", authUserDTO.getLogin());
             }
+        } else {
+            logger.warn("User not found with login: {}", authUserDTO.getLogin());
         }
         return null;
     }
 
     public Integer verifyTemporaryUser(@NotNull TmpInitialLoginUserDTO tmpInitialLoginUserDTO) {
+        logger.info("Verifying temporary user with login: {}", tmpInitialLoginUserDTO.getTempLogin());
         Optional<User> userOptional = userRepository.findByLogin(tmpInitialLoginUserDTO.getTempLogin());
         return userOptional.filter(user -> tmpInitialLoginUserDTO.getTempPassword().equals(user.getPassword()))
                 .map(User::getId)
@@ -46,6 +57,7 @@ public class AuthService {
     }
 
     public boolean registerUser(@NotNull RegistrationUserDTO registrationUserDTO) {
+        logger.info("Registering user with ID: {}", registrationUserDTO.getId());
         Optional<User> userOptional = userRepository.findById(registrationUserDTO.getId());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -53,22 +65,35 @@ public class AuthService {
             user.setPhoneNumber(registrationUserDTO.getPhoneNumber());
             userService.updatePassword(user.getId(), registrationUserDTO.getNewPassword());
             userRepository.save(user);
+            logger.info("User registered successfully with ID: {}", registrationUserDTO.getId());
             return true;
         }
+        logger.warn("User not found with ID: {}", registrationUserDTO.getId());
         return false;
     }
 
     public boolean checkEmailExists(@NotNull PasswordResetRequestDTO passwordResetRequestDTO) {
+        logger.info("Checking if email exists: {}", passwordResetRequestDTO.getEmail());
         Optional<User> userOptional = userRepository.findByLogin(passwordResetRequestDTO.getEmail());
-        return userOptional.isPresent();
+        boolean exists = userOptional.isPresent();
+        if (exists) {
+            logger.info("Email exists: {}", passwordResetRequestDTO.getEmail());
+        } else {
+            logger.warn("Email does not exist: {}", passwordResetRequestDTO.getEmail());
+        }
+        return exists;
     }
 
     public boolean updatePasswordById(Integer userId, String newPassword) {
+        logger.info("Updating password for user ID: {}", userId);
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             userService.updatePassword(userOptional.get().getId(), newPassword);
+            logger.info("Password updated successfully for user ID: {}", userId);
             return true;
         }
+        logger.warn("User not found with ID: {}", userId);
         return false;
     }
+
 }

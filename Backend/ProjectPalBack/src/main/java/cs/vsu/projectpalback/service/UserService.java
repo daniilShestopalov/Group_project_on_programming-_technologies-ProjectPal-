@@ -183,4 +183,5 @@ public class UserService {
         LOGGER.debug("Counting users by group id: {}", groupId);
         return userRepository.countByGroupId(groupId);
     }
+
 }

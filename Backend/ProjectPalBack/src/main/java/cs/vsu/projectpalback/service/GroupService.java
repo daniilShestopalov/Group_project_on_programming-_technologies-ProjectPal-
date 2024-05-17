@@ -83,4 +83,5 @@ public class GroupService {
             throw new RuntimeException("Error deleting group", e);
         }
     }
+
 }
