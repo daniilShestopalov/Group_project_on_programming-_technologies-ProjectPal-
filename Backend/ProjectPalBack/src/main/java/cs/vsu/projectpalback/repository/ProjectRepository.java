@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
-    List<Project> findByTeacherId(Integer teacherId);
+    List<Project> findAllByTeacherId(Integer teacherId);
 
 }

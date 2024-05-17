@@ -31,6 +31,7 @@ public class WebSecurityConfig{
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/auth/**").permitAll()
                         // Разрешаем доступ к Swagger и другим документационным и статическим ресурсам
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**").permitAll()
                         // Указываем пути, которые требуют аутентификации

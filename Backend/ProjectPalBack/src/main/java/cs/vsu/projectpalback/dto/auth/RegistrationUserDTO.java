@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegistrationUserDTO {
 
+    private int id;
+
     @NotBlank(message = "Login is required")
     @Email(message = "Invalid email format")
     private String login;
