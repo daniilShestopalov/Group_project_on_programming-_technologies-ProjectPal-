@@ -6,6 +6,7 @@ import cs.vsu.projectpalback.model.User;
 import cs.vsu.projectpalback.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,6 +27,9 @@ public abstract class ProjectMapper {
     public abstract List<ProjectDTO> toDtoList(List<Project> projects);
 
     public abstract List<Project> toEntityList(List<ProjectDTO> projectDTOs);
+
+    @Mapping(source = "teacherUserId", target = "teacher", qualifiedByName = "userFromId")
+    public abstract void updateEntityFromDto(ProjectDTO dto, @MappingTarget Project entity);
 
     @Named("userFromId")
     protected User userFromId(int id) {
