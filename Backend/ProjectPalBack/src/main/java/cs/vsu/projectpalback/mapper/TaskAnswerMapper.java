@@ -8,6 +8,7 @@ import cs.vsu.projectpalback.repository.TaskRepository;
 import cs.vsu.projectpalback.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,6 +34,10 @@ public abstract class TaskAnswerMapper {
     public abstract List<TaskAnswerDTO> toDtoList(List<TaskAnswer> taskAnswerList);
 
     public abstract List<TaskAnswer> toEntityList(List<TaskAnswerDTO> taskAnswerDTOList);
+
+    @Mapping(source = "taskId", target = "task", qualifiedByName = "taskFromId")
+    @Mapping(source = "studentUserId", target = "student", qualifiedByName = "userFromId")
+    public abstract void updateEntityFromDto(TaskAnswerDTO dto, @MappingTarget TaskAnswer entity);
 
     @Named("taskFromId")
     protected Task taskFromId(int id) {

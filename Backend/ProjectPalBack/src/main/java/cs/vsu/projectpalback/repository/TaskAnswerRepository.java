@@ -10,4 +10,6 @@ import java.util.List;
 public interface TaskAnswerRepository extends JpaRepository<TaskAnswer, Integer> {
 
     List<TaskAnswer> findByTaskId(Integer taskId);
+    TaskAnswer findByTaskIdAndStudentId(Integer taskId, Integer userId);
+
 }
