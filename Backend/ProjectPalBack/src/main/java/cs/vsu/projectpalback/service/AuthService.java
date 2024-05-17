@@ -27,7 +27,6 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-
     public UserWithoutPasswordDTO authenticate(@NotNull AuthUserDTO authUserDTO) {
         Optional<User> userOptional = userRepository.findByLogin(authUserDTO.getLogin());
         if (userOptional.isPresent()) {

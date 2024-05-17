@@ -28,7 +28,7 @@ public class GroupService {
         return groupMapper.toDtoList(groups);
     }
 
-    public GroupDTO getGroupById(int id) {
+    public GroupDTO getGroupById(Integer id) {
         LOGGER.info("Fetching group with ID: {}", id);
         Optional<Group> groupOptional = groupRepository.findById(id);
         if (groupOptional.isPresent()) {
@@ -66,7 +66,7 @@ public class GroupService {
         }
     }
 
-    public boolean deleteGroup(int id) {
+    public boolean deleteGroup(Integer id) {
         try {
             LOGGER.info("Deleting group with ID: {}", id);
             Optional<Group> existingGroup = groupRepository.findById(id);

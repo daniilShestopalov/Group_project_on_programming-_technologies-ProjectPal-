@@ -33,8 +33,6 @@ public class UserService {
 
     private final UserWithoutPasswordMapper userWithoutPasswordMapper;
 
-
-
     public List<UserWithoutPasswordDTO> getAllUsersWithoutPassword() {
         LOGGER.debug("Fetching all users without password");
         return userWithoutPasswordMapper.toDtoList(userRepository.findAll());
@@ -181,7 +179,7 @@ public class UserService {
     }
 
 
-        public long countUsersByGroup(Integer groupId) {
+    public long countUsersByGroup(Integer groupId) {
         LOGGER.debug("Counting users by group id: {}", groupId);
         return userRepository.countByGroupId(groupId);
     }
