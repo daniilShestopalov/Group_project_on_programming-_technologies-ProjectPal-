@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +40,34 @@ public class TaskService {
     public List<TaskDTO> getTasksByTeacherId(Integer teacherId) {
         LOGGER.info("Fetching tasks by teacher ID: {}", teacherId);
         List<Task> tasks = taskRepository.findByTeacherId(teacherId);
+        return taskMapper.toDtoList(tasks);
+    }
+
+    public List<TaskDTO> getTasksByDateAndGroup(Integer groupId, LocalDateTime date) {
+        LOGGER.info("Fetching tasks by date: {} and group ID: {}", date, groupId);
+        List<Task> tasks = taskRepository.findByGroupIdAndStartDate(groupId, date);
+        return taskMapper.toDtoList(tasks);
+    }
+
+    public List<TaskDTO> getTasksByMonthAndGroup(Integer groupId, YearMonth month) {
+        LOGGER.info("Fetching tasks by month: {} and group ID: {}", month, groupId);
+        LocalDateTime startDate = month.atDay(1).atStartOfDay();
+        LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
+        List<Task> tasks = taskRepository.findByGroupIdAndStartDateBetween(groupId, startDate, endDate);
+        return taskMapper.toDtoList(tasks);
+    }
+
+    public List<TaskDTO> getTasksByDateAndTeacher(Integer teacherId, LocalDateTime date) {
+        LOGGER.info("Fetching tasks by date: {} and teacher ID: {}", date, teacherId);
+        List<Task> tasks = taskRepository.findByTeacherIdAndStartDate(teacherId, date);
+        return taskMapper.toDtoList(tasks);
+    }
+
+    public List<TaskDTO> getTasksByMonthAndTeacher(Integer teacherId, YearMonth month) {
+        LOGGER.info("Fetching tasks by month: {} and teacher ID: {}", month, teacherId);
+        LocalDateTime startDate = month.atDay(1).atStartOfDay();
+        LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
+        List<Task> tasks = taskRepository.findByTeacherIdAndStartDateBetween(teacherId, startDate, endDate);
         return taskMapper.toDtoList(tasks);
     }
 
@@ -96,5 +126,15 @@ public class TaskService {
             LOGGER.error("Error deleting task", e);
             throw new RuntimeException("Error deleting task", e);
         }
+    }
+
+    public long countTasksByGroupId(Integer groupId) {
+        LOGGER.info("Counting tasks by group ID: {}", groupId);
+        return taskRepository.countByGroupId(groupId);
+    }
+
+    public long countTasksByTeacherId(Integer teacherId) {
+        LOGGER.info("Counting tasks by teacher ID: {}", teacherId);
+        return taskRepository.countByTeacherId(teacherId);
     }
 }
