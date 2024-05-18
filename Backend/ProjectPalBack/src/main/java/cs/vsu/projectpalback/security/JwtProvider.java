@@ -6,13 +6,21 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.validation.constraints.NotNull;
 import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 @Component
 public class JwtProvider {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtProvider.class);
+
     private final SecretKey jwtAccessSecret;
 
     public JwtProvider(@Value("${jwt.secret}") String jwtAccessSecret) {
@@ -24,6 +32,18 @@ public class JwtProvider {
                 .subject(user.getLogin())
                 .signWith(jwtAccessSecret)
                 .claim("role", user.getRole())
+                .compact();
+    }
+
+    public String generatePasswordResetToken(@NotNull Integer userId) {
+        Instant now = Instant.now();
+        Instant expiryDate = now.plus(1, ChronoUnit.HOURS); // 1 hour
+
+        return Jwts.builder()
+                .subject(String.valueOf(userId))
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(expiryDate))
+                .signWith(jwtAccessSecret)
                 .compact();
     }
 
@@ -39,11 +59,11 @@ public class JwtProvider {
                     .parseSignedClaims(token);
             return true;
         } catch (UnsupportedJwtException unsEx) {
-            //TODO: логироание Unsupported jwt
+            LOGGER.error("Unsupported JWT token: {}", unsEx.getMessage());
         } catch (MalformedJwtException mjEx) {
-            //TODO: логироание Malformed jwt
+            LOGGER.error("Malformed JWT token: {}", mjEx.getMessage());
         } catch (Exception e) {
-            //TODO: логироание invalid token
+            LOGGER.error("Invalid token: {}", e.getMessage());
         }
         return false;
     }
