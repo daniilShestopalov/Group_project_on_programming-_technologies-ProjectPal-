@@ -178,7 +178,6 @@ public class UserService {
         return allUpdated;
     }
 
-
     public long countUsersByGroup(Integer groupId) {
         LOGGER.debug("Counting users by group id: {}", groupId);
         return userRepository.countByGroupId(groupId);
