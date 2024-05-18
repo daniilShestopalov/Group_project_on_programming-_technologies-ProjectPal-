@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,11 +37,41 @@ public class ProjectService {
         return projectMapper.toDtoList(projects);
     }
 
+    public List<ProjectDTO> getProjectsByDateAndTeacher(Integer teacherId, LocalDateTime date) {
+        LOGGER.info("Fetching projects by date: {} and teacher ID: {}", date, teacherId);
+        List<Project> projects = projectRepository.findByTeacherIdAndStartDate(teacherId, date);
+        return projectMapper.toDtoList(projects);
+    }
+
+    public List<ProjectDTO> getProjectsByMonthAndTeacher(Integer teacherId, YearMonth month) {
+        LOGGER.info("Fetching projects by month: {} and teacher ID: {}", month, teacherId);
+        LocalDateTime startDate = month.atDay(1).atStartOfDay();
+        LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
+        List<Project> projects = projectRepository.findByTeacherIdAndStartDateBetween(teacherId, startDate, endDate);
+        return projectMapper.toDtoList(projects);
+    }
+
     public List<ProjectDTO> getAllProjectsByTeacherId(Integer teacherId) {
         LOGGER.info("Fetching projects by teacher ID: {}", teacherId);
         List<Project> projects = projectRepository.findAllByTeacherId(teacherId);
         return projectMapper.toDtoList(projects);
     }
+
+    public List<ProjectDTO> getProjectsByStudentIdAndDate(Integer studentId, LocalDateTime date) {
+        LOGGER.info("Fetching projects by student ID: {} and date: {}", studentId, date);
+        List<Project> projects = projectRepository.findProjectsByStudentIdAndStartDate(studentId, date);
+        return projectMapper.toDtoList(projects);
+    }
+
+    public List<ProjectDTO> getProjectsByStudentIdAndMonth(Integer studentId, YearMonth month) {
+        LOGGER.info("Fetching projects by student ID: {} and month: {}", studentId, month);
+        LocalDateTime startDate = month.atDay(1).atStartOfDay();
+        LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
+        List<Project> projects = projectRepository.findProjectsByStudentIdAndDateRange(studentId, startDate, endDate);
+        return projectMapper.toDtoList(projects);
+    }
+
+
 
     public ProjectDTO getProjectById(Integer id) {
         LOGGER.info("Fetching project by ID: {}", id);
@@ -96,6 +128,16 @@ public class ProjectService {
             LOGGER.error("Error deleting project", e);
             throw new RuntimeException("Error deleting project", e);
         }
+    }
+
+    public long countProjectsByTeacherId(Integer teacherId) {
+        LOGGER.info("Counting projects by teacher ID: {}", teacherId);
+        return projectRepository.countByTeacherId(teacherId);
+    }
+
+    public long countProjectsByStudentId(Integer studentId) {
+        LOGGER.info("Counting projects by student ID: {}", studentId);
+        return projectRepository.countByStudentId(studentId);
     }
 
 }
