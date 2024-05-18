@@ -2,7 +2,6 @@ package cs.vsu.projectpalback.service;
 
 import cs.vsu.projectpalback.dto.UserWithoutPasswordDTO;
 import cs.vsu.projectpalback.dto.auth.AuthUserDTO;
-import cs.vsu.projectpalback.dto.auth.PasswordResetRequestDTO;
 import cs.vsu.projectpalback.dto.auth.RegistrationUserDTO;
 import cs.vsu.projectpalback.dto.auth.TmpInitialLoginUserDTO;
 import cs.vsu.projectpalback.mapper.UserWithoutPasswordMapper;
@@ -72,14 +71,14 @@ public class AuthService {
         return false;
     }
 
-    public boolean checkEmailExists(@NotNull PasswordResetRequestDTO passwordResetRequestDTO) {
-        logger.info("Checking if email exists: {}", passwordResetRequestDTO.getEmail());
-        Optional<User> userOptional = userRepository.findByLogin(passwordResetRequestDTO.getEmail());
+    public boolean checkEmailExists(@NotNull String email) {
+        logger.info("Checking if email exists: {}", email);
+        Optional<User> userOptional = userRepository.findByLogin(email);
         boolean exists = userOptional.isPresent();
         if (exists) {
-            logger.info("Email exists: {}", passwordResetRequestDTO.getEmail());
+            logger.info("Email exists: {}", email);
         } else {
-            logger.warn("Email does not exist: {}", passwordResetRequestDTO.getEmail());
+            logger.warn("Email does not exist: {}", email);
         }
         return exists;
     }
