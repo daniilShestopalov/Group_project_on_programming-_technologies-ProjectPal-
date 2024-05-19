@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ComplaintController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComplaintController.class);
 
     private final ComplaintService complaintService;
 

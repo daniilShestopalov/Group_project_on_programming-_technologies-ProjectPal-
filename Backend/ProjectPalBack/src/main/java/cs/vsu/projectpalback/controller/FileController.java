@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class FileController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
 
     private final FileService fileService;
 

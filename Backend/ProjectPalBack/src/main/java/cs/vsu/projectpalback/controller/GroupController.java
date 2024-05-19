@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GroupController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupController.class);
 
     private final GroupService groupService;
 
