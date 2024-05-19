@@ -9,6 +9,7 @@ import cs.vsu.projectpalback.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -23,10 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "AuthController")
 @AllArgsConstructor
 public class AuthController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     private final AuthService authService;
 
@@ -43,14 +45,14 @@ public class AuthController {
     })
     @PostMapping("/verify-temp-user")
     public ResponseEntity<?> verifyTemporaryUser(@RequestBody @Valid TmpInitialLoginUserDTO tmpInitialLoginUserDTO) {
-        logger.info("Verifying temporary user with login: {}", tmpInitialLoginUserDTO.getTempLogin());
+        LOGGER.info("Verifying temporary user with login: {}", tmpInitialLoginUserDTO.getTempLogin());
         Integer userId = authService.verifyTemporaryUser(tmpInitialLoginUserDTO);
         if (userId != null) {
-            logger.info("Temporary user verified with login: {}", tmpInitialLoginUserDTO.getTempLogin());
+            LOGGER.info("Temporary user verified with login: {}", tmpInitialLoginUserDTO.getTempLogin());
             UserWithoutPasswordDTO user = userService.getUserByIdWithoutPassword(userId);
             return ResponseEntity.ok(user);
         } else {
-            logger.warn("Verification failed for temporary user with login: {}", tmpInitialLoginUserDTO.getTempLogin());
+            LOGGER.warn("Verification failed for temporary user with login: {}", tmpInitialLoginUserDTO.getTempLogin());
             return ResponseEntity.status(401).build();
         }
     }
@@ -81,7 +83,7 @@ public class AuthController {
             passwordResetService.sendPasswordReset(passwordResetRequestDTO.getEmail());
             return ResponseEntity.ok("Password reset code sent successfully.");
         } catch (RuntimeException e) {
-            logger.error("Error sending password reset code to email: {}", passwordResetRequestDTO.getEmail(), e);
+            LOGGER.error("Error sending password reset code to email: {}", passwordResetRequestDTO.getEmail(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send password reset code.");
         }
     }
@@ -94,22 +96,22 @@ public class AuthController {
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody @Valid PasswordChangeDTO passwordChangeDTO) {
         String token = passwordChangeDTO.getVerificationCode();
-        logger.info("Received password reset request with token: {}", token);
+        LOGGER.info("Received password reset request with token: {}", token);
 
         try {
             Integer userId = jwtProvider.getUserIdFromToken(token);
-            logger.info("Extracted user ID: {} from token", userId);
+            LOGGER.info("Extracted user ID: {} from token", userId);
 
             boolean isUpdated = authService.updatePasswordById(userId, passwordChangeDTO.getNewPassword());
             if (isUpdated) {
-                logger.info("Password successfully reset for user ID: {}", userId);
+                LOGGER.info("Password successfully reset for user ID: {}", userId);
                 return ResponseEntity.ok().build();
             } else {
-                logger.error("Failed to reset password for user ID: {}", userId);
+                LOGGER.error("Failed to reset password for user ID: {}", userId);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to reset password.");
             }
         } catch (Exception e) {
-            logger.error("Exception occurred while resetting password", e);
+            LOGGER.error("Exception occurred while resetting password", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to reset password.");
         }
     }
@@ -137,7 +139,7 @@ public class AuthController {
                         .body("Invalid login or password");
             }
         } catch (Exception e) {
-            logger.error("Error during authentication", e);
+            LOGGER.error("Error during authentication", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred during authentication");
         }
