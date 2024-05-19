@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +33,8 @@ public class UserService {
     private final UserMapper userMapper;
 
     private final UserWithoutPasswordMapper userWithoutPasswordMapper;
+
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public List<UserWithoutPasswordDTO> getAllUsersWithoutPassword() {
         LOGGER.debug("Fetching all users without password");
@@ -137,7 +140,7 @@ public class UserService {
         Optional<User> existingUserOptional = userRepository.findById(userId);
         if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
-            existingUser.setPassword(newPassword);
+            existingUser.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(existingUser);
             LOGGER.info("User password updated for user id: {}", userId);
             return true;

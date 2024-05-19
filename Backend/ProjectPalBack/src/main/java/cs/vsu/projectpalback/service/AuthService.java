@@ -62,8 +62,8 @@ public class AuthService {
             User user = userOptional.get();
             user.setLogin(registrationUserDTO.getLogin());
             user.setPhoneNumber(registrationUserDTO.getPhoneNumber());
-            userService.updatePassword(user.getId(), registrationUserDTO.getNewPassword());
             userRepository.save(user);
+            userService.updatePassword(user.getId(), registrationUserDTO.getNewPassword());
             logger.info("User registered successfully with ID: {}", registrationUserDTO.getId());
             return true;
         }

@@ -4,8 +4,11 @@ import cs.vsu.projectpalback.model.enumerate.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+
 
 @Entity
 @Table(name = "\"user\"")
@@ -38,6 +41,7 @@ public class User {
     @Column(name = "avatar_link", columnDefinition = "TEXT")
     private String avatarLink;
 
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;

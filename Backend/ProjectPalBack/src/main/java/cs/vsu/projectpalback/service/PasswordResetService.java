@@ -37,6 +37,7 @@ public class PasswordResetService {
 
     private void sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("ivan.grigorij4@yandex.ru");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);

@@ -1,6 +1,6 @@
 package cs.vsu.projectpalback.security;
 
-import cs.vsu.projectpalback.model.User;
+import cs.vsu.projectpalback.dto.UserWithoutPasswordDTO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -27,9 +27,9 @@ public class JwtProvider {
         this.jwtAccessSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
     }
 
-    public String generateToken(@NotNull User user) {
+    public String generateToken(@NotNull UserWithoutPasswordDTO user) {
         return Jwts.builder()
-                .subject(user.getLogin())
+                .subject(String.valueOf(user.getId()))
                 .signWith(jwtAccessSecret)
                 .claim("role", user.getRole())
                 .compact();
@@ -78,5 +78,10 @@ public class JwtProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    public Integer getUserIdFromToken(@NonNull String token) {
+        Claims claims = getClaims(token);
+        return Integer.parseInt(claims.getSubject());
     }
 }
