@@ -1,5 +1,6 @@
 package cs.vsu.projectpalback.service;
 
+import cs.vsu.projectpalback.dto.ChangeAvatarDTO;
 import cs.vsu.projectpalback.dto.UserDTO;
 import cs.vsu.projectpalback.dto.UserWithoutPasswordDTO;
 import cs.vsu.projectpalback.mapper.UserMapper;
@@ -84,10 +85,11 @@ public class UserService {
                 .orElse(null);
     }
 
-    public void createUser(UserDTO userDTO) {
+    public UserDTO createUser(UserDTO userDTO) {
         try {
-            userRepository.save(userMapper.toEntity(userDTO));
+            User user = userRepository.save(userMapper.toEntity(userDTO));
             LOGGER.info("User created: {}", userDTO.getLogin());
+            return userMapper.toDto(user);
         } catch (Exception e) {
             LOGGER.error("Error creating user: {}", userDTO.getLogin(), e);
             throw new RuntimeException("Error creating user", e);
@@ -123,16 +125,18 @@ public class UserService {
         return null;
     }
 
-    public boolean updateAvatar(int userId, String avatarPath) {
-        Optional<User> existingUserOptional = userRepository.findById(userId);
+    public boolean updateAvatar(ChangeAvatarDTO changeAvatarDTO) {
+        Integer id = changeAvatarDTO.getId();
+        String link = changeAvatarDTO.getAvatarLink();
+        Optional<User> existingUserOptional = userRepository.findById(id);
         if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
-            existingUser.setAvatarLink(avatarPath);
+            existingUser.setAvatarLink(link);
             userRepository.save(existingUser);
-            LOGGER.info("User avatar updated for user id: {}", userId);
+            LOGGER.info("User avatar updated for user id: {}", id);
             return true;
         }
-        LOGGER.warn("User with id {} not found for avatar update", userId);
+        LOGGER.warn("User with id {} not found for avatar update", id);
         return false;
     }
 
@@ -151,30 +155,53 @@ public class UserService {
 
     public boolean updateUserGroup(int userId, Integer groupId) {
         Optional<User> existingUserOptional = userRepository.findById(userId);
-        Optional<Group> groupOptional = groupRepository.findById(groupId);
-        if (existingUserOptional.isPresent() && groupOptional.isPresent()) {
+
+        if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
-            existingUser.setGroup(groupOptional.get());
+
+            if (groupId == null) {
+                existingUser.setGroup(null);
+                LOGGER.info("User group set to null for user id: {}", userId);
+            } else {
+                Optional<Group> groupOptional = groupRepository.findById(groupId);
+                if (groupOptional.isPresent()) {
+                    existingUser.setGroup(groupOptional.get());
+                    LOGGER.info("User group updated for user id: {}", userId);
+                } else {
+                    LOGGER.warn("Group with id {} not found", groupId);
+                    return false;
+                }
+            }
+
             userRepository.save(existingUser);
-            LOGGER.info("User group updated for user id: {}", userId);
             return true;
         }
-        LOGGER.warn("User with id {} or group with id {} not found for group update", userId, groupId);
+
+        LOGGER.warn("User with id {} not found", userId);
         return false;
     }
 
     public boolean updateUsersGroup(List<Integer> userIds, Integer groupId) {
-        Optional<Group> groupOptional = groupRepository.findById(groupId);
-        if (groupOptional.isEmpty()) {
-            LOGGER.warn("Group with id {} not found for group update", groupId);
-            return false;
+        Group group = null;
+        if (groupId != null) {
+            Optional<Group> groupOptional = groupRepository.findById(groupId);
+            if (groupOptional.isEmpty()) {
+                LOGGER.warn("Group with id {} not found for group update", groupId);
+                return false;
+            }
+            group = groupOptional.get();
         }
 
-        Group group = groupOptional.get();
         boolean allUpdated = true;
         for (int userId : userIds) {
-            boolean updated = updateUserGroup(userId, group.getId());
-            if (!updated) {
+            Optional<User> existingUserOptional = userRepository.findById(userId);
+            if (existingUserOptional.isPresent()) {
+                User existingUser = existingUserOptional.get();
+                existingUser.setGroup(group);
+                userRepository.save(existingUser);
+                LOGGER.info("User group updated for user id: {}", userId);
+            } else {
+                LOGGER.warn("User with id {} not found for group update", userId);
                 allUpdated = false;
             }
         }
