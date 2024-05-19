@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,24 +32,28 @@ public class StudentProjectService {
 
     private final UserWithoutPasswordMapper userWithoutPasswordMapper;
 
+    @Transactional(readOnly = true)
     public List<StudentProjectDTO> getAllStudentProjects() {
         LOGGER.info("Fetching all student projects");
         List<StudentProject> studentProjects = studentProjectRepository.findAll();
         return studentProjectMapper.toDtoList(studentProjects);
     }
 
+    @Transactional(readOnly = true)
     public List<StudentProjectDTO> getAllStudentProjectsByStudentId(Integer studentId) {
         LOGGER.info("Fetching student projects by student ID: {}", studentId);
         List<StudentProject> studentProjects = studentProjectRepository.findByStudentId(studentId);
         return studentProjectMapper.toDtoList(studentProjects);
     }
 
+    @Transactional(readOnly = true)
     public List<StudentProjectDTO> getAllStudentProjectsByProjectId(Integer projectId) {
         LOGGER.info("Fetching student projects by project ID: {}", projectId);
         List<StudentProject> studentProjects = studentProjectRepository.findByProjectId(projectId);
         return studentProjectMapper.toDtoList(studentProjects);
     }
 
+    @Transactional(readOnly = true)
     public List<UserWithoutPasswordDTO> getStudentsByProjectId(Integer projectId) {
         LOGGER.info("Fetching students by project ID: {}", projectId);
         List<StudentProject> studentProjects = studentProjectRepository.findByProjectId(projectId);
@@ -58,6 +63,7 @@ public class StudentProjectService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<ProjectDTO> getProjectsByStudentId(Integer studentId) {
         LOGGER.info("Fetching projects by student ID: {}", studentId);
         List<StudentProject> studentProjects = studentProjectRepository.findByStudentId(studentId);
@@ -67,6 +73,7 @@ public class StudentProjectService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public StudentProjectDTO getStudentProjectById(Integer id) {
         LOGGER.info("Fetching studentProject with ID: {}", id);
         Optional<StudentProject> studentProjectOptional = studentProjectRepository.findById(id);
@@ -78,7 +85,7 @@ public class StudentProjectService {
             return null;
         }
     }
-
+    @Transactional()
     public StudentProjectDTO createStudentProject(StudentProjectDTO studentProjectDTO) {
         try {
             LOGGER.info("Creating student project: {}", studentProjectDTO);
@@ -91,6 +98,7 @@ public class StudentProjectService {
         }
     }
 
+    @Transactional()
     public boolean deleteStudentProjectById(Integer id) {
         try {
             LOGGER.info("Deleting studentProject with ID: {}", id);
