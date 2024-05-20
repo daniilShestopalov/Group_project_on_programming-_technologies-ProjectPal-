@@ -4,15 +4,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.YearMonth;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class UserWithMonthDTO {
+public class IdWithTimeDateDTO {
 
     private int id;
 
     @NotNull
-    private YearMonth yearMonth;
-
+    private LocalDateTime date;
 }

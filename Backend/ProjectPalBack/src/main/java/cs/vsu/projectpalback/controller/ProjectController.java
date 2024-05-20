@@ -1,8 +1,8 @@
 package cs.vsu.projectpalback.controller;
 
 import cs.vsu.projectpalback.dto.ProjectDTO;
-import cs.vsu.projectpalback.dto.UserWithMonthDTO;
-import cs.vsu.projectpalback.dto.UserWithTimeDateDTO;
+import cs.vsu.projectpalback.dto.IdWithMonthDTO;
+import cs.vsu.projectpalback.dto.IdWithTimeDateDTO;
 import cs.vsu.projectpalback.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -59,7 +59,7 @@ public class ProjectController {
     @GetMapping("/teacher/date-time")
     @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
     @Operation(summary = "Get projects by date and teacher ID (admin, teacher)", description = "Returns a list of projects by the given date and teacher ID")
-    public ResponseEntity<List<ProjectDTO>> getProjectsByDateAndTeacherId(@RequestBody UserWithTimeDateDTO teacherWithTimeDateDTO) {
+    public ResponseEntity<List<ProjectDTO>> getProjectsByDateAndTeacherId(@RequestBody IdWithTimeDateDTO teacherWithTimeDateDTO) {
         Integer teacherId = teacherWithTimeDateDTO.getId();
         LocalDateTime date = teacherWithTimeDateDTO.getDate();
         try {
@@ -75,7 +75,7 @@ public class ProjectController {
     @GetMapping("/teacher/month")
     @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
     @Operation(summary = "Get projects by month and teacher ID (admin, teacher)", description = "Returns a list of projects by the given month and teacher ID")
-    public ResponseEntity<List<ProjectDTO>> getProjectsByMonthAndTeacherId(@RequestBody UserWithMonthDTO teacherWithMonthDTO) {
+    public ResponseEntity<List<ProjectDTO>> getProjectsByMonthAndTeacherId(@RequestBody IdWithMonthDTO teacherWithMonthDTO) {
         Integer teacherId = teacherWithMonthDTO.getId();
         YearMonth month = teacherWithMonthDTO.getYearMonth();
         try {
@@ -105,9 +105,9 @@ public class ProjectController {
     @GetMapping("/student/date-time")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get projects by student ID and date", description = "Returns a list of projects by the given student ID and date")
-    public ResponseEntity<List<ProjectDTO>> getProjectsByStudentIdAndDate(@RequestBody UserWithTimeDateDTO userWithTimeDateDTO) {
-        Integer studentId = userWithTimeDateDTO.getId();
-        LocalDateTime date = userWithTimeDateDTO.getDate();
+    public ResponseEntity<List<ProjectDTO>> getProjectsByStudentIdAndDate(@RequestBody IdWithTimeDateDTO idWithTimeDateDTO) {
+        Integer studentId = idWithTimeDateDTO.getId();
+        LocalDateTime date = idWithTimeDateDTO.getDate();
         try {
             LOGGER.info("Fetching projects by student ID: {} and date: {}", studentId, date);
             List<ProjectDTO> projects = projectService.getProjectsByStudentIdAndDate(studentId, date);
@@ -121,9 +121,9 @@ public class ProjectController {
     @GetMapping("/student/month")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get projects by student ID and month", description = "Returns a list of projects by the given student ID and month")
-    public ResponseEntity<List<ProjectDTO>> getProjectsByStudentIdAndMonth(@RequestBody UserWithMonthDTO userWithMonthDTO) {
-        Integer studentId = userWithMonthDTO.getId();
-        YearMonth month = userWithMonthDTO.getYearMonth();
+    public ResponseEntity<List<ProjectDTO>> getProjectsByStudentIdAndMonth(@RequestBody IdWithMonthDTO idWithMonthDTO) {
+        Integer studentId = idWithMonthDTO.getId();
+        YearMonth month = idWithMonthDTO.getYearMonth();
         try {
             LOGGER.info("Fetching projects by student ID: {} and month: {}", studentId, month);
             List<ProjectDTO> projects = projectService.getProjectsByStudentIdAndMonth(studentId, month);
