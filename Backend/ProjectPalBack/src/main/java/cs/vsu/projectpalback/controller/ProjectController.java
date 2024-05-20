@@ -28,7 +28,7 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    @GetMapping("/all")
+    @GetMapping
     @PreAuthorize("hasRole('АДМИН')")
     @Operation(summary = "Get all projects (admin)", description = "Returns a list of all projects")
     public ResponseEntity<List<ProjectDTO>> getAllProjects() {
