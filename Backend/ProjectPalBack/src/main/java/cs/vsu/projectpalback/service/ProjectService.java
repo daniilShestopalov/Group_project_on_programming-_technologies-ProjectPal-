@@ -3,17 +3,21 @@ package cs.vsu.projectpalback.service;
 import cs.vsu.projectpalback.dto.ProjectDTO;
 import cs.vsu.projectpalback.mapper.ProjectMapper;
 import cs.vsu.projectpalback.model.Project;
+import cs.vsu.projectpalback.model.StudentProject;
 import cs.vsu.projectpalback.repository.ProjectRepository;
+import cs.vsu.projectpalback.repository.StudentProjectRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +28,8 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
 
     private final ProjectMapper projectMapper;
+
+    private final StudentProjectRepository studentProjectRepository;
 
     public List<ProjectDTO> getAllProjects() {
         LOGGER.info("Fetching all projects");
@@ -37,13 +43,13 @@ public class ProjectService {
         return projectMapper.toDtoList(projects);
     }
 
-    public List<ProjectDTO> getProjectsByDateAndTeacher(Integer teacherId, LocalDateTime date) {
+    public List<ProjectDTO> getProjectsByDateAndTeacherId(Integer teacherId, LocalDateTime date) {
         LOGGER.info("Fetching projects by date: {} and teacher ID: {}", date, teacherId);
         List<Project> projects = projectRepository.findByTeacherIdAndStartDate(teacherId, date);
         return projectMapper.toDtoList(projects);
     }
 
-    public List<ProjectDTO> getProjectsByMonthAndTeacher(Integer teacherId, YearMonth month) {
+    public List<ProjectDTO> getProjectsByMonthAndTeacherId(Integer teacherId, YearMonth month) {
         LOGGER.info("Fetching projects by month: {} and teacher ID: {}", month, teacherId);
         LocalDateTime startDate = month.atDay(1).atStartOfDay();
         LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
@@ -57,17 +63,27 @@ public class ProjectService {
         return projectMapper.toDtoList(projects);
     }
 
+    @Transactional
     public List<ProjectDTO> getProjectsByStudentIdAndDate(Integer studentId, LocalDateTime date) {
         LOGGER.info("Fetching projects by student ID: {} and date: {}", studentId, date);
-        List<Project> projects = projectRepository.findProjectsByStudentIdAndStartDate(studentId, date);
+        List<StudentProject> studentProjects = studentProjectRepository.findByStudentId(studentId);
+        List<Project> projects = studentProjects.stream()
+                .map(StudentProject::getProject)
+                .filter(project -> project.getStartDate().toLocalDate().isEqual(date.toLocalDate()))
+                .collect(Collectors.toList());
         return projectMapper.toDtoList(projects);
     }
 
+    @Transactional
     public List<ProjectDTO> getProjectsByStudentIdAndMonth(Integer studentId, YearMonth month) {
         LOGGER.info("Fetching projects by student ID: {} and month: {}", studentId, month);
         LocalDateTime startDate = month.atDay(1).atStartOfDay();
         LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
-        List<Project> projects = projectRepository.findProjectsByStudentIdAndDateRange(studentId, startDate, endDate);
+        List<StudentProject> studentProjects = studentProjectRepository.findByStudentId(studentId);
+        List<Project> projects = studentProjects.stream()
+                .map(StudentProject::getProject)
+                .filter(project -> !project.getStartDate().isAfter(endDate) && !project.getEndDate().isBefore(startDate))
+                .collect(Collectors.toList());
         return projectMapper.toDtoList(projects);
     }
 
@@ -135,9 +151,10 @@ public class ProjectService {
         return projectRepository.countByTeacherId(teacherId);
     }
 
+    @Transactional
     public long countProjectsByStudentId(Integer studentId) {
         LOGGER.info("Counting projects by student ID: {}", studentId);
-        return projectRepository.countByStudentId(studentId);
+        return studentProjectRepository.countByStudentId(studentId);
     }
 
 }

@@ -11,4 +11,5 @@ public interface StudentProjectRepository extends JpaRepository<StudentProject, 
 
     List<StudentProject> findByStudentId(Integer studentId);
     List<StudentProject> findByProjectId(Integer projectId);
+    Long countByStudentId(Integer studentId);
 }
