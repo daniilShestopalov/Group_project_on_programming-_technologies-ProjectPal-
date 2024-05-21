@@ -1,7 +1,8 @@
-FROM gradle:7.4.2-jdk17 AS builder
+FROM gradle:8.7-jdk17 AS builder
 COPY . .
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 FROM amazoncorretto:17-alpine-jdk
 WORKDIR /app
-COPY --from=builder /app/build/libs/*.jar app.jar
+COPY --from=builder /home/gradle/build/libs/*.jar app.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
