@@ -27,7 +27,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get all users without password (admin, teacher)", description = "Returns a list of all users without their passwords")
     public ResponseEntity<List<UserWithoutPasswordDTO>> getAllUsersWithoutPassword() {
         try {
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/all-with-password")
-    @PreAuthorize("hasRole('АДМИН')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Get all users with password (admin)", description = "Returns a list of all users with their passwords")
     public ResponseEntity<List<UserDTO>> getAllUsersWithPassword() {
         try {
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get user by ID without password (admin, teacher)", description = "Returns a user by the given ID without their password")
     public ResponseEntity<UserWithoutPasswordDTO> getUserByIdWithoutPassword(@PathVariable int id) {
         try {
@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/with-password")
-    @PreAuthorize("hasRole('АДМИН')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Get user by ID with password (admin)", description = "Returns a user by the given ID with their password")
     public ResponseEntity<UserDTO> getUserByIdWithPassword(@PathVariable int id) {
         try {
@@ -107,7 +107,7 @@ public class UserController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('АДМИН')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create a new user (admin)", description = "Creates a new user")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
         try {
@@ -120,7 +120,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('АДМИН')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete a user (admin)", description = "Deletes a user by the given ID")
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
         try {
@@ -174,7 +174,7 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    @PreAuthorize("hasRole('АДМИН')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update user password (admin)", description = "Updates the password of an existing user")
     public ResponseEntity<Void> updatePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
         int id = changePasswordDTO.getId();
@@ -194,7 +194,7 @@ public class UserController {
     }
 
     @PutMapping("/group")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Update user group (admin, teacher)", description = "Updates the group of an existing user")
     public ResponseEntity<Void> updateUserGroup(@RequestBody ChangeGroupDTO changeGroupDTO) {
         int id = changeGroupDTO.getId();
@@ -214,7 +214,7 @@ public class UserController {
     }
 
     @PutMapping("/group/list")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Update users group (admin, teacher)", description = "Updates the group of multiple users")
     public ResponseEntity<Void> updateUsersGroup(@RequestBody ChangeGroupForManyDTO groupForManyDTO) {
         List<Integer> userIds = groupForManyDTO.getUserIds();

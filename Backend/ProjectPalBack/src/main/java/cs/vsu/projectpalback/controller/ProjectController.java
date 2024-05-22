@@ -29,7 +29,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping
-    @PreAuthorize("hasRole('АДМИН')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Get all projects (admin)", description = "Returns a list of all projects")
     public ResponseEntity<List<ProjectDTO>> getAllProjects() {
         try {
@@ -57,7 +57,7 @@ public class ProjectController {
     }
 
     @GetMapping("/teacher/date-time")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get projects by date and teacher ID (admin, teacher)", description = "Returns a list of projects by the given date and teacher ID")
     public ResponseEntity<List<ProjectDTO>> getProjectsByDateAndTeacherId(@RequestBody IdWithTimeDateDTO teacherWithTimeDateDTO) {
         Integer teacherId = teacherWithTimeDateDTO.getId();
@@ -73,7 +73,7 @@ public class ProjectController {
     }
 
     @GetMapping("/teacher/month")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get projects by month and teacher ID (admin, teacher)", description = "Returns a list of projects by the given month and teacher ID")
     public ResponseEntity<List<ProjectDTO>> getProjectsByMonthAndTeacherId(@RequestBody IdWithMonthDTO teacherWithMonthDTO) {
         Integer teacherId = teacherWithMonthDTO.getId();
@@ -89,7 +89,7 @@ public class ProjectController {
     }
 
     @GetMapping("/teacher/{teacherId}")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get all projects by teacher ID (admin, teacher)", description = "Returns a list of all projects by the given teacher ID")
     public ResponseEntity<List<ProjectDTO>> getAllProjectsByTeacherId(@PathVariable Integer teacherId) {
         try {
@@ -153,7 +153,7 @@ public class ProjectController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Create a new project (admin, teacher)", description = "Creates a new project")
     public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO) {
         try {
@@ -167,7 +167,7 @@ public class ProjectController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Update a project (admin, teacher)", description = "Updates an existing project")
     public ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDTO) {
         try {
@@ -185,7 +185,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Delete a project (admin, teacher)", description = "Deletes a project by the given ID")
     public ResponseEntity<Void> deleteProject(@PathVariable Integer id) {
         try {

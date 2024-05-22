@@ -25,7 +25,7 @@ public class ComplaintController {
     private final ComplaintService complaintService;
 
     @GetMapping
-    @PreAuthorize("hasRole('АДМИН')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Get all complaints for admin", description = "Returns a list of all complaints")
     public ResponseEntity<List<ComplaintDTO>> getAllComplaints() {
         try {
@@ -67,7 +67,7 @@ public class ComplaintController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('АДМИН')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete a complaint for admin", description = "Deletes a complaint by the given ID")
     public ResponseEntity<Void> deleteComplaint(@PathVariable int id) {
         LOGGER.info("Deleting complaint with ID: {}", id);

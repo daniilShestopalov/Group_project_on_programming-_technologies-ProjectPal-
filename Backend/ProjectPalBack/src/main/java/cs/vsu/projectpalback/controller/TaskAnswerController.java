@@ -26,7 +26,7 @@ public class TaskAnswerController {
     private final TaskAnswerService taskAnswerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get all task answers (admin, teacher)", description = "Returns a list of all task answers")
     public ResponseEntity<List<TaskAnswerDTO>> getAllTaskAnswers() {
         try {

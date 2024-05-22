@@ -4,7 +4,7 @@ CREATE TABLE "group" (
                          course_number INT NOT NULL
 );
 
-CREATE TYPE user_role AS ENUM ('ПРЕПОДАВАТЕЛЬ', 'АДМИН', 'УЧАЩИЙСЯ');
+CREATE TYPE user_role AS ENUM ('TEACHER', 'ADMIN', 'STUDENT');
 
 CREATE TABLE "user" (
                       id SERIAL PRIMARY KEY,

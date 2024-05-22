@@ -29,7 +29,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get all tasks (admin, teacher)", description = "Returns a list of all tasks")
     public ResponseEntity<List<TaskDTO>> getAllTasks() {
         try {
@@ -57,7 +57,7 @@ public class TaskController {
     }
 
     @GetMapping("/teacher/{teacherId}")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get tasks by teacher ID (admin, teacher)", description = "Returns a list of tasks by the given teacher ID")
     public ResponseEntity<List<TaskDTO>> getTasksByTeacherId(@PathVariable Integer teacherId) {
         try {
@@ -103,7 +103,7 @@ public class TaskController {
     }
 
     @GetMapping("/teacher/date")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get tasks by date and teacher (admin, teacher)", description = "Returns a list of tasks by the given date and teacher ID")
     public ResponseEntity<List<TaskDTO>> getTasksByDateAndTeacher(@RequestBody IdWithTimeDateDTO idWithTimeDateDTO) {
         Integer teacherId = idWithTimeDateDTO.getId();
@@ -119,7 +119,7 @@ public class TaskController {
     }
 
     @GetMapping("/teacher/month")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get tasks by month and teacher (admin, teacher)", description = "Returns a list of tasks by the given month and teacher ID")
     public ResponseEntity<List<TaskDTO>> getTasksByMonthAndTeacher(@RequestBody IdWithMonthDTO idWithMonthDTO) {
         Integer teacherId = idWithMonthDTO.getId();
@@ -153,7 +153,7 @@ public class TaskController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Create a new task (admin, teacher)", description = "Creates a new task")
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
         try {
@@ -167,7 +167,7 @@ public class TaskController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Update a task (admin, teacher)", description = "Updates an existing task")
     public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO taskDTO) {
         try {
@@ -185,7 +185,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Delete a task (admin, teacher)", description = "Deletes a task by the given ID")
     public ResponseEntity<Void> deleteTask(@PathVariable Integer id) {
         try {
@@ -217,7 +217,7 @@ public class TaskController {
     }
 
     @GetMapping("/teacher/{teacherId}/count")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation()
     public ResponseEntity<Long> countTasksByTeacher(@PathVariable Integer teacherId) {
         try {

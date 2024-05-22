@@ -25,7 +25,7 @@ public class ProjectAnswerController {
     private final ProjectAnswerService projectAnswerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get all project answers (admin, teacher)", description = "Returns a list of all project answers")
     public ResponseEntity<List<ProjectAnswerDTO>> getAllProjectAnswers() {
         try {
@@ -75,7 +75,7 @@ public class ProjectAnswerController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Create a new project answer (admin, teacher)", description = "Creates a new project answer")
     public ResponseEntity<ProjectAnswerDTO> createProjectAnswer(@RequestBody ProjectAnswerDTO projectAnswerDTO) {
         try {
@@ -107,7 +107,7 @@ public class ProjectAnswerController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Delete a project answer (admin, teacher)", description = "Deletes a project answer by the given ID")
     public ResponseEntity<Void> deleteProjectAnswer(@PathVariable Integer id) {
         try {

@@ -115,7 +115,7 @@ public class StudentProjectController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Create a new student project (admin, teacher)", description = "Creates a new student project")
     public ResponseEntity<StudentProjectDTO> createStudentProject(@RequestBody StudentProjectDTO studentProjectDTO) {
         try {
@@ -129,7 +129,7 @@ public class StudentProjectController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Delete a student project (admin, teacher)", description = "Deletes a student project by the given ID")
     public ResponseEntity<Void> deleteStudentProjectById(@PathVariable Integer id) {
         try {

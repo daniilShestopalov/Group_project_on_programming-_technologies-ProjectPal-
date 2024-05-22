@@ -53,7 +53,7 @@ public class GroupController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Create a new group (admin, teacher)", description = "Creates a new group. Preferably 0 in the id")
     public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO groupDTO) {
         try {
@@ -67,7 +67,7 @@ public class GroupController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Update a group", description = "Updates an existing group")
     public ResponseEntity<GroupDTO> updateGroup(@RequestBody GroupDTO groupDTO) {
         LOGGER.info("Updating group with ID: {}", groupDTO.getId());
@@ -81,7 +81,7 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('АДМИН', 'ПРЕПОДАВАТЕЛЬ')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Delete a group (admin, teacher)", description = "Deletes a group by the given ID")
     public ResponseEntity<Void> deleteGroup(@PathVariable Integer id) {
         LOGGER.info("Deleting group with ID: {}", id);
