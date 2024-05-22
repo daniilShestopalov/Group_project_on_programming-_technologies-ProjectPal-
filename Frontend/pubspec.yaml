@@ -22,7 +22,7 @@ dev_dependencies:
 
 flutter_native_splash:
   # Основные параметры
-  color: "#42a5f5"
+  color: "#f7faf8"
   image: assets/icon/splash.png
   # branding: assets/brand.png
   # branding_mode: bottom
@@ -39,7 +39,7 @@ flutter_native_splash:
     image: assets/icon/splash.png
 
     # Цвет фона сплэш-экрана
-    color: "#42a5f5"
+    color: "#f7faf8"
 
     # Цвет фона иконки
     # icon_background_color: "#111111"
