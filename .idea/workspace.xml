@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="20c8accb-b2c1-4a18-b041-e4300cde7315" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/core/mock_data.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/Task.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/data_utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/calendar_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/complaint_content_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/concrete_day_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/concrete_task_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/groups_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/groups_view_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/professors_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_view_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/project_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/settings_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/task_create_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/tasks_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/calendar_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/complaint_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/concrete_day_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/concrete_task_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/groups_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/groups_view_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/professors_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/profile_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/profile_view_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/project_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/settings_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/task_create_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/tasks_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_calendar_grid.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_list_block.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_list_view_block.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_notification.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_pie_chart.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block_open.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block_open_create.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Group_project_on_programming-_technologies-ProjectPal-.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Group_project_on_programming-_technologies-ProjectPal-.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-v21/launch_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-v21/launch_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable/launch_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable/launch_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/values-night/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/values-night/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Base.lproj/LaunchScreen.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Base.lproj/LaunchScreen.storyboard" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/core/app_export.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/core/app_export.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/core/utils/image_constant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/image_constant.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/main_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/main_page_content.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/home_page.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/main_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/main_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_3.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_3.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_3.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_3.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_4.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_4.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_3.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_3.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_4.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_4.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/routes/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/theme/custom_text_style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/theme/custom_text_style.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/widgets/custom_sort_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_sort_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/test/widget_test.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Frontend" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2fHPk8rwdCAzLkcKhqF44mwGXxE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/ertna/OneDrive/flutter/bin/cache/dart-sdk",
+    "settings.editor.selected.configurable": "dart.settings",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/Frontend/lib/main.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/Frontend" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Dart Command Line App.main.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="20c8accb-b2c1-4a18-b041-e4300cde7315" name="Changes" comment="" />
+      <created>1713455170861</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713455170861</updated>
+    </task>
+    <servers />
+  </component>
+</project>
