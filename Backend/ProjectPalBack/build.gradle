@@ -49,7 +49,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
-	testImplementation 'org.testcontainers:testcontainers:1.16.3'
 	testImplementation 'org.testcontainers:junit-jupiter:1.18.3'
 	testImplementation 'org.testcontainers:postgresql:1.18.3'
 }
