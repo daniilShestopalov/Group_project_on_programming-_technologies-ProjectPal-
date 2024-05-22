@@ -2,10 +2,12 @@ import 'package:project_pal/core/app_export.dart';
 
 class RegistrationPage1 extends StatelessWidget {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  final TextEditingController loginController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final ApiService apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
-    final _size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -50,12 +52,14 @@ class RegistrationPage1 extends StatelessWidget {
                 children: [
                   CustomTextField(
                     hintText: 'Логин',
+                    controller: loginController,
                     figmaTextStyles: figmaTextStyles,
                   ),
                   SizedBox(height: 28),
                   CustomTextField(
                     hintText: 'Пароль',
                     obscureText: true,
+                    controller: passwordController,
                     figmaTextStyles: figmaTextStyles,
                   ),
                   SizedBox(height: 16),
@@ -71,8 +75,57 @@ class RegistrationPage1 extends StatelessWidget {
                   SizedBox(height: 94),
                   CustomButton(
                     text: 'Продолжить',
-                    onPressed: () {
-                      AppRoutes.navigateToPageWithFadeTransition(context, RegistrationPage2());
+                    onPressed: () async {
+                      String login = loginController.text;
+                      String password = passwordController.text;
+
+                      if (login.isNotEmpty && password.isNotEmpty) {
+                        try {
+                          print("Attempting to verify temp user with $login and $password");
+                          var user = await apiService.verifyTempUser(login, password);
+                          print("Verification successful");
+
+                          int id = user.id;
+                          String name = user.name;
+                          String surname = user.surname;
+                          String patronymic = user.patronymic;
+
+                          // Переход на следующую страницу регистрации
+                          AppRoutes.navigateToPageWithFadeTransition(context, RegistrationPage2(name: name, surname: surname, patronymic: patronymic, id: id,));
+                        } catch (e) {
+                          print("Verification failed: $e");
+                          // Обработка ошибки верификации
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Ошибка'),
+                              content: Text('Неверный логин или пароль'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      } else {
+                        print("Empty login or password");
+                        // Ошибка: пустой логин или пароль
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Ошибка'),
+                            content: Text('Пожалуйста, введите логин и пароль'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     },
                     figmaTextStyles: figmaTextStyles,
                   ),

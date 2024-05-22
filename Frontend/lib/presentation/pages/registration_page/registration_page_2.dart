@@ -1,7 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class RegistrationPage2 extends StatelessWidget {
+
+  final int id;
+  final String name;
+  final String surname;
+  final String patronymic;
+
+  RegistrationPage2({required this.name, required this.surname, required this.patronymic, required this.id});
+
+  final TextEditingController loginController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final ApiService apiService = ApiService();
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
 
   @override
@@ -48,37 +59,41 @@ class RegistrationPage2 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomTextField(
-                      hintText: 'Третьяков',
+                      hintText: surname,
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
                     CustomTextField(
-                      hintText: 'Данила',
+                      hintText: name,
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
                     CustomTextField(
-                      hintText: 'Сергеевич',
+                      hintText: patronymic,
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
+
                     CustomTextField(
-                      hintText: 'Логин',
-                      keyboardType: TextInputType.text,
-                      figmaTextStyles: figmaTextStyles,
-                    ),
-                    SizedBox(height: 17),
-                    CustomTextField(
-                      hintText: 'email',
+                      hintText: 'Email',
+                      controller: loginController,
                       keyboardType: TextInputType.emailAddress,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
                     CustomTextField(
+                      hintText: 'Номер телефона',
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.text,
+                      figmaTextStyles: figmaTextStyles,
+                    ),
+                    SizedBox(height: 17),
+                    CustomTextField(
                       hintText: 'Пароль',
+                      controller: passwordController,
                       obscureText: true,
                       figmaTextStyles: figmaTextStyles,
                     ),
@@ -91,8 +106,33 @@ class RegistrationPage2 extends StatelessWidget {
                     SizedBox(height: 20),
                     CustomButton(
                       text: 'Зарегистрироваться',
-                      onPressed: () {
-                        AppRoutes.navigateToPageWithFadeTransition(context, RegistrationPage3());
+                      onPressed: () async {
+                        String login = loginController.text;
+                        String phoneNumber = phoneNumberController.text;
+                        String password = passwordController.text;
+                        if (login.isNotEmpty && phoneNumber.isNotEmpty && password.isNotEmpty) {
+                          try {
+                            apiService.registerUser(id, login, phoneNumber, password);
+                            print("registration successful");
+                            AppRoutes.navigateToPageWithFadeTransition(context, RegistrationPage3());
+                          } catch (e) {
+                            print("Verification failed: $e");
+                            // Обработка ошибки верификации
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Ошибка'),
+                                content: Text('Неверный логин или пароль'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }
                       },
                       figmaTextStyles: figmaTextStyles,
                     ),

@@ -9,6 +9,7 @@ class AuthPageState extends State<AuthPage> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final ApiService apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -80,39 +81,37 @@ class AuthPageState extends State<AuthPage> {
                   ),
                   SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      AppRoutes.navigateToPageWithFadeTransition(context, ResetPasswordPage1());
+                    },
                     child: UnderlineText(
                       text: 'Забыл пароль',
                       textStyle: TextStyle(
                         color: FigmaColors.darkBlueMain,
                         fontSize: 16,
                       ),
-                      onTap: () {
-                        AppRoutes.navigateToPageWithFadeTransition(context, ResetPasswordPage1());
-                      },
                     ),
                   ),
                   SizedBox(height: 43),
                   CustomButton(
                     text: 'Войти',
-                    onPressed: () {
+                    onPressed: () async {
                       String email = emailController.text;
                       String password = passwordController.text;
 
-                      // Проверяем логин и пароль
+                      print("Button pressed");
                       if (email.isNotEmpty && password.isNotEmpty) {
-                        // Проверяем совпадение с моканными данными
-                        bool validCredentials = DataUtils().validateCredentials(email, password);
+                        try {
+                          print("Attempting login with $email and $password");
+                          String response = await apiService.login(email, password);
+                          print("Login successful, response: $response");
 
-                        if (validCredentials) {
-                          // Отправка события успешного входа в приложение
+                          // Обработка успешного входа
                           AppMetrica.reportEvent('Вход успешно выполнен');
-
-                          Map<String, dynamic>? user = MockData.usersData.firstWhere((user) => user['login'] == email && user['password'] == password, orElse: () => {});
-                          int userId = user['id'];
-                          AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: userId,));
-                        } else {
-                          // Ошибка: неверный логин или пароль
+                          AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: 1));
+                        } catch (e) {
+                          print("Login failed: $e");
+                          // Обработка ошибки входа
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
@@ -127,10 +126,10 @@ class AuthPageState extends State<AuthPage> {
                             ),
                           );
 
-                          // Отправка события неудачного входа в приложение
                           AppMetrica.reportEvent('Ошибка входа: неверный логин или пароль');
                         }
                       } else {
+                        print("Empty email or password");
                         // Ошибка: пустой логин или пароль
                         showDialog(
                           context: context,
@@ -146,7 +145,6 @@ class AuthPageState extends State<AuthPage> {
                           ),
                         );
 
-                        // Отправка события неудачного входа в приложение из-за пустых полей
                         AppMetrica.reportEvent('Ошибка входа: пустой логин или пароль');
                       }
                     },
