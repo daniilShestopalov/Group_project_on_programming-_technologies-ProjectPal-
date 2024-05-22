@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class MainPageContent extends StatefulWidget {
@@ -15,131 +12,117 @@ class MainPageContent extends StatefulWidget {
 class _MainPageContentState extends State<MainPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
 
-  // Допустим, у вас есть переменная для отслеживания выполненных задач
-  int completedTasks = 1;
-  int totalTasks = 3; // Просто для примера, замените это на реальное количество задач
+  int completedTasks = 2;
+  int notCompletedTasks = 4;
+
+  List<NotificationItem> notifications = [
+    NotificationItem(
+      text: 'Учитель выложил домашнее задание',
+      avatarUrl: 'https://example.com/avatar1.jpg',
+      isSystem: false,
+    ),
+    NotificationItem(
+      text: 'Системное уведомление о важном событии',
+      isSystem: true,
+    ),
+    NotificationItem(
+      text: 'Ваш друг отправил вам сообщение',
+      avatarUrl: 'https://example.com/avatar2.jpg',
+      isSystem: false,
+    ),
+  ];
+
+  void _showNotifications() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomNotification(notifications: notifications);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Рассчитаем процент выполнения задач
-    double completionPercentage = completedTasks / totalTasks;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Ваш текущий контент
+        // Ваш кастомный AppBar
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
-                text: 'Добрый день,\n' + DataUtils.getUserNameById(widget.userId),
-                style: figmaTextStyles.header2Regular.copyWith(
-                  color: FigmaColors.darkBlueMain,
-                ),
-              ),
-              SizedBox(height: 8),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Center(
-                      child: CustomText(
-                        text: 'Ваша статистика',
-                        style: figmaTextStyles.header1Medium.copyWith(
-                          color: FigmaColors.darkBlueMain,
-                        ),
-                      ),
+                  CustomText(
+                    text: 'Добрый день,\n' + DataUtils.getUserNameById(widget.userId),
+                    style: figmaTextStyles.header2Regular.copyWith(
+                      color: FigmaColors.darkBlueMain,
                     ),
+                  ),
+                  // Добавим иконку уведомлений
+                  Stack(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.notifications, color: FigmaColors.darkBlueMain, size: 28),
+                        onPressed: _showNotifications,
+                      ),
+                      if (notifications.isNotEmpty)
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 24,
+                              minHeight: 24,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${notifications.length}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-            ],
-          ),
-        ),
-        // Добавим круг под текущим содержимым и выровняем его по центру
-        Center(
-          child: Container(
-            width: 300, // Задаем ширину круга (можно настроить по вашему усмотрению)
-            height: 300, // Задаем высоту круга
-            child: CustomPaint(
-              painter: CirclePainter(
-                progress: completionPercentage,
-                startColor: FigmaColors.darkBlueMain,
-                endColor: FigmaColors.contrastToMain,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Center(
+              SizedBox(height: 8),
+              // Центрируем текст "Ваша статистика"
+              Center(
                 child: CustomText(
-                  text: 'Всего заданий: 3',
-                  style: figmaTextStyles.header2Medium.copyWith(
+                  text: 'Ваша статистика',
+                  style: figmaTextStyles.header1Medium.copyWith(
                     color: FigmaColors.darkBlueMain,
                   ),
                 ),
               ),
+            ],
+          ),
+        ),
+        // Используем CustomPieChart для отображения круговой диаграммы
+        Container(
+          child: Center(
+            child: CustomPieChart(
+              completedTasks: completedTasks,
+              incompleteTasks: notCompletedTasks,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Center(
-              child: CustomText(
-              text: 'Выполнено заданий: 1',
-              style: figmaTextStyles.header2Medium.copyWith(
-              color: FigmaColors.darkBlueMain,
-              ),
-              ),
-              ),
-            ),
+          ),
+        ),
+        SizedBox(height: 20),
+        // Добавим информацию о заданиях
       ],
     );
-  }
-}
-
-class CirclePainter extends CustomPainter {
-  final double progress;
-  final Color startColor;
-  final Color endColor;
-
-  CirclePainter({
-    required this.progress,
-    required this.startColor,
-    required this.endColor,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = startColor
-      ..style = PaintingStyle.fill;
-
-    // Вычисляем центр и радиус круга
-    Offset center = Offset(size.width / 2, size.height / 2);
-    double radius = min(size.width / 2, size.height / 2);
-
-    // Рисуем фоновый круг
-    canvas.drawCircle(center, radius, paint);
-
-    // Рассчитываем угол заливки в зависимости от прогресса выполнения
-    double sweepAngle = 2 * pi * progress;
-
-    // Рисуем заливку
-    paint.color = endColor;
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
-      -pi / 2, // начальный угол
-      sweepAngle, // угол заливки
-      true,
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
   }
 }

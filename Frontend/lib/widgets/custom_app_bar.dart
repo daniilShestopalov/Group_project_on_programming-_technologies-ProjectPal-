@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -17,7 +16,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.menu),
+        icon: Icon(Icons.menu, color: FigmaColors.darkBlueMain), // установить цвет иконки на черный
         onPressed: onMenuPressed,
       ),
       centerTitle: true,
@@ -28,12 +27,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.account_circle),
+          icon: Icon(Icons.account_circle, color: FigmaColors.darkBlueMain), // установить цвет иконки на черный
           onPressed: () {
             AppRoutes.navigateToPageWithFadeTransition(context, ProfilePage(userId: userId));
           },
         ),
       ],
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
     );
   }
 

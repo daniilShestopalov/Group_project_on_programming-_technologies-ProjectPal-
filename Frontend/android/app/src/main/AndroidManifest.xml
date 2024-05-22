@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="project_pal"
+        android:label="ProjectPal"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -15,7 +15,7 @@ class CustomSideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: Colors.white,
+        color: FigmaColors.whiteBackground,
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class CustomSideMenu extends StatelessWidget {
               },
             ),
             _buildMenuItem(
-              icon: Icons.people,
+              icon: Icons.account_balance,
               text: 'Преподаватели',
               onTap: () {
                 AppRoutes.navigateToPageWithFadeTransition(context, ProfessorPage(userId: userId,));
@@ -88,6 +88,13 @@ class CustomSideMenu extends StatelessWidget {
               text: 'Задания',
               onTap: () {
                 AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: userId));
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.group_work,
+              text: 'Проекты',
+              onTap: () {
+                AppRoutes.navigateToPageWithFadeTransition(context, ProjectPage(userId: userId));
               },
             ),
             SizedBox(height: 20),

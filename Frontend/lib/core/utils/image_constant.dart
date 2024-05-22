@@ -3,7 +3,7 @@ class ImageConstant {
   static String imagePath = 'assets/images';
 
   // Большой размер логотипа
-  static String largeIcon = '$imagePath/large_icon.png';
+  static String largeIcon = '$imagePath/splash.png';
 
   // Средний размер логотипа
   static String mediumIcon = '$imagePath/medium_icon.png';

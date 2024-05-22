@@ -212,4 +212,5 @@ class DataUtils {
     List<int> teacherIds = teachersData.map<int>((teacher) => teacher['id']).toList();
     return teacherIds;
   }
+
 }

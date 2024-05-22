@@ -35,13 +35,13 @@ class _ConcreteTaskState extends State<ConcreteTaskPage> {
         userId: widget.userId,
       ),
       drawer: CustomSideMenu(figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
-      body: DataUtils.getUserRoleById(widget.userId) == 'student' ? ConcreteTaskPageContent(
+      body: ConcreteTaskPageContent(
         userId: widget.userId,
         subject: widget.subject,
         date: widget.date,
         teacher: widget.teacher,
         tasks: widget.tasks
-      ) : null,
+      ),
       bottomNavigationBar: CustomBottomBar(currentPage: 'task', userId: widget.userId,), // Добавляем кастомный нижний бар
     );
   }

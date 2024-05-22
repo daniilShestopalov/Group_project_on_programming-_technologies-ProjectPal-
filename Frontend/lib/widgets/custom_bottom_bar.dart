@@ -47,6 +47,14 @@ class CustomBottomBar extends StatelessWidget {
               pageName: 'task',
             ),
           ),
+          Expanded(
+            child: _buildBottomBarItem(
+              context: context,
+              icon: Icons.group_work,
+              text: 'Проекты',
+              pageName: 'project',
+            ),
+          ),
         ],
       ),
     );
@@ -74,6 +82,9 @@ class CustomBottomBar extends StatelessWidget {
               break;
             case 'task':
               AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: userId));
+              break;
+            case 'project':
+              AppRoutes.navigateToPageWithFadeTransition(context, ProjectPage(userId: userId));
               break;
             default:
               break;

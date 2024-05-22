@@ -6,6 +6,7 @@ class FigmaColors {
   static const Color lightBlueBackground = Color(0xff89c7ea);
   static const Color whiteBackground = Color(0xfff7faf8);
   static const Color darkBlueMain = Color(0xff20395c);
+  static const Color lightRedMain = Color(0xffFF6A62);
   static const Color contrastToMain = Color(0xff009caf);
   static const Color exitColor = Color(0xff82bdcc);
   static const Color selectorColor = Color(0xff0078d2);

@@ -1,13 +1,9 @@
-import 'package:flutter/material.dart';
-import '../presentation/pages/home_page.dart';
-import '../presentation/pages/welcome_page/welcome_page_1.dart';
+import 'package:project_pal/core/app_export.dart';
 
 class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => HomePage());
-      case '/welcome_page_1':
         return MaterialPageRoute(builder: (_) => WelcomePage1());
       default:
         return _errorRoute(settings);

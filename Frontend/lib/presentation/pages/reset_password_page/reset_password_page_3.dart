@@ -66,7 +66,7 @@ class ResetPasswordPage3 extends StatelessWidget {
                   ),
                   SizedBox(height: 180),
                   CustomButton(
-                    text: 'Получить код',
+                    text: 'Подтвердить пароль',
                     onPressed: () {
                       AppRoutes.navigateToPageWithFadeTransition(context, ResetPasswordPage4());
                     },

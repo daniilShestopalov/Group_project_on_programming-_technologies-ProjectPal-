@@ -49,7 +49,7 @@ class ResetPasswordPage4 extends StatelessWidget {
                 children: [
                   Center(
                     child: CustomText(
-                      text: 'Учетная запись успешно зарегистрирована',
+                      text: 'Новый пароль успешно установлен',
                       style: figmaTextStyles.header1Medium.copyWith(
                         color: FigmaColors.darkBlueMain,
                       ),

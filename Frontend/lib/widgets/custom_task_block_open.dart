@@ -36,11 +36,13 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
     int days = int.parse(widget.date);
 
     if (days == 1) {
-      remainingDaysText = ' день';
+      remainingDaysText = widget.date +  ' день';
     } else if (days > 1 && days < 5) {
-      remainingDaysText = ' дня';
+      remainingDaysText = widget.date +  ' дня';
+    } else if (days > 5){
+      remainingDaysText = widget.date + ' дней';
     } else {
-      remainingDaysText = ' дней';
+    remainingDaysText = 'Закрыто';
     }
 
     return Container(
@@ -89,7 +91,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                       Image.asset(ImageConstant.timeIcon),
                       SizedBox(width: 4),
                       CustomText(
-                        text: widget.date + '$remainingDaysText',
+                        text: '$remainingDaysText',
                         style: figmaTextStyles.header2Medium.copyWith(
                           color: FigmaColors.darkBlueMain,
                         ),
