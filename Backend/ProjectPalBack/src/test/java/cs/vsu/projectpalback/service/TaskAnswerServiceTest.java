@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-@Rollback(true)
 public class TaskAnswerServiceTest {
 
     @Autowired
@@ -76,7 +75,7 @@ public class TaskAnswerServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.ПРЕПОДАВАТЕЛЬ);
+        userDTO.setRole(Role.TEACHER);
 
         userDTO = userService.createUser(userDTO);
 
@@ -106,7 +105,7 @@ public class TaskAnswerServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.УЧАЩИЙСЯ);
+        userDTO.setRole(Role.STUDENT);
         userDTO.setGroupId(group.getId());
 
         UserDTO studentDTO = userService.createUser(userDTO);

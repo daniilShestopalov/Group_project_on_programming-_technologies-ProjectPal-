@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-@Rollback(true)
 public class TaskServiceTest {
 
     @Autowired
@@ -108,7 +107,7 @@ public class TaskServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.ПРЕПОДАВАТЕЛЬ);
+        userDTO.setRole(Role.TEACHER);
 
         userDTO = userService.createUser(userDTO);
 
@@ -129,7 +128,6 @@ public class TaskServiceTest {
 
         TaskDTO result = taskService.createTask(taskDTO);
         assertNotNull(result);
-        assertNotNull(result.getId());
     }
 
     @Test

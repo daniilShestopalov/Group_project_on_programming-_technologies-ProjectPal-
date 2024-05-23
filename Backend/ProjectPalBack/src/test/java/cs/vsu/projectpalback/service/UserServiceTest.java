@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@Rollback(true)
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 public class UserServiceTest {
@@ -30,7 +29,6 @@ public class UserServiceTest {
     @Autowired
     private GroupService groupService;
 
-    @Rollback(true)
     @BeforeEach
     public void setup() {
         GroupDTO group = new GroupDTO();
@@ -46,7 +44,7 @@ public class UserServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.АДМИН);
+        userDTO.setRole(Role.ADMIN);
         userDTO.setGroupId(group.getId());
 
         userService.createUser(userDTO);
@@ -74,7 +72,7 @@ public class UserServiceTest {
 
     @Test
     public void testGetUsersByRole() {
-        assertNotNull(userService.getUsersByRole(Role.АДМИН));
+        assertNotNull(userService.getUsersByRole(Role.ADMIN));
     }
 
     @Test
@@ -91,7 +89,7 @@ public class UserServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.ПРЕПОДАВАТЕЛЬ);
+        userDTO.setRole(Role.TEACHER);
         userDTO.setGroupId(group.getId());
 
         userService.createUser(userDTO);
@@ -108,7 +106,6 @@ public class UserServiceTest {
         assertNotNull(userService.getUserByLoginWithPassword("test"));
     }
 
-    @Rollback(true)
     @Test
     public void testCreateUser() {
         UserDTO userDTO = new UserDTO();
@@ -118,7 +115,7 @@ public class UserServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.АДМИН);
+        userDTO.setRole(Role.ADMIN);
         userDTO.setGroupId(3);
         assertNotNull(userService.createUser(userDTO));
     }
@@ -128,7 +125,6 @@ public class UserServiceTest {
         assertTrue(userService.deleteUser(1));
     }
 
-    @Rollback(true)
     @Test
     public void testUpdateUser() {
         UserDTO userDTO = new UserDTO();
@@ -136,7 +132,7 @@ public class UserServiceTest {
         userDTO.setName("Test User 2");
         userDTO.setSurname("Test User 2");
         userDTO.setPatronymic("Test User 2");
-        userDTO.setRole(Role.АДМИН);
+        userDTO.setRole(Role.ADMIN);
         userDTO.setLogin("test");
         userDTO.setPassword("password");
         userDTO.setGroupId(2);
@@ -146,13 +142,11 @@ public class UserServiceTest {
         assertSame(userDTO.getName(), userService.getUserByLoginWithoutPassword("test").getName());
     }
 
-    @Rollback(true)
     @Test
     public void testUpdatePassword() {
         assertTrue(userService.updatePassword(1, "newPassword"));
     }
 
-    @Rollback(true)
     @Test
     public void testUpdateUserGroup() {
         GroupDTO group = new GroupDTO();
@@ -162,7 +156,6 @@ public class UserServiceTest {
         assertTrue(userService.updateUserGroup(1, group.getId()));
     }
 
-    @Rollback(true)
     @Test
     public void testUpdateUsersGroup() {
         GroupDTO group = new GroupDTO();
@@ -172,7 +165,6 @@ public class UserServiceTest {
         assertTrue(userService.updateUsersGroup(Arrays.asList(1, 2), group.getId()));
     }
 
-    @Rollback(true)
     @Test
     public void testCountUsersByGroup() {
         GroupDTO group = new GroupDTO();
@@ -187,7 +179,7 @@ public class UserServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.АДМИН);
+        userDTO.setRole(Role.ADMIN);
         userDTO.setGroupId(group.getId());
 
         userService.createUser(userDTO);

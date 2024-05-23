@@ -5,13 +5,11 @@ import cs.vsu.projectpalback.dto.ProjectDTO;
 import cs.vsu.projectpalback.dto.UserDTO;
 import cs.vsu.projectpalback.model.enumerate.Role;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-@Rollback(true)
 public class ProjectAnswerServiceTest {
 
     @Autowired
@@ -65,7 +62,7 @@ public class ProjectAnswerServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.ПРЕПОДАВАТЕЛЬ);
+        userDTO.setRole(Role.TEACHER);
 
         userDTO = userService.createUser(userDTO);
 
