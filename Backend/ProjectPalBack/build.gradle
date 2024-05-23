@@ -37,6 +37,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	testImplementation 'org.springframework.security:spring-security-test'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
@@ -48,8 +49,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-
 	testImplementation 'org.testcontainers:junit-jupiter:1.18.3'
+	testImplementation 'org.apache.commons:commons-compress:1.26.1'
 	testImplementation 'org.testcontainers:postgresql:1.18.3'
 }
 
