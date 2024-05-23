@@ -2,6 +2,8 @@ import 'package:project_pal/core/app_export.dart';
 
 class ResetPasswordPage1 extends StatelessWidget {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  final TextEditingController emailController = TextEditingController();
+  final ApiService apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class ResetPasswordPage1 extends StatelessWidget {
                       hintText: 'email',
                       keyboardType: TextInputType.emailAddress,
                       figmaTextStyles: figmaTextStyles,
+                      controller: emailController,
                     ),
                   ),
                   SizedBox(height: 24),
@@ -69,8 +72,34 @@ class ResetPasswordPage1 extends StatelessWidget {
                   SizedBox(height: 180),
                   CustomButton(
                     text: 'Получить код',
-                    onPressed: () {
-                      AppRoutes.navigateToPageWithFadeTransition(context, ResetPasswordPage2());
+                    onPressed: () async {
+                      // Получаем введенный email из текстового поля
+                      String email = emailController.text;
+                      try {
+                        await apiService.sendPasswordResetCode(email);
+                        AppRoutes.navigateToPageWithFadeTransition(context, ResetPasswordPage2());
+                      } catch (e) {
+                        // Обработка ошибки, если не удалось отправить код
+                        print('Ошибка: $e');
+                        // Показать сообщение об ошибке пользователю
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Ошибка'),
+                              content: Text('Не удалось отправить код. Пожалуйста, проверьте ваш email и попробуйте еще раз.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     figmaTextStyles: figmaTextStyles,
                   ),

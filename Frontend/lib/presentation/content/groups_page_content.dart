@@ -11,28 +11,30 @@ class GroupsPageContent extends StatefulWidget {
 
 class _GroupsPageContentState extends State<GroupsPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  final ApiService apiService = ApiService();
 
   SortOrder sortOrder = SortOrder.ascending;
   int selectedIndex = 0;
 
-  List<CustomGroupListBlock> groupBlocks = [];
+  List<Group> groupBlocks = [];
 
   @override
   void initState() {
     super.initState();
-    // Вызываем утилиту для подсчета количества пользователей в группах
-    Map<String, int> groupCounts = DataUtils.countUsersInGroups(MockData.usersData);
+    _loadGroups();
+  }
 
-    // Создаем список CustomGroupListBlock на основе количества пользователей в каждой группе
-    groupCounts.forEach((groupNumber, numberOfPeople) {
-      groupBlocks.add(
-        CustomGroupListBlock(
-          userId: widget.userId,
-          groupNumber: groupNumber,
-          numberOfPeople: numberOfPeople,
-        ),
-      );
-    });
+  Future<void> _loadGroups() async {
+    try {
+      final token = await apiService.getJwtToken(); // Получаем токен из хранилища
+      final groups = await apiService.fetchGroups(token!);
+      setState(() {
+        groupBlocks = groups;
+      });
+    } catch (error) {
+      print(error);
+      // Обработка ошибки
+    }
   }
 
   @override
@@ -40,7 +42,6 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Блок 1
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
@@ -105,7 +106,6 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
             ],
           ),
         ),
-        // Блок 2
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -114,7 +114,10 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16),
-                  child: groupBlocks[index],
+                  child: CustomGroupListBlock(
+                    userId: widget.userId,
+                    group: groupBlocks[index],
+                  ),
                 );
               },
             ),
@@ -135,7 +138,7 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
   void sortGroupsByNumberOfPeople() {
     setState(() {
       groupBlocks.sort((a, b) {
-        return sortOrder == SortOrder.ascending ? a.numberOfPeople.compareTo(b.numberOfPeople) : b.numberOfPeople.compareTo(a.numberOfPeople);
+        return sortOrder == SortOrder.ascending ? a.courseNumber.compareTo(b.courseNumber) : b.courseNumber.compareTo(a.courseNumber);
       });
     });
   }

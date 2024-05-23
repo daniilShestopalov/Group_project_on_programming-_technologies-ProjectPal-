@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class ProfilePageContent extends StatefulWidget {
@@ -11,22 +13,77 @@ class ProfilePageContent extends StatefulWidget {
 
 class _ProfilePageContentState extends State<ProfilePageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  final ApiService apiService = ApiService();
   bool isEditing = false;
+  File? _image;
+  User? _user;
+
+  final picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      final token = await apiService.getJwtToken();
+      if (token != null) {
+        final user = await apiService.getUserById(token, widget.userId);
+        setState(() {
+          _user = user;
+        });
+      } else {
+        print('Failed to retrieve token');
+      }
+    } catch (e) {
+      print('Error loading user data: $e');
+    }
+  }
+
+  Future getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final fileNameWithExtension = pickedFile.path.split('/').last;
+      _image = File(pickedFile.path);
+      final token = await apiService.getJwtToken();
+      if (token != null) {
+        apiService.updateUserAvatar(token, widget.userId, fileNameWithExtension);
+      }
+    } else {
+      print('No image selected.');
+    }
+
+    setState(() {}); // Обновляем состояние после изменения изображения
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return _user != null
+        ? Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Center(
-            child: CircleAvatar(
-              radius: 75,
-              backgroundColor: FigmaColors.contrastToMain,
-              child: Text(
-                DataUtils.getUserInitialsById(widget.userId),
-                style: TextStyle(fontSize: 48),
+            child: GestureDetector(
+              onTap: () {
+                if (isEditing) {
+                  getImage();
+                }
+              },
+              child: CircleAvatar(
+                radius: 75,
+                backgroundColor: FigmaColors.contrastToMain,
+                backgroundImage: _image != null ? FileImage(_image!) : null,
+                child: _image == null
+                    ? Text(
+                  DataUtils.getUserInitialsById(widget.userId),
+                  style: TextStyle(fontSize: 48),
+                )
+                    : null,
               ),
             ),
           ),
@@ -38,37 +95,37 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CustomTextField(
-                hintText: DataUtils.getUserNameById(widget.userId),
+                hintText: _user!.login ?? '',
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: DataUtils.getUserSurnameById(widget.userId),
+                hintText: _user!.surname ?? '',
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: DataUtils.getUserPatronymicById(widget.userId),
+                hintText: _user!.patronymic ?? '',
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: DataUtils.getUserEmailById(widget.userId),
+                hintText: _user!.phoneNumber ?? '',
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: DataUtils.getRoleName(DataUtils.getUserRoleById(widget.userId)),
+                hintText: DataUtils.getRoleName(_user!.role),
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: 'Группа ' + DataUtils.getUserGroupIdById(widget.userId),
+                hintText: 'Группа ' + _user!.groupId.toString(),
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
@@ -77,14 +134,17 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
         ),
         SizedBox(height: 36),
         CustomButton(
-            text: (isEditing ? 'Сохранить' : 'Изменить данные'),
-            onPressed: () {
-        setState(() {
-        isEditing = !isEditing;
-        });
-        }, figmaTextStyles: figmaTextStyles
+          text: (isEditing ? 'Сохранить' : 'Изменить данные'),
+          onPressed: () {
+            setState(() {
+              isEditing = !isEditing;
+            });
+          },
+          figmaTextStyles: figmaTextStyles,
         )
       ],
-    );
+    )
+        : Center(child: CircularProgressIndicator());
   }
 }
+

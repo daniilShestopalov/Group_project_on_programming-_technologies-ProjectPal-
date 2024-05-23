@@ -16,6 +16,8 @@ dependencies:
   appmetrica_plugin: ^2.0.0
   fl_chart: ^0.68.0
   shared_preferences: ^2.0.0
+  flutter_secure_storage: ^9.2.2
+  image_picker: ^1.1.1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

@@ -3,21 +3,19 @@ import 'package:project_pal/core/app_export.dart';
 
 class CustomGroupListBlock extends StatelessWidget {
   final int userId;
-  final String groupNumber;
-  final int numberOfPeople;
+  final Group group;
 
   const CustomGroupListBlock({
     Key? key,
     required this.userId,
-    required this.groupNumber,
-    required this.numberOfPeople,
+    required this.group,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppRoutes.navigateToPageWithFadeTransition(context, GroupsViewPage(userId: userId, groupNumber: groupNumber,));
+        AppRoutes.navigateToPageWithFadeTransition(context, GroupsViewPage(userId: userId, groupNumber: group.groupNumber.toString()));
       },
       child: Container(
         width: 312,
@@ -47,7 +45,7 @@ class CustomGroupListBlock extends StatelessWidget {
             ),
             SizedBox(width: 8),
             Text(
-              numberOfPeople.toString(),
+              group.courseNumber.toString(), // Отображаем номер курса
               style: TextStyle(
                 fontSize: 16,
                 color: FigmaColors.darkBlueMain,
@@ -56,7 +54,7 @@ class CustomGroupListBlock extends StatelessWidget {
             SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Группа ' + groupNumber,
+                'Группа ${group.groupNumber}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,

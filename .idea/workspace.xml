@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20c8accb-b2c1-4a18-b041-e4300cde7315" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+    <list default="true" id="20c8accb-b2c1-4a18-b041-e4300cde7315" name="Changes" comment="Переработка старых экранов. Доведение до ума и обновление дизайна">
       <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/api_service.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -34,7 +33,24 @@
       <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/core/app_export.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/core/app_export.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/groups_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/groups_page_content.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_1.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_2.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_3.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_1.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_2.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_3.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_4.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_1.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_2.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_3.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_4.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_list_block.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_list_block.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,7 +116,8 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ertna/OneDrive/Documents/GitHub/Group_project_on_programming-_technologies-ProjectPal-/Frontend/assets/icon&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ertna/OneDrive/Documents/GitHub/Group_project_on_programming-_technologies-ProjectPal-/Frontend&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -113,12 +130,21 @@
       <recent name="C:\Users\ertna\OneDrive\Documents\GitHub\Group_project_on_programming-_technologies-ProjectPal-\Frontend\assets\icon" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Flutter.Unnamed">
     <configuration name="main.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="checkedMode" value="false" />
       <option name="filePath" value="$PROJECT_DIR$/Frontend/lib/main.dart" />
       <option name="workingDirectory" value="$PROJECT_DIR$/Frontend" />
       <method v="2" />
     </configuration>
+    <configuration name="Unnamed" type="FlutterRunConfigurationType" factoryName="Flutter" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/Frontend/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Dart Command Line App.main.dart" />
+      <item itemvalue="Flutter.Unnamed" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Dart Command Line App.main.dart" />

@@ -80,18 +80,17 @@ class AuthPageState extends State<AuthPage> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  GestureDetector(
+                  UnderlineText(
+                    text: 'Забыл пароль',
+                    textStyle: TextStyle(
+                      color: FigmaColors.darkBlueMain,
+                      fontSize: 16,
+                    ),
                     onTap: () {
                       AppRoutes.navigateToPageWithFadeTransition(context, ResetPasswordPage1());
                     },
-                    child: UnderlineText(
-                      text: 'Забыл пароль',
-                      textStyle: TextStyle(
-                        color: FigmaColors.darkBlueMain,
-                        fontSize: 16,
-                      ),
-                    ),
                   ),
+
                   SizedBox(height: 43),
                   CustomButton(
                     text: 'Войти',
@@ -103,12 +102,12 @@ class AuthPageState extends State<AuthPage> {
                       if (email.isNotEmpty && password.isNotEmpty) {
                         try {
                           print("Attempting login with $email and $password");
-                          String response = await apiService.login(email, password);
-                          print("Login successful, response: $response");
-
+                          final user = await apiService.login(email, password);
+                          await apiService.login(email, password);
+                          apiService.getJwtToken();
                           // Обработка успешного входа
                           AppMetrica.reportEvent('Вход успешно выполнен');
-                          AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: 1));
+                          AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: user.id));
                         } catch (e) {
                           print("Login failed: $e");
                           // Обработка ошибки входа

@@ -110,19 +110,40 @@ class RegistrationPage2 extends StatelessWidget {
                         String login = loginController.text;
                         String phoneNumber = phoneNumberController.text;
                         String password = passwordController.text;
+
                         if (login.isNotEmpty && phoneNumber.isNotEmpty && password.isNotEmpty) {
-                          try {
-                            apiService.registerUser(id, login, phoneNumber, password);
-                            print("registration successful");
-                            AppRoutes.navigateToPageWithFadeTransition(context, RegistrationPage3());
-                          } catch (e) {
-                            print("Verification failed: $e");
-                            // Обработка ошибки верификации
+                          if (!isValidEmail(login)) {
+                            // Показать диалоговое окно с ошибкой валидации
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
                                 title: Text('Ошибка'),
-                                content: Text('Неверный логин или пароль'),
+                                content: Text('Пожалуйста, введите корректный адрес электронной почты'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                            return; // Прекратить выполнение метода если email некорректный
+                          }
+
+                          try {
+                            await apiService.registerUser(id, login, phoneNumber, password);
+                            print("registration successful");
+
+                            // Переход на следующую страницу после успешной регистрации
+                            AppRoutes.navigateToPageWithFadeTransition(context, RegistrationPage3());
+                          } catch (e) {
+                            print("Registration failed: $e");
+                            // Обработка ошибки регистрации
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Ошибка'),
+                                content: Text('Ошибка при регистрации пользователя'),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
@@ -132,6 +153,22 @@ class RegistrationPage2 extends StatelessWidget {
                               ),
                             );
                           }
+                        } else {
+                          print("Empty login, phone number or password");
+                          // Ошибка: пустое поле логина, номера телефона или пароля
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Ошибка'),
+                              content: Text('Пожалуйста, заполните все поля'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       },
                       figmaTextStyles: figmaTextStyles,
@@ -145,4 +182,10 @@ class RegistrationPage2 extends StatelessWidget {
       ),
     );
   }
+
+  bool isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    return emailRegex.hasMatch(email);
+  }
+
 }
