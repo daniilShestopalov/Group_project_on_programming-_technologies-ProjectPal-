@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.nio.file.Paths;
 
 @Service
 @AllArgsConstructor
@@ -131,7 +132,7 @@ public class UserService {
         Optional<User> existingUserOptional = userRepository.findById(id);
         if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
-            existingUser.setAvatarLink(link);
+            existingUser.setAvatarLink(Paths.get(link).getFileName().toString());
             userRepository.save(existingUser);
             LOGGER.info("User avatar updated for user id: {}", id);
             return true;
