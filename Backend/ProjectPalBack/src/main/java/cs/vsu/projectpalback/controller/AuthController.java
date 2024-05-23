@@ -88,6 +88,29 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Verification code submission", description = "Validates the provided verification code")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Code is valid"),
+            @ApiResponse(responseCode = "400", description = "Invalid code"),
+            @ApiResponse(responseCode = "500", description = "Code validation failed")
+    })
+    @PostMapping("/code-verification")
+    public ResponseEntity<?> codeVerification(@RequestBody CodeDTO codeDTO) {
+        try {
+            Integer userId = jwtProvider.getUserIdFromToken(codeDTO.getCode());
+            if (userId != null) {
+                return ResponseEntity.ok("Verification code is valid.");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification code.");
+            }
+        } catch (RuntimeException e) {
+            LOGGER.error("Error validating verification code: {}", codeDTO.getCode(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to validate verification code.");
+        }
+    }
+
+
+
     @Operation(summary = "Reset password", description = "Resets the password using the provided verification code and new password")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Password reset successfully"),

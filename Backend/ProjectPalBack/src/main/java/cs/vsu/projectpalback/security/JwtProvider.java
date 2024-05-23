@@ -43,7 +43,7 @@ public class JwtProvider {
                 .subject(String.valueOf(userId))
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiryDate))
-                .signWith(jwtAccessSecret)
+                .signWith(jwtAccessSecret, Jwts.SIG.HS256)
                 .compact();
     }
 
