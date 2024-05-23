@@ -53,8 +53,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-    @Operation(summary = "Get user by ID without password (admin, teacher)", description = "Returns a user by the given ID without their password")
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Get user by ID without password", description = "Returns a user by the given ID without their password")
     public ResponseEntity<UserWithoutPasswordDTO> getUserByIdWithoutPassword(@PathVariable int id) {
         try {
             LOGGER.info("Fetching user without password by ID: {}", id);
