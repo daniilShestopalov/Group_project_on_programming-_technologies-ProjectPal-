@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 public class CodeDTO {
 
     @NotBlank
-    String code;
+    private String code;
 
 }
