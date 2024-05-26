@@ -214,4 +214,9 @@ public class UserService {
         return userRepository.countByGroupId(groupId);
     }
 
+    public Role getRoleById(int id) {
+        LOGGER.debug("Getting role by id: {}", id);
+        return getUserByIdWithoutPassword(id).getRole();
+    }
+
 }

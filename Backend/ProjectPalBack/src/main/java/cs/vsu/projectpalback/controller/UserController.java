@@ -246,4 +246,19 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/{id}/role")
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "User role by id", description = "Returns the role of user by id")
+    public ResponseEntity<?> getRoleById(@PathVariable Integer id) {
+        try {
+            LOGGER.info("Getting role for user ID: {}", id);
+            Role role = userService.getRoleById(id);
+            return ResponseEntity.ok(role);
+        } catch (Exception e) {
+            LOGGER.error("Error getting role by id", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }
