@@ -155,6 +155,24 @@ public class UserController {
         }
     }
 
+    @PutMapping("/without-password")
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Update a user without password", description = "Updates an existing user without password")
+    public ResponseEntity<UserWithoutPasswordDTO> updateUser(@RequestBody UserWithoutPasswordDTO userWithoutPasswordDTO) {
+        try {
+            LOGGER.info("Updating user without password with ID: {}", userWithoutPasswordDTO.getId());
+            UserWithoutPasswordDTO updatedUser = userService.updateUser(userWithoutPasswordDTO);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error updating user without password with ID: {}", userWithoutPasswordDTO.getId(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     @PutMapping("/avatar")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Update user avatar", description = "Updates the avatar of an existing user")

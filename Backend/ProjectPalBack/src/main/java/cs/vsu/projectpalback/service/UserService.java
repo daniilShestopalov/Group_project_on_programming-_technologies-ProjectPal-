@@ -126,6 +126,19 @@ public class UserService {
         return null;
     }
 
+    public UserWithoutPasswordDTO updateUser(@NotNull UserWithoutPasswordDTO userWithoutPasswordDTO) {
+        Optional<User> existingUserOptional = userRepository.findById(userWithoutPasswordDTO.getId());
+        if (existingUserOptional.isPresent()) {
+            User existingUser = existingUserOptional.get();
+            userWithoutPasswordMapper.updateEntityFromDto(userWithoutPasswordDTO, existingUser);
+            User updatedUser = userRepository.save(existingUser);
+            LOGGER.info("User updated: {}", userWithoutPasswordDTO.getId());
+            return userWithoutPasswordMapper.toDto(updatedUser);
+        }
+        LOGGER.warn("User with id {} not found for update", userWithoutPasswordDTO.getId());
+        return null;
+    }
+
     public boolean updateAvatar(ChangeAvatarDTO changeAvatarDTO) {
         Integer id = changeAvatarDTO.getId();
         String link = changeAvatarDTO.getAvatarLink();
