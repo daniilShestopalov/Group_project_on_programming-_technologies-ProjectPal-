@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class WelcomePage1 extends StatelessWidget {
@@ -42,7 +41,7 @@ class WelcomePage1 extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenSize.height * 0.162),
+              padding: EdgeInsets.only(top: screenSize.height * 0.1),
               child: Image.asset(
                 ImageConstant.welcomeInfo1,
                 width: 333,
@@ -60,7 +59,7 @@ class WelcomePage1 extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenSize.height * 0.05),
+              padding: EdgeInsets.only(top: screenSize.height * 0.1),
               child: GestureDetector(
                 onTap: () {
                   AppMetrica.reportEvent('Просмотр приветственных страниц');

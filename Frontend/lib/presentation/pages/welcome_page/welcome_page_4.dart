@@ -5,6 +5,9 @@ class WelcomePage4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Получаем размер экрана
+    final Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -15,51 +18,58 @@ class WelcomePage4 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 50),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  ImageConstant.mediumIcon,
-                  width: 81,
-                  height: 116,
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'ProjectPal',
-                  textAlign: TextAlign.center,
-                  style: figmaTextStyles.header1Bold.copyWith(
-                    color: FigmaColors.darkBlueMain,
+            Padding(
+              padding: EdgeInsets.only(top: screenSize.height * 0.055),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    ImageConstant.mediumIcon,
+                    width: 81,
+                    height: 116,
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 115),
-            Image.asset(
-              ImageConstant.welcomeInfo4,
-              width: 333,
-              height: 185,
-            ),
-            SizedBox(height: 56),
-            Text(
-              'Получайте оценку от преподавателя',
-              textAlign: TextAlign.center,
-              style: figmaTextStyles.header1Medium.copyWith(
-                color: FigmaColors.darkBlueMain,
+                  SizedBox(height: screenSize.height * 0.014),
+                  Text(
+                    'ProjectPal',
+                    textAlign: TextAlign.center,
+                    style: figmaTextStyles.header1Bold.copyWith(
+                      color: FigmaColors.darkBlueMain,
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 60),
-            GestureDetector(
-              onTap: () {
-                AppMetrica.reportEvent('Переход на страницу авторизации');
-                AppRoutes.navigateToPageWithFadeTransition(context, AuthPage());
-              },
-              child: Container(
-                width: 100,
-                height: 100,
-                child: Image.asset(
-                  ImageConstant.buttonNext4,
+            Padding(
+              padding: EdgeInsets.only(top: screenSize.height * 0.1),
+              child: Image.asset(
+                ImageConstant.welcomeInfo4,
+                width: 333,
+                height: 185,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: screenSize.height * 0.072),
+              child: Text(
+                'Следите за дедлайнами в календаре',
+                textAlign: TextAlign.center,
+                style: figmaTextStyles.header1Medium.copyWith(
+                  color: FigmaColors.darkBlueMain,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: screenSize.height * 0.1),
+              child: GestureDetector(
+                onTap: () {
+                  AppRoutes.navigateToPageWithFadeTransition(context, AuthPage());
+                },
+                child: Container(
+                  width: screenSize.width * 0.254,
+                  height: screenSize.width * 0.254,
+                  child: Image.asset(
+                    ImageConstant.buttonNext1,
+                  ),
                 ),
               ),
             ),
