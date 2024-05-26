@@ -4,7 +4,9 @@ class ProfileViewPage extends StatefulWidget {
 
   final int userId;
 
-  const ProfileViewPage({Key? key, required this.userId}) : super(key: key);
+  final int userViewId;
+
+  const ProfileViewPage({Key? key, required this.userId, required this.userViewId}) : super(key: key);
 
   @override
   _ProfileViewPageState createState() => _ProfileViewPageState();
@@ -28,7 +30,7 @@ class _ProfileViewPageState extends State<ProfileViewPage> {
         userId: widget.userId,
       ),
       drawer: CustomSideMenu(figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
-      body: ProfileViewPageContent(userId: widget.userId),
+      body: ProfileViewPageContent(userId: widget.userId, userViewId: widget.userViewId),
       bottomNavigationBar: CustomBottomBar(currentPage: 'main', userId: widget.userId,),
     );
   }

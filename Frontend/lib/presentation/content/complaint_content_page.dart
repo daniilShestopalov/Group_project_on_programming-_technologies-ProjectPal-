@@ -55,7 +55,7 @@ class _ComplaintPageContentState extends State<ComplaintPageContent> {
           ),
         ),
         // Блок 2
-        Expanded(
+        /*Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ListView.builder(
@@ -70,7 +70,7 @@ class _ComplaintPageContentState extends State<ComplaintPageContent> {
               },
             ),
           ),
-        ),
+        ),*/
       ],
     );
   }

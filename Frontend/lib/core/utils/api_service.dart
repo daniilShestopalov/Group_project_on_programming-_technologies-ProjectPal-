@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:project_pal/core/app_export.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -141,6 +144,23 @@ class ApiService {
     }
   }
 
+  Future<int> getUserCountByGroup(int groupId, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/user/group/$groupId/count'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load user count');
+    }
+  }
+
+
   Future<void> updateUserAvatar(String token, int userId, String newAvatarLink) async {
     final Uri url = Uri.parse('$baseUrl/user/avatar');
     print(newAvatarLink);
@@ -165,6 +185,39 @@ class ApiService {
       print('Failed to update avatar');
     }
   }
+
+
+  Future<void> uploadAvatar(String token, File imageFile) async {
+    try {
+      final apiUrl = '$baseUrl/file/upload/avatar';
+      final request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+
+      // Чтение содержимого файла как массив байтов
+      List<int> imageBytes = await imageFile.readAsBytes();
+
+      // Кодирование массива байтов в base64 строку
+      String base64Image = base64Encode(imageBytes);
+
+      // Добавление base64 строки в параметры запроса
+      request.fields['file'] = base64Image;
+
+      // Добавление заголовка авторизации
+      request.headers['Authorization'] = 'Bearer $token';
+
+      // Отправка запроса
+      var streamedResponse = await request.send();
+
+      // Проверка статус кода ответа
+      if (streamedResponse.statusCode == 200) {
+        print('File uploaded successfully');
+      } else {
+        print('Error uploading file');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
 
   Future<User> getUserById(String token, int userId) async {
     try {
@@ -193,6 +246,22 @@ class ApiService {
     }
   }
 
+  Future<List<User>> getUsersByGroup(int groupId, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/user/group/$groupId'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => User.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load users by group');
+    }
+  }
 
 
 }
@@ -202,12 +271,18 @@ class Group {
   final int id;
   final int groupNumber;
   final int courseNumber;
+  int _countOfPeople;
 
   Group({
     required this.id,
     required this.groupNumber,
     required this.courseNumber,
-  });
+    int countOfPeople = 0,
+  }) :_countOfPeople = countOfPeople;
+
+  int get countOfPeople => _countOfPeople; // Геттер для countOfPeople
+
+  set countOfPeople(int value) => _countOfPeople = value; // Сеттер для countOfPeople
 
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(

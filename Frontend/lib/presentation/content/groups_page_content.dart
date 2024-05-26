@@ -26,16 +26,28 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
 
   Future<void> _loadGroups() async {
     try {
-      final token = await apiService.getJwtToken(); // Получаем токен из хранилища
-      final groups = await apiService.fetchGroups(token!);
+      final token = await apiService.getJwtToken();
+
+      if (token == null) {
+        throw Exception('Token is null');
+      }
+
+      final groups = await apiService.fetchGroups(token);
+
+      for (var group in groups) {
+        final countOfPeople = await apiService.getUserCountByGroup(group.id, token); // Передача id группы
+        group.countOfPeople = countOfPeople;
+      }
+
       setState(() {
         groupBlocks = groups;
       });
     } catch (error) {
-      print(error);
-      // Обработка ошибки
+      print('Error during loading groups: $error');
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +87,7 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  for (int index = 0; index < 2; index++)
+                  for (int index = 0; index < 3; index++)
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -94,7 +106,7 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
                           ),
                         ),
                         child: Text(
-                          index == 0 ? 'По количеству' : 'По номеру',
+                          index == 0 ? 'По номеру' : index == 1 ? 'По количеству' : 'По курсу',
                           style: figmaTextStyles.caption1Regular.copyWith(
                             color: index == selectedIndex ? FigmaColors.darkBlueMain : FigmaColors.exitColor,
                           ),
@@ -127,7 +139,7 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
     );
   }
 
-  void sortGroupsByGroupName() {
+  void sortGroupsByNumberOfGroup() {
     setState(() {
       groupBlocks.sort((a, b) {
         return sortOrder == SortOrder.ascending ? a.groupNumber.compareTo(b.groupNumber) : b.groupNumber.compareTo(a.groupNumber);
@@ -138,18 +150,30 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
   void sortGroupsByNumberOfPeople() {
     setState(() {
       groupBlocks.sort((a, b) {
+        return sortOrder == SortOrder.ascending ? a.countOfPeople.compareTo(b.countOfPeople) : b.countOfPeople.compareTo(a.countOfPeople);
+      });
+    });
+  }
+
+  void sortGroupsByNumberOfCourse() {
+    setState(() {
+      groupBlocks.sort((a, b) {
         return sortOrder == SortOrder.ascending ? a.courseNumber.compareTo(b.courseNumber) : b.courseNumber.compareTo(a.courseNumber);
       });
     });
   }
 
+
   void sortGroups(int index) {
     switch (index) {
       case 0:
-        sortGroupsByNumberOfPeople();
+        sortGroupsByNumberOfGroup();
         break;
       case 1:
-        sortGroupsByGroupName();
+        sortGroupsByNumberOfPeople();
+        break;
+      case 2:
+        sortGroupsByNumberOfCourse();
         break;
       default:
         break;

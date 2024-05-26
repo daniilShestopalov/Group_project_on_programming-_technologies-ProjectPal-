@@ -55,7 +55,7 @@ class _ProfessorPageContentState extends State<ProfessorPageContent> {
           ),
         ),
         // Блок 2
-        Expanded(
+        /*Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ListView.builder(
@@ -64,13 +64,13 @@ class _ProfessorPageContentState extends State<ProfessorPageContent> {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16),
                   child: CustomGroupListViewBlock(
-                    userId: professors[index],
+                    userId: professors[index], user:,
                   ),
                 );
               },
             ),
           ),
-        ),
+        ),*/
       ],
     );
   }

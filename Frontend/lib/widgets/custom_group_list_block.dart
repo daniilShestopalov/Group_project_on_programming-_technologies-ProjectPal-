@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class CustomGroupListBlock extends StatelessWidget {
@@ -15,14 +14,14 @@ class CustomGroupListBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppRoutes.navigateToPageWithFadeTransition(context, GroupsViewPage(userId: userId, groupNumber: group.groupNumber.toString()));
+        AppRoutes.navigateToPageWithFadeTransition(context, GroupsViewPage(userId: userId, group: group,));
       },
       child: Container(
         width: 312,
-        height: 38,
+        height: 50,
         decoration: BoxDecoration(
           color: Color(0xFFC6D8DE),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.3),
@@ -45,7 +44,7 @@ class CustomGroupListBlock extends StatelessWidget {
             ),
             SizedBox(width: 8),
             Text(
-              group.courseNumber.toString(), // Отображаем номер курса
+              group.countOfPeople.toString(), // Отображаем номер курса
               style: TextStyle(
                 fontSize: 16,
                 color: FigmaColors.darkBlueMain,
@@ -53,13 +52,26 @@ class CustomGroupListBlock extends StatelessWidget {
             ),
             SizedBox(width: 8),
             Expanded(
-              child: Text(
-                'Группа ${group.groupNumber}',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: FigmaColors.darkBlueMain,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Курс: ${group.courseNumber}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: FigmaColors.darkBlueMain,
+                    ),
+                  ),
+                  Text(
+                    'Группа: ${group.groupNumber}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: FigmaColors.darkBlueMain,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

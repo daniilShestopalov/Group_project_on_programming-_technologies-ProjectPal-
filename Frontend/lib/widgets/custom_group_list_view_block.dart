@@ -2,17 +2,19 @@ import 'package:project_pal/core/app_export.dart';
 
 class CustomGroupListViewBlock extends StatelessWidget {
   final int userId;
-
+  final User user;
 
   const CustomGroupListViewBlock({
-    Key? key, required this.userId,
+    Key? key,
+    required this.userId,
+    required this.user,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppRoutes.navigateToPageWithFadeTransition(context, ProfileViewPage(userId: userId));
+        AppRoutes.navigateToPageWithFadeTransition(context, ProfileViewPage(userId: userId, userViewId: user.id));
       },
       child: Container(
         width: 312,
@@ -35,7 +37,7 @@ class CustomGroupListViewBlock extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                DataUtils.getUserFullNameById(userId),
+                '${user.surname} ${user.name} ${user.patronymic}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,

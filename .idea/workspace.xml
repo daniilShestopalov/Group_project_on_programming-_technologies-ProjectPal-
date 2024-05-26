@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="20c8accb-b2c1-4a18-b041-e4300cde7315" name="Changes" comment="Переработка старых экранов. Доведение до ума и обновление дизайна">
       <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/android12splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/android12splash.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/splash.png" afterDir="false" />
@@ -33,9 +32,15 @@
       <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/core/app_export.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/core/app_export.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/complaint_content_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/complaint_content_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/groups_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/groups_page_content.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/groups_view_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/groups_view_page_content.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/professors_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/professors_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_view_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_view_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/groups_view_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/groups_view_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/profile_view_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/profile_view_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_1.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page/registration_page_2.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_1.dart" beforeDir="false" />
@@ -51,6 +56,7 @@
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_3.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page_4.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_list_block.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_list_block.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_list_view_block.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_list_view_block.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -101,6 +107,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2fHPk8rwdCAzLkcKhqF44mwGXxE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -121,6 +130,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }

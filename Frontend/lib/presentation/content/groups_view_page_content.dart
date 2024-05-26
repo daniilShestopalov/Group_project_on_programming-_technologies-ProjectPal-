@@ -2,9 +2,9 @@ import 'package:project_pal/core/app_export.dart';
 
 class GroupsViewPageContent extends StatefulWidget {
   final int userId;
-  final String groupNumber;
+  final Group group;
 
-  const GroupsViewPageContent({Key? key, required this.userId, required this.groupNumber}) : super(key: key);
+  const GroupsViewPageContent({Key? key, required this.userId, required this.group}) : super(key: key);
 
   @override
   _GroupsViewPageContentState createState() => _GroupsViewPageContentState();
@@ -12,17 +12,44 @@ class GroupsViewPageContent extends StatefulWidget {
 
 class _GroupsViewPageContentState extends State<GroupsViewPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  final ApiService apiService = ApiService();
 
   SortOrder sortOrder = SortOrder.ascending;
   int selectedIndex = 0;
 
   List<int> studentUserIds = [];
+  List<User> students = [];
 
   @override
   void initState() {
     super.initState();
+    _loadStudents();
+  }
 
-    studentUserIds = DataUtils.getUserIdsByGroupNumber(MockData.usersData, widget.groupNumber);
+  Future<void> _loadStudents() async {
+    try {
+      final token = await apiService.getJwtToken();
+      final loadedStudents = await apiService.getUsersByGroup(widget.group.id, token!);
+
+      setState(() {
+        students = loadedStudents;
+        studentUserIds = students.map((student) => student.id).toList();
+      });
+    } catch (error) {
+      print('Error loading students: $error');
+    }
+  }
+
+  void _sortStudentsByFullName() {
+    setState(() {
+      if (sortOrder == SortOrder.ascending) {
+        students.sort((a, b) => a.surname.compareTo(b.surname));
+        sortOrder = SortOrder.descending;
+      } else {
+        students.sort((a, b) => b.surname.compareTo(a.surname));
+        sortOrder = SortOrder.ascending;
+      }
+    });
   }
 
   @override
@@ -42,12 +69,16 @@ class _GroupsViewPageContentState extends State<GroupsViewPageContent> {
                   Expanded(
                     child: Center(
                       child: CustomText(
-                        text: 'Группа ' + widget.groupNumber,
-                        style: figmaTextStyles.header1Medium.copyWith(
-                          color: FigmaColors.darkBlueMain,
-                        ),
-                      ),
+                    text: 'Группа ${widget.group.groupNumber}',
+                    style: figmaTextStyles.header1Medium.copyWith(
+                      color: FigmaColors.darkBlueMain,
+                    ), align: TextAlign.center,
+                  ),
                     ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.sort_by_alpha),
+                    onPressed: _sortStudentsByFullName,
                   ),
                 ],
               ),
@@ -65,7 +96,8 @@ class _GroupsViewPageContentState extends State<GroupsViewPageContent> {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16),
                   child: CustomGroupListViewBlock(
-                    userId: studentUserIds[index],
+                    userId: widget.userId,
+                    user: students[index],
                   ),
                 );
               },

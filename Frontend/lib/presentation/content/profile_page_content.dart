@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_pal/core/app_export.dart';
 
+
 class ProfilePageContent extends StatefulWidget {
   final int userId;
 
@@ -12,13 +13,11 @@ class ProfilePageContent extends StatefulWidget {
 }
 
 class _ProfilePageContentState extends State<ProfilePageContent> {
-  final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   final ApiService apiService = ApiService();
+  final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   bool isEditing = false;
   File? _image;
   User? _user;
-
-  final picker = ImagePicker();
 
   @override
   void initState() {
@@ -42,22 +41,46 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     }
   }
 
-  Future getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> getImage() async {
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      final fileNameWithExtension = pickedFile.path.split('/').last;
-      _image = File(pickedFile.path);
-      final token = await apiService.getJwtToken();
-      if (token != null) {
-        apiService.updateUserAvatar(token, widget.userId, fileNameWithExtension);
+      if (pickedFile != null) {
+        final token = await apiService.getJwtToken();
+
+        if (token != null) {
+          try {
+            // Обновляем аватар пользователя на сервере
+            await apiService.updateUserAvatar(token, widget.userId, pickedFile.name);
+
+            // Загружаем выбранное изображение на сервер в качестве аватара
+            await apiService.uploadAvatar(token, File(pickedFile.path));
+
+            // Если нужно, можете использовать uploadedFilename для чего-то еще
+
+            setState(() {
+              // Обновляем состояние после успешной загрузки и обновления аватара
+            });
+          } catch (e) {
+            print('Error uploading or updating avatar: $e');
+            // Показываем сообщение об ошибке пользователю
+          }
+        } else {
+          print('Failed to retrieve token');
+        }
+      } else {
+        print('No image selected.');
       }
-    } else {
-      print('No image selected.');
-    }
 
-    setState(() {}); // Обновляем состояние после изменения изображения
+      setState(() {
+        // Обновляем состояние после изменения изображения
+      });
+    } catch (e) {
+      print('Error getting image: $e');
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,25 +118,25 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CustomTextField(
-                hintText: _user!.login ?? '',
+                hintText: _user!.login,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: _user!.surname ?? '',
+                hintText: _user!.surname,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: _user!.patronymic ?? '',
+                hintText: _user!.patronymic,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: _user!.phoneNumber ?? '',
+                hintText: _user!.phoneNumber,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
@@ -147,4 +170,3 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
         : Center(child: CircularProgressIndicator());
   }
 }
-
