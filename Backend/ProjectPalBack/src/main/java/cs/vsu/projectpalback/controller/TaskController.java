@@ -70,7 +70,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/group/date")
+    @PostMapping("/group/date")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get tasks by date and group", description = "Returns a list of tasks by the given date and group ID")
     public ResponseEntity<List<TaskDTO>> getTasksByDateAndGroup(@RequestBody IdWithTimeDateDTO idWithTimeDateDTO) {
@@ -86,7 +86,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/group/month")
+    @PostMapping("/group/month")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get tasks by month and group", description = "Returns a list of tasks by the given month and group ID")
     public ResponseEntity<List<TaskDTO>> getTasksByMonthAndGroup(@RequestBody IdWithMonthDTO idWithMonthDTO) {
@@ -102,7 +102,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/teacher/date")
+    @PostMapping("/teacher/date")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get tasks by date and teacher (admin, teacher)", description = "Returns a list of tasks by the given date and teacher ID")
     public ResponseEntity<List<TaskDTO>> getTasksByDateAndTeacher(@RequestBody IdWithTimeDateDTO idWithTimeDateDTO) {
@@ -118,7 +118,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/teacher/month")
+    @PostMapping("/teacher/month")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get tasks by month and teacher (admin, teacher)", description = "Returns a list of tasks by the given month and teacher ID")
     public ResponseEntity<List<TaskDTO>> getTasksByMonthAndTeacher(@RequestBody IdWithMonthDTO idWithMonthDTO) {

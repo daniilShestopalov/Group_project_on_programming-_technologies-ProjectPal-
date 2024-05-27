@@ -56,7 +56,7 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/teacher/date-time")
+    @PostMapping("/teacher/date-time")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get projects by date and teacher ID (admin, teacher)", description = "Returns a list of projects by the given date and teacher ID")
     public ResponseEntity<List<ProjectDTO>> getProjectsByDateAndTeacherId(@RequestBody IdWithTimeDateDTO teacherWithTimeDateDTO) {
@@ -72,7 +72,7 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/teacher/month")
+    @PostMapping("/teacher/month")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get projects by month and teacher ID (admin, teacher)", description = "Returns a list of projects by the given month and teacher ID")
     public ResponseEntity<List<ProjectDTO>> getProjectsByMonthAndTeacherId(@RequestBody IdWithMonthDTO teacherWithMonthDTO) {
@@ -102,7 +102,7 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/student/date-time")
+    @PostMapping("/student/date-time")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get projects by student ID and date", description = "Returns a list of projects by the given student ID and date")
     public ResponseEntity<List<ProjectDTO>> getProjectsByStudentIdAndDate(@RequestBody IdWithTimeDateDTO idWithTimeDateDTO) {
@@ -118,7 +118,7 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/student/month")
+    @PostMapping("/student/month")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get projects by student ID and month", description = "Returns a list of projects by the given student ID and month")
     public ResponseEntity<List<ProjectDTO>> getProjectsByStudentIdAndMonth(@RequestBody IdWithMonthDTO idWithMonthDTO) {

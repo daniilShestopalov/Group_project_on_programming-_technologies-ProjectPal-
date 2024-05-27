@@ -71,7 +71,7 @@ public class TaskAnswerController {
         }
     }
 
-    @GetMapping("/task/student")
+    @PostMapping("/task/student")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get task answer by task ID and student ID", description = "Returns a task answer by the given task ID and student ID")
     public ResponseEntity<TaskAnswerDTO> getTaskAnswerByTaskIdAndStudentId(@RequestBody UserIdTaskIdDTO userIdTaskIdDTO) {
