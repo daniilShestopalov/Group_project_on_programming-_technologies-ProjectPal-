@@ -236,7 +236,8 @@ class ApiService {
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        final userData = json.decode(response.body);
+        final utf8Body = utf8.decode(response.bodyBytes); // Явное декодирование в UTF-8
+        final userData = json.decode(utf8Body);
         return User.fromJson(userData);
       } else {
         throw Exception('Failed to load user data');
@@ -246,6 +247,7 @@ class ApiService {
       throw Exception('Error: $e');
     }
   }
+
 
   Future<List<User>> getUsersByGroup(int groupId, String token) async {
     final response = await http.get(
@@ -263,6 +265,74 @@ class ApiService {
       throw Exception('Failed to load users by group');
     }
   }
+
+
+
+  Future<List<Tasks>> getTasksByMonthAndGroup(int groupId, int year, int month, String token) async {
+    final url = Uri.parse('$baseUrl/task/group/month');
+    final Map<String, dynamic> requestBody = {
+      'id': groupId,
+      'yearMonth': "$year-0$month"
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json', // Устанавливаем тип контента как JSON
+        },
+        body: jsonEncode(requestBody), // Кодируем тело запроса в JSON
+      );
+
+      if (response.statusCode == 200) {
+        // Вывод тела ответа (весь список задач)
+        print('Тело ответа в UTF-8:');
+        print(utf8.decode(response.bodyBytes)); // Вывод в UTF-8
+
+        List<dynamic> data = jsonDecode(response.body);
+        return data.map((taskJson) => Tasks.fromJson(taskJson)).toList();
+      } else {
+        throw Exception('Failed to load tasks: ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the server: $e');
+    }
+  }
+
+
+  Future<List<Tasks>> getTasksByDayAndGroup(int groupId, DateTime date, String token) async {
+    final url = Uri.parse('$baseUrl/task/group/date');
+    final Map<String, dynamic> requestBody = {
+      'id': groupId,
+      'date': date.toIso8601String(),
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json', // Устанавливаем тип контента как JSON
+        },
+        body: jsonEncode(requestBody), // Кодируем тело запроса в JSON
+      );
+
+      if (response.statusCode == 200) {
+        // Вывод тела ответа (весь список задач)
+        print('Тело ответа в UTF-8:');
+        print(utf8.decode(response.bodyBytes)); // Вывод в UTF-8
+
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((json) => Tasks.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load tasks: ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the server: $e');
+    }
+  }
+
 
   Future<List<User>> getUsersByRole(String role, String token) async {
     final response = await http.get(
@@ -289,20 +359,27 @@ class ApiService {
   }
 
 
-  Future<void> updateUserWithoutPassword({
-    required int id,
-    required String login,
-    required String name,
-    required String surname,
-    required String patronymic,
-    required String phoneNumber,
-    required String avatarLink,
-    required String role,
-    required int groupId,
-    required String token,
-  }) async {
+  Future<void> updateUserWithoutPassword({required int id,
+    required String login, required String name,
+    required String surname, required String patronymic,
+    required String phoneNumber, required String avatarLink,
+    required String role, required int groupId,
+    required String token,}) async {
+
+    final data = jsonEncode(<String, dynamic>{
+      'id': id,
+      'login': login,
+      'name': name,
+      'surname': surname,
+      'patronymic': patronymic,
+      'phoneNumber': phoneNumber,
+      'avatarLink': avatarLink,
+      'role': role,
+      'groupId': groupId,
+    });
 
     print('Updating user'); // Debug print
+    print('Data to be sent: $data');
 
     final response = await http.put(
       Uri.parse('$baseUrl/user/without-password'),
@@ -332,8 +409,6 @@ class ApiService {
       throw Exception('Failed to update user');
     }
   }
-
-
 
 
 
@@ -417,5 +492,40 @@ class User {
       'role': role,
       'groupId': groupId,
     };
+  }
+}
+
+class Tasks {
+  final int id;
+  final String name;
+  final int teacherUserId;
+  final int groupId;
+  final String description;
+  final String fileLink;
+  final DateTime startDate;
+  final DateTime endDate;
+
+  Tasks({
+    required this.id,
+    required this.name,
+    required this.teacherUserId,
+    required this.groupId,
+    required this.description,
+    required this.fileLink,
+    required this.startDate,
+    required this.endDate,
+  });
+
+  factory Tasks.fromJson(Map<String, dynamic> json) {
+    return Tasks(
+      id: json['id'],
+      name: json['name'],
+      teacherUserId: json['teacherUserId'],
+      groupId: json['groupId'],
+      description: json['description'],
+      fileLink: json['fileLink'],
+      startDate: DateTime.parse(json['startDate']),
+      endDate: DateTime.parse(json['endDate']),
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class CustomCalendarGrid extends StatelessWidget {
@@ -21,12 +22,17 @@ class CustomCalendarGrid extends StatelessWidget {
           final int dayOfMonth = dateTime.day;
           final int dayOfWeek = dateTime.weekday;
           final Color dayColor = _getDayColor(dayOfWeek);
-          final int tasksCount = tasksPerDay[dateTime] ?? 0;
+
+          final int tasksCount = tasksPerDay[dateTime]?.toInt() ?? 0;
+          print('Tasks count for $dateTime: $tasksCount'); // Отладочный вывод
 
           return GestureDetector(
             onTap: () {
-              List<Map<String, dynamic>> tasks = DataUtils.getTasksByDate(dateTime);
-              AppRoutes.navigateToPageWithFadeTransition(context, ConcreteDayPage(userId: userId, tasks: tasks, selectedDate: dateTime));
+              print('Tapped on date: $dateTime');
+              AppRoutes.navigateToPageWithFadeTransition(
+                context,
+                ConcreteDayPage(userId: userId, selectedDate: dateTime, tasks: []),
+              );
             },
             child: Container(
               margin: EdgeInsets.all(4),

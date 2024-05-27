@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class CalendarPageContent extends StatefulWidget {
-
   final int userId;
+
   const CalendarPageContent({Key? key, required this.userId}) : super(key: key);
 
   @override
@@ -13,22 +13,52 @@ class CalendarPageContent extends StatefulWidget {
 class _CalendarPageContentState extends State<CalendarPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   DateTime currentDate = DateTime.now();
+  final ApiService apiService = ApiService();
+  late String token;
+  List<Tasks> tasks = [];  // Изменено с List<Task> на List<Tasks>
+  Map<DateTime, int> tasksPerDay = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    token = await apiService.getJwtToken() ?? '';
+
+    await _fetchTasks();
+  }
+
+  Future<void> _fetchTasks() async {
+    try {
+      final user = await apiService.getUserById(token, widget.userId);
+      final groupId = user.groupId ?? 0;
+      tasks = await apiService.getTasksByMonthAndGroup(
+        groupId,
+        currentDate.year,
+        currentDate.month,
+        token,
+      );
+
+      tasksPerDay.clear();
+      for (var task in tasks) {
+        DateTime endDate = DateTime(task.endDate.year, task.endDate.month, task.endDate.day);
+        tasksPerDay.update(endDate, (value) => value + 1, ifAbsent: () => 1);
+      }
+      print('Таски: $tasksPerDay');
+
+
+
+      setState(() {});
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     List<DateTime> daysInMonth = _getDaysInMonth(currentDate);
-
-    Map<DateTime, int> tasksPerDay = {};
-
-// Проходим по всем задачам в списке tasksData
-    for (var task in MockData.tasksData) {
-      DateTime endDate = task['endDate']; // Берем endDate как ключ для tasksPerDay
-
-      // Если в tasksPerDay уже есть ключ с такой датой, увеличиваем его значение на 1
-      // Иначе создаем новую запись с ключом endDate и значением 1
-      tasksPerDay.update(endDate, (value) => value + 1, ifAbsent: () => 1);
-    }
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,12 +97,14 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
                       setState(() {
                         currentDate = DateTime(currentDate.year, currentDate.month - 1);
                         daysInMonth = _getDaysInMonth(currentDate);
+                        _fetchTasks();
                       });
                     },
                     onTapArrowRight: () {
                       setState(() {
                         currentDate = DateTime(currentDate.year, currentDate.month + 1);
                         daysInMonth = _getDaysInMonth(currentDate);
+                        _fetchTasks();
                       });
                     },
                   ),
@@ -87,7 +119,7 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: CustomCalendarGrid(daysInMonth: daysInMonth, tasksPerDay: tasksPerDay, userId: widget.userId), // Передаем моканные данные в CustomCalendarGrid
+              child: CustomCalendarGrid(daysInMonth: daysInMonth, tasksPerDay: tasksPerDay, userId: widget.userId),
             ),
           ),
         ),
