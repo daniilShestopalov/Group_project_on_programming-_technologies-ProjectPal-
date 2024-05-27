@@ -53,7 +53,7 @@ public class ProjectService {
         LOGGER.info("Fetching projects by month: {} and teacher ID: {}", month, teacherId);
         LocalDateTime startDate = month.atDay(1).atStartOfDay();
         LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
-        List<Project> projects = projectRepository.findByTeacherIdAndStartDateBetween(teacherId, startDate, endDate);
+        List<Project> projects = projectRepository.findByTeacherIdAndEndDateBetween(teacherId, startDate, endDate);
         return projectMapper.toDtoList(projects);
     }
 

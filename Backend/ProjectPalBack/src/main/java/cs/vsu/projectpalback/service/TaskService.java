@@ -53,7 +53,7 @@ public class TaskService {
         LOGGER.info("Fetching tasks by month: {} and group ID: {}", month, groupId);
         LocalDateTime startDate = month.atDay(1).atStartOfDay();
         LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
-        List<Task> tasks = taskRepository.findByGroupIdAndStartDateBetween(groupId, startDate, endDate);
+        List<Task> tasks = taskRepository.findByGroupIdAndEndDateBetween(groupId, startDate, endDate);
         return taskMapper.toDtoList(tasks);
     }
 
@@ -67,7 +67,7 @@ public class TaskService {
         LOGGER.info("Fetching tasks by month: {} and teacher ID: {}", month, teacherId);
         LocalDateTime startDate = month.atDay(1).atStartOfDay();
         LocalDateTime endDate = month.atEndOfMonth().atTime(23, 59, 59);
-        List<Task> tasks = taskRepository.findByTeacherIdAndStartDateBetween(teacherId, startDate, endDate);
+        List<Task> tasks = taskRepository.findByTeacherIdAndEndDateBetween(teacherId, startDate, endDate);
         return taskMapper.toDtoList(tasks);
     }
 
