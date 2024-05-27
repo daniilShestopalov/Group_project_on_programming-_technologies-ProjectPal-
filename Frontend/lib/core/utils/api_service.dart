@@ -21,7 +21,7 @@ class ApiService {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       return User(
-        id: data['id'],
+        id: int.parse(data['id'].toString()),
         name: data['name'],
         surname: data['surname'],
         patronymic: data['patronymic'],
@@ -29,7 +29,8 @@ class ApiService {
         phoneNumber: data['phoneNumber'],
         newPassword: '',
         groupId: data['groupId'],
-        avatarLink: data['avatarLink'], role: '',
+        avatarLink: data['avatarLink'],
+        role: '',
       );
     } else {
       throw Exception('Failed to verify temporary user');
@@ -263,6 +264,78 @@ class ApiService {
     }
   }
 
+  Future<List<User>> getUsersByRole(String role, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/user/role/$role'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      List<User> users = [];
+
+      // Преобразование данных в список объектов User
+      for (var userData in data) {
+        users.add(User.fromJson(userData));
+      }
+
+      return users;
+    } else {
+      throw Exception('Failed to load users by role');
+    }
+  }
+
+
+  Future<void> updateUserWithoutPassword({
+    required int id,
+    required String login,
+    required String name,
+    required String surname,
+    required String patronymic,
+    required String phoneNumber,
+    required String avatarLink,
+    required String role,
+    required int groupId,
+    required String token,
+  }) async {
+
+    print('Updating user'); // Debug print
+
+    final response = await http.put(
+      Uri.parse('$baseUrl/user/without-password'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'id': id,
+        'login': login,
+        'name': name,
+        'surname': surname,
+        'patronymic': patronymic,
+        'phoneNumber': phoneNumber,
+        'avatarLink': avatarLink,
+        'role': role,
+        'groupId': groupId,
+      }),
+    );
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}'); // Debug print
+
+    if (response.statusCode == 200) {
+      print('User updated successfully');
+    } else {
+      throw Exception('Failed to update user');
+    }
+  }
+
+
+
+
 
 }
 
@@ -300,8 +373,8 @@ class User {
   final String patronymic;
   final String login;
   final String phoneNumber;
-  final String newPassword;
-  final int groupId;
+  final String? newPassword;
+  final int? groupId;
   final String role;
   final String avatarLink;
 
@@ -312,8 +385,8 @@ class User {
     required this.patronymic,
     required this.login,
     required this.phoneNumber,
-    required this.newPassword,
-    required this.groupId,
+    this.newPassword,
+    this.groupId,
     required this.role,
     required this.avatarLink,
   });
@@ -330,5 +403,19 @@ class User {
       groupId: json['groupId'],
       newPassword: '',
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'login': login,
+      'password': newPassword,
+      'name': name,
+      'surname': surname,
+      'patronymic': patronymic,
+      'phoneNumber': phoneNumber,
+      'avatarLink': avatarLink,
+      'role': role,
+      'groupId': groupId,
+    };
   }
 }

@@ -1,8 +1,8 @@
 import 'package:project_pal/core/app_export.dart';
 
-class CustomSideMenu extends StatelessWidget {
-  final FigmaTextStyles figmaTextStyles;
 
+class CustomSideMenu extends StatefulWidget {
+  final FigmaTextStyles figmaTextStyles;
   final int userId;
 
   const CustomSideMenu({
@@ -12,7 +12,51 @@ class CustomSideMenu extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _CustomSideMenuState createState() => _CustomSideMenuState();
+}
+
+class _CustomSideMenuState extends State<CustomSideMenu> {
+  late ApiService apiService;
+  late String token;
+  dynamic user;
+  late String userRole = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    apiService = ApiService();
+    final token = await apiService.getJwtToken();
+    user = await apiService.getUserById(token!, widget.userId);
+
+    // Определение роли пользователя
+    switch (user.role) {
+      case 'STUDENT':
+        userRole = 'Студент';
+        break;
+      case 'TEACHER':
+        userRole = 'Преподаватель';
+        break;
+      case 'ADMIN':
+        userRole = 'Администратор';
+        break;
+      default:
+        userRole = 'Неизвестно';
+    }
+    setState(() {}); // Перестроить виджет после получения данных
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      return CircularProgressIndicator(); // Или другой виджет загрузки
+    }
+
+    bool isProfileVisible = user.role != 'STUDENT';
+
     return Drawer(
       child: Container(
         color: FigmaColors.whiteBackground,
@@ -22,15 +66,15 @@ class CustomSideMenu extends StatelessWidget {
           children: [
             SizedBox(height: 20),
             CustomText(
-              text: DataUtils.getUserFullNameById(userId),
-              style: figmaTextStyles.mediumText.copyWith(
+              text: '${user.surname} ${user.name} ${user.patronymic}',
+              style: widget.figmaTextStyles.mediumText.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),
             ),
             SizedBox(height: 5),
             CustomText(
-              text: DataUtils.getRoleName(DataUtils.getUserRoleById(userId)),
-              style: figmaTextStyles.regularText.copyWith(
+              text: userRole,
+              style: widget.figmaTextStyles.regularText.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),
             ),
@@ -39,21 +83,28 @@ class CustomSideMenu extends StatelessWidget {
               icon: Icons.person,
               text: 'Профиль',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, ProfilePage(userId: userId));
+                AppRoutes.navigateToPageWithFadeTransition(context, ProfilePage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.group,
               text: 'Группы',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, GroupsPage(userId: userId));
+                AppRoutes.navigateToPageWithFadeTransition(context, GroupsPage(userId: widget.userId));
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.groups,
+              text: 'Учащиеся',
+              onTap: () {
+                AppRoutes.navigateToPageWithFadeTransition(context, StudentsPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.account_balance,
               text: 'Преподаватели',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, ProfessorPage(userId: userId,));
+                AppRoutes.navigateToPageWithFadeTransition(context, ProfessorPage(userId: widget.userId));
               },
             ),
             SizedBox(height: 20),
@@ -64,7 +115,7 @@ class CustomSideMenu extends StatelessWidget {
             SizedBox(height: 10),
             CustomText(
               text: 'Основные функции',
-              style: figmaTextStyles.regularText.copyWith(
+              style: widget.figmaTextStyles.regularText.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),
             ),
@@ -73,28 +124,28 @@ class CustomSideMenu extends StatelessWidget {
               icon: Icons.home,
               text: 'Главная',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: userId));
+                AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.calendar_today,
               text: 'Календарь',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, CalendarPage(userId: userId));
+                AppRoutes.navigateToPageWithFadeTransition(context, CalendarPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.assignment,
               text: 'Задания',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: userId));
+                AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.group_work,
               text: 'Проекты',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, ProjectPage(userId: userId));
+                AppRoutes.navigateToPageWithFadeTransition(context, ProjectPage(userId: widget.userId));
               },
             ),
             SizedBox(height: 20),
@@ -107,7 +158,7 @@ class CustomSideMenu extends StatelessWidget {
               icon: Icons.settings,
               text: 'Настройки',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, SettingsPage(userId: userId,));
+                AppRoutes.navigateToPageWithFadeTransition(context, SettingsPage(userId: widget.userId,));
               },
             ),
             _buildMenuItem(
@@ -143,7 +194,7 @@ class CustomSideMenu extends StatelessWidget {
             SizedBox(width: 24),
             CustomText(
               text: text,
-              style: figmaTextStyles.regularText.copyWith(
+              style: widget.figmaTextStyles.regularText.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),
             ),

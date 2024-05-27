@@ -17,7 +17,6 @@ class _GroupsViewPageContentState extends State<GroupsViewPageContent> {
   SortOrder sortOrder = SortOrder.ascending;
   int selectedIndex = 0;
 
-  List<int> studentUserIds = [];
   List<User> students = [];
 
   @override
@@ -33,7 +32,6 @@ class _GroupsViewPageContentState extends State<GroupsViewPageContent> {
 
       setState(() {
         students = loadedStudents;
-        studentUserIds = students.map((student) => student.id).toList();
       });
     } catch (error) {
       print('Error loading students: $error');
@@ -91,7 +89,7 @@ class _GroupsViewPageContentState extends State<GroupsViewPageContent> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ListView.builder(
-              itemCount: studentUserIds.length,
+              itemCount: students.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16),

@@ -2,12 +2,9 @@ import 'package:project_pal/core/app_export.dart';
 
 class RegistrationPage2 extends StatelessWidget {
 
-  final int id;
-  final String name;
-  final String surname;
-  final String patronymic;
+  final User user;
 
-  RegistrationPage2({required this.name, required this.surname, required this.patronymic, required this.id});
+  RegistrationPage2({required this.user});
 
   final TextEditingController loginController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -59,19 +56,19 @@ class RegistrationPage2 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomTextField(
-                      hintText: surname,
+                      hintText: '${user.name}',
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
                     CustomTextField(
-                      hintText: name,
+                      hintText: '${user.surname}',
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
                     CustomTextField(
-                      hintText: patronymic,
+                      hintText: '${user.patronymic}',
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
@@ -131,7 +128,7 @@ class RegistrationPage2 extends StatelessWidget {
                           }
 
                           try {
-                            await apiService.registerUser(id, login, phoneNumber, password);
+                            await apiService.registerUser(user.id, login, phoneNumber, password);
                             print("registration successful");
 
                             // Переход на следующую страницу после успешной регистрации

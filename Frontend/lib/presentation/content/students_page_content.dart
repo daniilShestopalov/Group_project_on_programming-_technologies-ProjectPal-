@@ -1,19 +1,19 @@
 import 'package:project_pal/core/app_export.dart';
 
-class ProfessorPageContent extends StatefulWidget {
+class StudentsPageContent extends StatefulWidget {
   final int userId;
 
-  const ProfessorPageContent({Key? key, required this.userId}) : super(key: key);
+  const StudentsPageContent({Key? key, required this.userId}) : super(key: key);
 
   @override
-  _ProfessorPageContentState createState() => _ProfessorPageContentState();
+  _StudentsPageContentState createState() => _StudentsPageContentState();
 }
 
-class _ProfessorPageContentState extends State<ProfessorPageContent> {
+class _StudentsPageContentState extends State<StudentsPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   final ApiService apiService = ApiService();
 
-  List<User> professors = []; // Список преподавателей
+  List<User> students = []; // Список преподавателей
 
   @override
   void initState() {
@@ -28,9 +28,9 @@ class _ProfessorPageContentState extends State<ProfessorPageContent> {
 
     try {
       // Получаем список преподавателей из API
-      final professor = await ApiService().getUsersByRole('TEACHER', token!);
+      final student = await ApiService().getUsersByRole('STUDENT', token!);
       setState(() {
-        professors = professor;
+        students = student;
       });
     } catch (e) {
       print('Error loading professors: $e');
@@ -54,7 +54,7 @@ class _ProfessorPageContentState extends State<ProfessorPageContent> {
                   Expanded(
                     child: Center(
                       child: CustomText(
-                        text: 'Преподаватели',
+                        text: 'Учащиеся',
                         style: figmaTextStyles.header1Medium.copyWith(
                           color: FigmaColors.darkBlueMain,
                         ),
@@ -72,13 +72,13 @@ class _ProfessorPageContentState extends State<ProfessorPageContent> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ListView.builder(
-              itemCount: professors.length,
+              itemCount: students.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16),
                   child: CustomGroupListViewBlock(
                     userId: widget.userId,
-                    user: professors[index],
+                    user: students[index],
 
                   ),
                 );

@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_pal/core/app_export.dart';
 
-
 class ProfilePageContent extends StatefulWidget {
   final int userId;
 
@@ -17,7 +16,13 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   bool isEditing = false;
   File? _image;
-  User? _user;
+  TextEditingController _loginController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _surnameController = TextEditingController();
+  TextEditingController _patronymicController = TextEditingController();
+  TextEditingController _phoneNumberController = TextEditingController();
+  TextEditingController _roleController = TextEditingController();
+  TextEditingController _groupIdController = TextEditingController();
 
   @override
   void initState() {
@@ -29,9 +34,17 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     try {
       final token = await apiService.getJwtToken();
       if (token != null) {
+        print('Token received: $token'); // Debug print
         final user = await apiService.getUserById(token, widget.userId);
+        print('User data received: ${user.toJson()}'); // Debug print
         setState(() {
-          _user = user;
+          _loginController.text = user.login;
+          _nameController.text = user.name;
+          _surnameController.text = user.surname;
+          _patronymicController.text = user.patronymic;
+          _phoneNumberController.text = user.phoneNumber;
+          _roleController.text = user.role; // Используем роль пользователя из данных
+          _groupIdController.text = user.groupId.toString(); // Преобразуем groupId в строку
         });
       } else {
         print('Failed to retrieve token');
@@ -47,24 +60,24 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
+        print('Image selected: ${pickedFile.path}'); // Debug print
         final token = await apiService.getJwtToken();
 
         if (token != null) {
           try {
             // Обновляем аватар пользователя на сервере
             await apiService.updateUserAvatar(token, widget.userId, pickedFile.name);
+            print('User avatar updated'); // Debug print
 
             // Загружаем выбранное изображение на сервер в качестве аватара
             await apiService.uploadAvatar(token, File(pickedFile.path));
-
-            // Если нужно, можете использовать uploadedFilename для чего-то еще
+            print('Avatar uploaded'); // Debug print
 
             setState(() {
-              // Обновляем состояние после успешной загрузки и обновления аватара
+              _image = File(pickedFile.path); // Обновляем состояние после успешной загрузки и обновления аватара
             });
           } catch (e) {
             print('Error uploading or updating avatar: $e');
-            // Показываем сообщение об ошибке пользователю
           }
         } else {
           print('Failed to retrieve token');
@@ -81,10 +94,9 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return _user != null
+    return _loginController.text.isNotEmpty // Проверяем, загружены ли данные пользователя
         ? Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -118,37 +130,50 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CustomTextField(
-                hintText: _user!.login,
+                hintText: _loginController.text,
+                controller: _loginController,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: _user!.surname,
+                hintText: _nameController.text,
+                controller: _nameController,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: _user!.patronymic,
+                hintText: _surnameController.text,
+                controller: _surnameController,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: _user!.phoneNumber,
+                hintText: _patronymicController.text,
+                controller: _patronymicController,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: DataUtils.getRoleName(_user!.role),
+                hintText: _phoneNumberController.text,
+                controller: _phoneNumberController,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
               CustomTextField(
-                hintText: 'Группа ' + _user!.groupId.toString(),
+                hintText: _roleController.text,
+                controller: _roleController,
+                figmaTextStyles: figmaTextStyles,
+                enabled: isEditing,
+              ),
+              SizedBox(height: 16),
+              CustomTextField(
+                hintText: _groupIdController.text,
+                controller: _groupIdController,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
@@ -158,10 +183,39 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
         SizedBox(height: 36),
         CustomButton(
           text: (isEditing ? 'Сохранить' : 'Изменить данные'),
-          onPressed: () {
-            setState(() {
-              isEditing = !isEditing;
-            });
+          onPressed: () async {
+            if (isEditing) {
+              String? token = await apiService.getJwtToken();
+              if (token != null) {
+                print('Token for updating user: $token'); // Debug print
+                try {
+                  await apiService.updateUserWithoutPassword(
+                      id: widget.userId,
+                      login: _loginController.text,
+                      name: _nameController.text,
+                      surname: _surnameController.text,
+                      patronymic: _patronymicController.text,
+                      phoneNumber: _phoneNumberController.text,
+                      avatarLink: _image != null ? _image!.path : '',
+                      role: _roleController.text,
+                      groupId: int.parse(_groupIdController.text),
+                      token: token,
+                  );
+                  setState(() {
+                    isEditing = false;
+                  });
+                  print('User updated successfully'); // Debug print
+                } catch (e) {
+                  print('Error updating user: $e');
+                }
+              } else {
+                print('Failed to retrieve token for updating user');
+              }
+            } else {
+              setState(() {
+                isEditing = true;
+              });
+            }
           },
           figmaTextStyles: figmaTextStyles,
         )

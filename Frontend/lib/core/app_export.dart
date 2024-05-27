@@ -68,3 +68,5 @@ export 'package:project_pal/presentation/content/task_create_page_content.dart';
 export 'package:project_pal/widgets/custom_task_block_open_create.dart';
 export 'package:project_pal/presentation/pages/complaint_page.dart';
 export 'package:project_pal/presentation/content/complaint_content_page.dart';
+export 'package:project_pal/presentation/content/students_page_content.dart';
+export 'package:project_pal/presentation/pages/students_page.dart';

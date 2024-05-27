@@ -11,6 +11,22 @@ class MainPageContent extends StatefulWidget {
 
 class _MainPageContentState extends State<MainPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  late ApiService apiService;
+  late String token;
+  dynamic user;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    apiService = ApiService();
+    final token = await apiService.getJwtToken();
+    user = await apiService.getUserById(token!, widget.userId);
+    setState(() {}); // Перестроить виджет после получения данных
+  }
 
   int completedTasks = 2;
   int notCompletedTasks = 4;
@@ -43,10 +59,14 @@ class _MainPageContentState extends State<MainPageContent> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (user == null) {
+      return CircularProgressIndicator(); // Или другой виджет загрузки
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Ваш кастомный AppBar
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
@@ -56,7 +76,7 @@ class _MainPageContentState extends State<MainPageContent> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
-                    text: 'Добрый день,\n' + DataUtils.getUserNameById(widget.userId),
+                    text: 'Добрый день,\n' + '${user.name}',
                     style: figmaTextStyles.header2Regular.copyWith(
                       color: FigmaColors.darkBlueMain,
                     ),

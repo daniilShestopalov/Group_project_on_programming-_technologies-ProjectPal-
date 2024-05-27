@@ -68,7 +68,7 @@ class WelcomePage2 extends StatelessWidget {
                   width: screenSize.width * 0.254,
                   height: screenSize.width * 0.254,
                   child: Image.asset(
-                    ImageConstant.buttonNext1,
+                    ImageConstant.buttonNext2,
                   ),
                 ),
               ),

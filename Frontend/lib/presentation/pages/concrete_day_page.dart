@@ -26,7 +26,7 @@ class _ConcreteDayState extends State<ConcreteDayPage> {
         userId: widget.userId,
       ),
       drawer: CustomSideMenu(figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
-      body: DataUtils.getUserRoleById(widget.userId) == 'student' ? ConcreteDayPageContent(userId: widget.userId, tasks: widget.tasks, selectedDate: widget.selectedDate,) : null,
+      body: ConcreteDayPageContent(userId: widget.userId, tasks: widget.tasks, selectedDate: widget.selectedDate,),
       bottomNavigationBar: CustomBottomBar(currentPage: '', userId: widget.userId,), // Добавляем кастомный нижний бар
     );
   }
