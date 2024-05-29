@@ -29,14 +29,17 @@ public class FileController {
     @PostMapping("/upload/avatar")
     public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
         if (!FileUtils.isImage(file)) {
+            LOGGER.warn("Upload attempt with non-image file for avatar");
             return ResponseEntity.status(415).body("Only image files are allowed for avatars");
         }
         if (file.getSize() > FileUtils.MAX_IMAGE_FILE_SIZE) {
+            LOGGER.warn("Upload attempt with file larger than allowed size for avatar");
             return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File size must be less than 2MB");
         }
         try {
             String filename = fileService.saveAvatar(file);
-            return ResponseEntity.ok(filename);
+            LOGGER.info("Avatar uploaded successfully: {}", filename);
+            return ResponseEntity.ok("Avatar uploaded successfully");
         } catch (RuntimeException e) {
             LOGGER.error("Error uploading avatar", e);
             return ResponseEntity.status(500).body("Error uploading avatar");
@@ -48,11 +51,13 @@ public class FileController {
     @PostMapping("/upload/task")
     public ResponseEntity<String> uploadTaskFile(@RequestParam("file") MultipartFile file) {
         if (!FileUtils.isPdf(file)) {
+            LOGGER.warn("Upload attempt with non-PDF file for task");
             return ResponseEntity.status(415).body("Only PDF files are allowed for tasks");
         }
         try {
             String filename = fileService.saveTaskFile(file);
-            return ResponseEntity.ok(filename);
+            LOGGER.info("Task file uploaded successfully: {}", filename);
+            return ResponseEntity.ok("Task file uploaded successfully");
         } catch (RuntimeException e) {
             LOGGER.error("Error uploading task file", e);
             return ResponseEntity.status(500).body("Error uploading task file");
@@ -64,11 +69,13 @@ public class FileController {
     @PostMapping("/upload/project")
     public ResponseEntity<String> uploadProjectFile(@RequestParam("file") MultipartFile file) {
         if (!FileUtils.isPdf(file)) {
+            LOGGER.warn("Upload attempt with non-PDF file for project");
             return ResponseEntity.status(415).body("Only PDF files are allowed for projects");
         }
         try {
             String filename = fileService.saveProjectFile(file);
-            return ResponseEntity.ok(filename);
+            LOGGER.info("Project file uploaded successfully: {}", filename);
+            return ResponseEntity.ok("Project file uploaded successfully");
         } catch (RuntimeException e) {
             LOGGER.error("Error uploading project file", e);
             return ResponseEntity.status(500).body("Error uploading project file");
@@ -80,11 +87,13 @@ public class FileController {
     @PostMapping("/upload/task-answer")
     public ResponseEntity<String> uploadTaskAnswerFile(@RequestParam("file") MultipartFile file) {
         if (!FileUtils.isPdf(file)) {
+            LOGGER.warn("Upload attempt with non-PDF file for task answer");
             return ResponseEntity.status(415).body("Only PDF files are allowed for task answers");
         }
         try {
             String filename = fileService.saveTaskAnswerFile(file);
-            return ResponseEntity.ok(filename);
+            LOGGER.info("Task answer file uploaded successfully: {}", filename);
+            return ResponseEntity.ok("Task answer file uploaded successfully");
         } catch (RuntimeException e) {
             LOGGER.error("Error uploading task answer file", e);
             return ResponseEntity.status(500).body("Error uploading task answer file");
@@ -96,11 +105,13 @@ public class FileController {
     @PostMapping("/upload/project-answer")
     public ResponseEntity<String> uploadProjectAnswerFile(@RequestParam("file") MultipartFile file) {
         if (!FileUtils.isPdf(file)) {
+            LOGGER.warn("Upload attempt with non-PDF file for project answer");
             return ResponseEntity.status(415).body("Only PDF files are allowed for project answers");
         }
         try {
             String filename = fileService.saveProjectAnswerFile(file);
-            return ResponseEntity.ok(filename);
+            LOGGER.info("Project answer file uploaded successfully: {}", filename);
+            return ResponseEntity.ok("Project answer file uploaded successfully");
         } catch (RuntimeException e) {
             LOGGER.error("Error uploading project answer file", e);
             return ResponseEntity.status(500).body("Error uploading project answer file");
@@ -111,6 +122,7 @@ public class FileController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/download/avatar/{filename}")
     public ResponseEntity<Resource> getAvatar(@PathVariable String filename) {
+        LOGGER.info("Downloading avatar image: {}", filename);
         return FileUtils.getFileResponse(fileService.getAvatar(filename), filename);
     }
 
@@ -118,6 +130,7 @@ public class FileController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/download/task/{filename}")
     public ResponseEntity<Resource> getTaskFile(@PathVariable String filename) {
+        LOGGER.info("Downloading task file: {}", filename);
         return FileUtils.getFileResponse(fileService.getTaskFile(filename), filename);
     }
 
@@ -125,6 +138,7 @@ public class FileController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/download/project/{filename}")
     public ResponseEntity<Resource> getProjectFile(@PathVariable String filename) {
+        LOGGER.info("Downloading project file: {}", filename);
         return FileUtils.getFileResponse(fileService.getProjectFile(filename), filename);
     }
 
@@ -132,6 +146,7 @@ public class FileController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/download/task-answer/{filename}")
     public ResponseEntity<Resource> getTaskAnswerFile(@PathVariable String filename) {
+        LOGGER.info("Downloading task answer file: {}", filename);
         return FileUtils.getFileResponse(fileService.getTaskAnswerFile(filename), filename);
     }
 
@@ -139,6 +154,7 @@ public class FileController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/download/project-answer/{filename}")
     public ResponseEntity<Resource> getProjectAnswerFile(@PathVariable String filename) {
+        LOGGER.info("Downloading project answer file: {}", filename);
         return FileUtils.getFileResponse(fileService.getProjectAnswerFile(filename), filename);
     }
 }
