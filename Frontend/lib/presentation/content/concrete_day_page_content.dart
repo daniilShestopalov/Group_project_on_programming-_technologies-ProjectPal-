@@ -135,6 +135,8 @@ class _ConcreteDayPageContentState extends State<ConcreteDayPageContent> {
           endDate: task.endDate,
           teacher: "${teacher.name} ${teacher.surname} ${teacher.patronymic}",
           userId: widget.userId,
+          description: task.description,
+          taskId: task.id,
         );
       }).toList());
 

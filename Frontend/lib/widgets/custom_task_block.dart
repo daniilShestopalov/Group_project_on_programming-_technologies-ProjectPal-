@@ -5,12 +5,16 @@ class TaskBlockWidget extends StatefulWidget {
   final DateTime endDate;
   final String teacher;
   final int userId;
+  final String description;
+  final int taskId;
 
   TaskBlockWidget({
     required this.subject,
     required this.endDate,
     required this.teacher,
     required this.userId,
+    required this.description,
+    required this.taskId,
   });
 
   @override
@@ -51,6 +55,8 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
               subject: widget.subject,
               date: endDate,
               teacher: widget.teacher,
+              description: widget.description,
+              taskId: widget.taskId,
             ),
           );
         },

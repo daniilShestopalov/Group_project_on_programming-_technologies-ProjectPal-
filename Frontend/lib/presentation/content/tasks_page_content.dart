@@ -3,7 +3,10 @@ import 'package:project_pal/core/app_export.dart';
 class TasksPageContent extends StatefulWidget {
   final int userId;
 
-  const TasksPageContent({Key? key, required this.userId}) : super(key: key);
+  const TasksPageContent({
+    Key? key,
+    required this.userId,
+  }) : super(key: key);
 
   @override
   _TasksPageContentState createState() => _TasksPageContentState();
@@ -11,21 +14,16 @@ class TasksPageContent extends StatefulWidget {
 
 class _TasksPageContentState extends State<TasksPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
-
+  final ApiService apiService = ApiService();
   SortOrder sortOrder = SortOrder.ascending;
   int selectedIndex = 0;
+  List<TaskBlockWidget> taskBlocks = [];
 
-  List<TaskBlockWidget> taskBlocks = DataUtils.getTasksData().map((taskData) {
-    Duration daysUntilEndDate = taskData['endDate'].difference(DateTime.now());
-    String remainingDays = '${daysUntilEndDate.inDays}';
-
-    return TaskBlockWidget(
-      subject: taskData['name'],
-      endDate: DateTime.now(),
-      teacher: DataUtils.getTeacherNameById(taskData['teacherId']),
-      userId: 0,
-    );
-  }).toList();
+  @override
+  void initState() {
+    super.initState();
+    fetchTasks();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +107,11 @@ class _TasksPageContentState extends State<TasksPageContent> {
                     padding: EdgeInsets.only(bottom: 16),
                     child: TaskBlockWidget(
                       subject: taskBlocks[index].subject,
-                      endDate: DateTime.now(),
+                      endDate: taskBlocks[index].endDate,
                       teacher: taskBlocks[index].teacher,
                       userId: widget.userId,
+                      description: taskBlocks[index].description,
+                      taskId: taskBlocks[index].taskId,
                     ),
                   );
                 },
@@ -132,15 +132,39 @@ class _TasksPageContentState extends State<TasksPageContent> {
     );
   }
 
-  /*void sortTasksByDeadline() {
+  Future<void> fetchTasks() async {
+    try {
+      final token = await apiService.getJwtToken() ?? '';
+      final User user = await apiService.getUserById(token, widget.userId);
+      int groupId = user.groupId!;
+      final tasks = await apiService.getTasksByGroupId(token, groupId);
+      final taskBlockWidgets = await Future.wait(tasks.map((task) async {
+        final teacher = await apiService.getUserById(token, task.teacherUserId);
+        return TaskBlockWidget(
+          subject: task.name,
+          endDate: task.endDate,
+          teacher: "${teacher.name} ${teacher.surname} ${teacher.patronymic}",
+          userId: widget.userId,
+          description: task.description,
+          taskId: task.id,
+        );
+      }).toList());
+
+      setState(() {
+        taskBlocks = taskBlockWidgets;
+      });
+    } catch (e) {
+      print('Error fetching tasks: $e');
+    }
+  }
+
+  void sortTasksByDeadline() {
     setState(() {
       taskBlocks.sort((a, b) {
-        int remainingDaysA = int.parse(a.date);
-        int remainingDaysB = int.parse(b.date);
-        return sortOrder == SortOrder.ascending ? remainingDaysA.compareTo(remainingDaysB) : remainingDaysB.compareTo(remainingDaysA);
+        return sortOrder == SortOrder.ascending ? a.endDate.compareTo(b.endDate) : b.endDate.compareTo(a.endDate);
       });
     });
-  }*/
+  }
 
   void sortTasksByTeacher() {
     setState(() {
@@ -161,7 +185,7 @@ class _TasksPageContentState extends State<TasksPageContent> {
   void sortTasks(int index) {
     switch (index) {
       case 0:
-        /*sortTasksByDeadline();*/
+        sortTasksByDeadline();
         break;
       case 1:
         sortTasksByTeacher();

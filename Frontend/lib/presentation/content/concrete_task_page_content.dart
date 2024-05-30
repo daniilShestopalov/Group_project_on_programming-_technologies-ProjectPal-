@@ -6,12 +6,16 @@ class ConcreteTaskPageContent extends StatefulWidget {
   final String subject;
   final String date;
   final String teacher;
+  final String description;
+  final int taskId;
 
   const ConcreteTaskPageContent({
     required this.userId,
     required this.subject,
     required this.date,
     required this.teacher,
+    required this.description,
+    required this.taskId,
   });
 
   @override
@@ -25,13 +29,14 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16),
     child: Container(
-      padding: EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(top: 26),
       child: TaskBlockOpenWidget(
         subject: widget.subject,
         date: widget.date,
         teacher: widget.teacher,
         userId: widget.userId,
-        instruction: '',
+        instruction: widget.description,
+        taskId: widget.taskId,
       ),
     ),
   );

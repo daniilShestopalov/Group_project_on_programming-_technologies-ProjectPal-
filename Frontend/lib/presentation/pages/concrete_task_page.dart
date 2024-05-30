@@ -6,6 +6,8 @@ class ConcreteTaskPage extends StatefulWidget {
   final String subject;
   final String date;
   final String teacher;
+  final String description;
+  final int taskId;
 
   const ConcreteTaskPage({
     Key? key,
@@ -13,6 +15,7 @@ class ConcreteTaskPage extends StatefulWidget {
     required this.subject,
     required this.date,
     required this.teacher,
+    required this.description, required this.taskId,
   }) : super(key: key);
 
   @override
@@ -38,6 +41,8 @@ class _ConcreteTaskState extends State<ConcreteTaskPage> {
         subject: widget.subject,
         date: widget.date,
         teacher: widget.teacher,
+        description: widget.description,
+        taskId: widget.taskId,
       ),
       bottomNavigationBar: CustomBottomBar(currentPage: 'task', userId: widget.userId,), // Добавляем кастомный нижний бар
     );

@@ -8,6 +8,7 @@ import 'package:project_pal/core/app_export.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+
 class ApiService {
   final String baseUrl = 'http://5.187.83.11:8080';
 
@@ -279,6 +280,32 @@ class ApiService {
 
   }
 
+  Future<File?> downloadTaskAnswer(String token, String filename) async {
+    String url = '$baseUrl/file/download/task-answer/$filename';
+
+    try {
+      var response = await http.get(
+        Uri.parse(url),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (response.statusCode == 200) {
+        Directory tempDir = await getTemporaryDirectory();
+        File file = File('${tempDir.path}/$filename');
+        await file.writeAsBytes(response.bodyBytes);
+        print('Task answer file saved successfully: ${file.path}');
+        return file;
+      } else {
+        // Обработка других статус-кодов при необходимости
+        print('Failed to download task answer file. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error downloading task answer file: $e');
+      return null;
+    }
+  }
+
   Future<User> getUserById(String token, int userId) async {
     try {
       final Uri url = Uri.parse('$baseUrl/user/$userId');
@@ -433,7 +460,7 @@ class ApiService {
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(response.body);
+        final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes)); // Декодирование UTF-8
         return data.map((json) => Tasks.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load user data');
@@ -500,6 +527,110 @@ class ApiService {
       throw Exception('Failed to load users by role');
     }
   }
+
+
+  Future<Map<String, dynamic>> getTaskAnswerById(String token, int id) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/task-answer/$id');
+      print('Request URL: $url');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      } else {
+        throw Exception('Failed to load task answer');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getTaskAnswerByTaskId(String token, int taskId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/task-answer/task/$taskId');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+
+        if (jsonResponse != null && jsonResponse is List) {
+          final List<Map<String, dynamic>> data = jsonResponse.cast<Map<String, dynamic>>();
+          return data;
+        } else {
+          throw Exception('Failed to decode task answer data');
+        }
+      } else {
+        print('Failed to load task answer. Status code: ${response.statusCode}');
+        throw Exception('Failed to load task answer. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<void> uploadTaskAnswerFile(String token, File pdfFile) async {
+    try {
+      final apiUrl = '$baseUrl/file/upload/task-answer';
+      final request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+
+      // Добавление заголовка авторизации
+      request.headers['Authorization'] = 'Bearer $token';
+
+      // Определение MIME-типа файла (PDF)
+      final mimeType = 'application/pdf';
+
+      // Отладочные сообщения
+      print('PDF file path: ${pdfFile.path}');
+      print('PDF file MIME type: $mimeType');
+
+      // Добавление файла
+      final file = await http.MultipartFile.fromPath(
+        'file',
+        pdfFile.path,
+        contentType: MediaType.parse(mimeType),
+      );
+      request.files.add(file);
+
+      var response = await request.send();
+
+      // Проверка статус кода ответа
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        print('File uploaded successfully: $responseBody');
+      } else if (response.statusCode == 415) {
+        print('Only PDF files are allowed for task answers');
+      } else {
+        print('File upload failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+
+
+
+
+
+
+
 
 
   Future<void> updateUserWithoutPassword({required int id,
