@@ -8,6 +8,7 @@
       <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/api_service.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/students_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/students_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/android12splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/android12splash.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/splash.png" afterDir="false" />
@@ -45,6 +46,7 @@
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_view_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_view_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/project_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/project_page_content.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/task_create_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/task_create_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/tasks_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/tasks_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/concrete_day_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/concrete_day_page.dart" afterDir="false" />
@@ -61,6 +63,7 @@
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_2.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_3.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_4.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/task_create_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/task_create_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_1.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_2.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_3.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_3.dart" afterDir="false" />
@@ -76,6 +79,7 @@
       <change beforePath="$PROJECT_DIR$/Frontend/lib/widgets/custom_side_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_side_menu.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block_open.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block_open.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block_open_create.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block_open_create.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

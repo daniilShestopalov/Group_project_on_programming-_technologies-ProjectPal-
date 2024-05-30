@@ -1,25 +1,23 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class TaskBlockOpenCreateWidget extends StatefulWidget {
   final String? subject;
   final String? date;
   final String? teacher;
-  final List<Task>? tasks;
   final int userId;
   final String? instruction;
   final String? grade;
   final String? comment;
+  final int taskId;
 
   TaskBlockOpenCreateWidget({
     required this.subject,
     required this.date,
     required this.teacher,
-    required this.tasks,
     required this.userId,
     required this.instruction,
     this.grade,
-    this.comment,
+    this.comment, required this.taskId,
   });
 
   @override
@@ -27,206 +25,82 @@ class TaskBlockOpenCreateWidget extends StatefulWidget {
 }
 
 class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
-  final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
-  PlatformFile? _selectedFile;
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _fileLinkController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
 
+  final ApiService apiService = ApiService();
+  final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  bool isEditing = false;
+  late User user;
   @override
   Widget build(BuildContext context) {
-    String remainingDaysText;
-   /* int? days = int.tryParse(widget.date ?? '');
-
-    if (days == 1) {
-      remainingDaysText = (widget.date! +  ' день');
-    } else if (days! > 1 && days < 5) {
-      remainingDaysText = (widget.date! +  ' дня');
-    } else if (days > 5){
-      remainingDaysText = (widget.date! + ' дней');
-    } else {
-      remainingDaysText = 'Закрыто';
-    }
-    */
-
-    return Container(
-      width: 375,
-      height: 607,
-      decoration: BoxDecoration(
-        color: Color(0xFFFCEBC1),
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            offset: Offset(0, 2),
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 33.0, horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextField(
-                        hintText: 'widget.subject', figmaTextStyles: figmaTextStyles,
-                      ),
-                      CustomTextField(
-                        hintText: 'widget.teacher', figmaTextStyles: figmaTextStyles,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Image.asset(ImageConstant.timeIcon),
-                      SizedBox(width: 4),
-                      CustomTextField(
-                        hintText: '2', figmaTextStyles: figmaTextStyles,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: FigmaColors.lightBlueBackground,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      SizedBox(width: 4),
-    /*  for (var task in widget.tasks)
-     Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Row(
-                            children: [
-                              Checkbox(
-                                value: task.isCompleted,
-                                onChanged: null, // Заблокировать нажатие
-                                activeColor: task.isCompleted ? FigmaColors.darkBlueMain : FigmaColors.darkBlueMain, // Цвет заполнения
-                              ),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  task.description,
-                                  style: TextStyle(
-                                    color: FigmaColors.darkBlueMain,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ), */
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                ],
-              ),
-            ),
-            SizedBox(height: 8),
-            CustomText(
-              text: 'Инструкция для работы:',
-              style: figmaTextStyles.header1Medium.copyWith(
-                color: FigmaColors.darkBlueMain,
-              ),
-            ),
-            CustomText(
-              text: 'widget.instruction.isNotEmpty ? widget.instruction :,',
-              style: figmaTextStyles.regularText.copyWith(
-                color: FigmaColors.darkBlueMain,
-              ),
-            ),
-            SizedBox(height: 8),
-            _selectedFile != null
-                ? Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+    return SingleChildScrollView( // Добавьте оператор return здесь
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CustomText(
-                  text: 'Предоставленный ответ:',
-                  style: figmaTextStyles.header1Medium.copyWith(
-                    color: FigmaColors.darkBlueMain,
-                  ),
+                CustomTextField(
+                  hintText: _nameController.text.isNotEmpty ? _nameController.text : 'Название предмета',
+                  controller: _nameController,
+                  figmaTextStyles: figmaTextStyles,
+                  enabled: isEditing,
                 ),
-                InkWell(
-                  onTap: () {
-                    // Открывать файл по нажатию
-                  },
-                  child: Text(
-                    _selectedFile!.name,
-                    style: TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
+                SizedBox(height: 16),
+                CustomTextField(
+                  hintText: _descriptionController.text.isNotEmpty ? _descriptionController.text : 'Описание задания',
+                  controller: _descriptionController,
+                  figmaTextStyles: figmaTextStyles,
+                  enabled: isEditing,
                 ),
+                SizedBox(height: 16),
+                CustomTextField(
+                  hintText: _dateController.text,
+                  controller: _dateController,
+                  figmaTextStyles: figmaTextStyles,
+                  enabled: isEditing,
+                ),
+                SizedBox(height: 16),
               ],
-            )
-                : Container(),
-            SizedBox(height: 16),
-            Container(
-              alignment: Alignment.center,
-              child: CustomButton(
-                text: _selectedFile != null ? 'Изменить файл' : 'Предоставить работу',
-                onPressed: () async {
-                  FilePickerResult? result = await FilePicker.platform.pickFiles();
-                  if (result != null) {
-                    setState(() {
-                      _selectedFile = result.files.first;
-                     /* for (var task in widget.tasks) {
-                        task.isCompleted = true;
-                      } */
-                    });
-                  }
-                },
+            ),
+          ),
+          SizedBox(height: 36),
+          CustomButton(
+            text: (isEditing ? 'Сохранить' : 'Изменить данные'),
+            onPressed: () async {
+              setState(() {
+                isEditing = !isEditing; // Изменить состояние isEditing при нажатии на кнопку
+              });
+              if (isEditing) {
+                String? token = await apiService.getJwtToken();
+                if (token != null) {
+                  print('Token for updating user: $token'); // Debug print
+                  print('User updated successfully'); // Debug print
+                } else {
+                  print('Failed to retrieve token for updating user');
+                }
+              }
+            },
+            figmaTextStyles: figmaTextStyles,
+          ),
+          SizedBox(height: 16),
+          CustomButton(
+            text: 'Отправить задачу',
+            onPressed: () async {
 
-                figmaTextStyles: figmaTextStyles,
-                showArrows: false,
-              ),
-            ),
-            SizedBox(height: 16),
-            CustomText(
-              text: 'Оценка от преподавателя:',
-              style: figmaTextStyles.header1Medium.copyWith(
-                color: FigmaColors.darkBlueMain,
-              ),
-            ),
-            CustomText(
-              text: '',
-              style: figmaTextStyles.regularText.copyWith(
-                color: FigmaColors.darkBlueMain,
-              ),
-            ),
-            SizedBox(height: 16),
-            CustomText(
-              text: 'Комментарий к работе:',
-              style: figmaTextStyles.header1Medium.copyWith(
-                color: FigmaColors.darkBlueMain,
-              ),
-            ),
-            CustomText(
-              text: '',
-              style: figmaTextStyles.regularText.copyWith(
-                color: FigmaColors.darkBlueMain,
-              ),
-            ),
-            SizedBox(height: 16),
-          ],
-        ),
-
+            },
+            figmaTextStyles: figmaTextStyles,
+          ),
+          SizedBox(height: 36),
+        ],
       ),
     );
   }
 }
+

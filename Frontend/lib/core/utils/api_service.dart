@@ -528,6 +528,83 @@ class ApiService {
     }
   }
 
+  Future<String?> downloadProjectAnswer(String token, String filename) async {
+    try {
+      var response = await http.get(Uri.parse('$baseUrl/file/download/task-answer/$filename'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },);
+
+      if (response.statusCode == 200) {
+        // Получаем путь для сохранения файла на устройстве
+        String dir = (await getExternalStorageDirectory())!.path;
+        String filePath = '$dir/$filename';
+
+        // Создаем файл и записываем в него данные из ответа
+        File file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+        print('Файл успешно скачан: $filePath');
+        return filePath;
+
+      } else {
+        // Обработка ошибок
+        print('Ошибка: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Ошибка при выполнении запроса: $e');
+      return null;
+    }
+  }
+
+
+  Future<void> updateTaskAnswer({
+    required String token,
+    required int id,
+    required int taskId,
+    required int studentUserId,
+    required String submissionDate,
+    required String teacherCommentary,
+    required int grade,
+    required String fileLink,
+  }) async {
+    final String url = '$baseUrl/task-answer';
+
+    Map<String, dynamic> requestBody = {
+      "id": id,
+      "taskId": taskId,
+      "studentUserId": studentUserId,
+      "submissionDate": submissionDate,
+      "teacherCommentary": teacherCommentary,
+      "studentCommentary": '',
+      "grade": grade,
+      "fileLink": fileLink,
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        print('Task answer updated successfully');
+      } else {
+        print('Failed to update task answer. Error ${response.statusCode}: ${response.reasonPhrase}');
+        print('Response Body: ${response.body}');
+      }
+    } catch (e) {
+      print('Failed to update task answer: $e');
+    }
+  }
+
 
   Future<Map<String, dynamic>> getTaskAnswerById(String token, int id) async {
     try {

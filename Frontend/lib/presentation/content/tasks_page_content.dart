@@ -16,13 +16,22 @@ class _TasksPageContentState extends State<TasksPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   final ApiService apiService = ApiService();
   SortOrder sortOrder = SortOrder.ascending;
+  late User user;
   int selectedIndex = 0;
   List<TaskBlockWidget> taskBlocks = [];
 
   @override
   void initState() {
+    _initializeData();
     super.initState();
     fetchTasks();
+
+  }
+
+  Future<void> _initializeData() async {
+    final token = await apiService.getJwtToken();
+    user = await apiService.getUserById(token!, widget.userId);
+    setState(() {}); // Перестроить виджет после получения данных
   }
 
   @override
@@ -120,10 +129,10 @@ class _TasksPageContentState extends State<TasksPageContent> {
           ),
         ],
       ),
-      floatingActionButton: DataUtils.getUserRoleById(widget.userId) != 'student'
+      floatingActionButton: user.role != 'STUDENT'
           ? FloatingActionButton(
         onPressed: () {
-          AppRoutes.navigateToPageWithFadeTransition(context, TasksCreatePage(userId: widget.userId));
+          AppRoutes.navigateToPageWithFadeTransition(context, TasksCreatePage(userId: widget.userId, subject: '', date: '', teacher: '', description: '', taskId: 0,));
         },
         child: Icon(Icons.create_outlined),
         backgroundColor: FigmaColors.contrastToMain,
