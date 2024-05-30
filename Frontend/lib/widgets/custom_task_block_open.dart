@@ -5,7 +5,6 @@ class TaskBlockOpenWidget extends StatefulWidget {
   final String subject;
   final String date;
   final String teacher;
-  final List<Task> tasks;
   final int userId;
   final String instruction;
   final String? grade;
@@ -15,7 +14,6 @@ class TaskBlockOpenWidget extends StatefulWidget {
     required this.subject,
     required this.date,
     required this.teacher,
-    required this.tasks,
     required this.userId,
     required this.instruction,
     this.grade,
@@ -101,49 +99,6 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: widget.tasks.any((task) => task.isCompleted) ? FigmaColors.lightBlueBackground : FigmaColors.darkBlueMain,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      for (var task in widget.tasks)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Row(
-                            children: [
-                              Checkbox(
-                                value: task.isCompleted,
-                                onChanged: null, // Заблокировать нажатие
-                                activeColor: task.isCompleted ? FigmaColors.darkBlueMain : FigmaColors.darkBlueMain, // Цвет заполнения
-                              ),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  task.description,
-                                  style: TextStyle(
-                                    color: FigmaColors.darkBlueMain,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                ],
-              ),
-            ),
             SizedBox(height: 8),
             CustomText(
               text: 'Инструкция для работы:',
@@ -193,9 +148,6 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                   if (result != null) {
                     setState(() {
                       _selectedFile = result.files.first;
-                      for (var task in widget.tasks) {
-                        task.isCompleted = true;
-                      }
                     });
                   }
                 },

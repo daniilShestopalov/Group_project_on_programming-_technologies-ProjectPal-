@@ -18,7 +18,7 @@ class _ProfileViewPageContentState extends State<ProfileViewPageContent> {
   bool isEditing = false;
   File? _image;
   User? _user;
-
+  String role = '';
   @override
   void initState() {
     super.initState();
@@ -30,8 +30,23 @@ class _ProfileViewPageContentState extends State<ProfileViewPageContent> {
       final token = await apiService.getJwtToken();
       if (token != null) {
         final user = await apiService.getUserById(token, widget.userViewId);
+        String userRole = '';
+        switch (user.role) {
+          case 'STUDENT':
+            userRole = 'Студент';
+            break;
+          case 'TEACHER':
+            userRole = 'Преподаватель';
+            break;
+          case 'ADMIN':
+            userRole = 'Администратор';
+            break;
+          default:
+            userRole = 'Неизвестно';
+        }
         setState(() {
           _user = user;
+          role = userRole;
         });
       } else {
         print('Failed to retrieve token');
@@ -84,7 +99,8 @@ class _ProfileViewPageContentState extends State<ProfileViewPageContent> {
   @override
   Widget build(BuildContext context) {
     return _user != null
-        ? Column(
+        ? SingleChildScrollView(
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
@@ -102,7 +118,7 @@ class _ProfileViewPageContentState extends State<ProfileViewPageContent> {
                 backgroundImage: _image != null ? FileImage(_image!) : null,
                 child: _image == null
                     ? Text(
-                  DataUtils.getUserInitialsById(widget.userId),
+                  '${_user?.surname[0].toUpperCase()}${_user?.name[0].toUpperCase()}',
                   style: TextStyle(fontSize: 48),
                 )
                     : null,
@@ -116,41 +132,65 @@ class _ProfileViewPageContentState extends State<ProfileViewPageContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              CustomText(text: "Почта", style: figmaTextStyles.caption1Medium.copyWith(color: FigmaColors.darkBlueMain), align: TextAlign.center,),
+              SizedBox(height: 5),
               CustomTextField(
                 hintText: _user!.login,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
+              CustomText(text: "Имя", style: figmaTextStyles.caption1Medium.copyWith(color: FigmaColors.darkBlueMain), align: TextAlign.center,),
+              SizedBox(height: 5),
+              CustomTextField(
+                hintText: _user!.name,
+                figmaTextStyles: figmaTextStyles,
+                enabled: isEditing,
+              ),
+              SizedBox(height: 16),
+              CustomText(text: "Фамилия", style: figmaTextStyles.caption1Medium.copyWith(color: FigmaColors.darkBlueMain), align: TextAlign.center,),
+              SizedBox(height: 5),
               CustomTextField(
                 hintText: _user!.surname,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
+              CustomText(text: "Отчество", style: figmaTextStyles.caption1Medium.copyWith(color: FigmaColors.darkBlueMain), align: TextAlign.center,),
+              SizedBox(height: 5),
               CustomTextField(
                 hintText: _user!.patronymic,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
+              CustomText(text: "Номер телефона", style: figmaTextStyles.caption1Medium.copyWith(color: FigmaColors.darkBlueMain), align: TextAlign.center,),
+              SizedBox(height: 5),
               CustomTextField(
                 hintText: _user!.phoneNumber,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
+              CustomText(text: "Роль", style: figmaTextStyles.caption1Medium.copyWith(color: FigmaColors.darkBlueMain), align: TextAlign.center,),
+              SizedBox(height: 5),
               CustomTextField(
-                hintText: DataUtils.getRoleName(_user!.role),
+                hintText: role,
                 figmaTextStyles: figmaTextStyles,
                 enabled: isEditing,
               ),
               SizedBox(height: 16),
+              if (role == 'Студент')
+              CustomText(text: "Номер группы", style: figmaTextStyles.caption1Medium.copyWith(color: FigmaColors.darkBlueMain), align: TextAlign.center,),
+              if (role == 'Студент')
+              SizedBox(height: 5),
+              if (role == 'Студент')
               CustomTextField(
-                hintText: 'Группа ' + _user!.groupId.toString(),
-                figmaTextStyles: figmaTextStyles,
-                enabled: isEditing,
-              ),
+                  hintText: 'Группа ' + _user!.groupId.toString(),
+                  figmaTextStyles: figmaTextStyles,
+                  enabled: isEditing,
+                ),
+
             ],
           ),
         ),
@@ -176,8 +216,10 @@ class _ProfileViewPageContentState extends State<ProfileViewPageContent> {
             );
           },
           figmaTextStyles: figmaTextStyles,
-        )
+        ),
+        SizedBox(height: 36),
       ],
+    )
     )
         : CircularProgressIndicator(); // Добавлен индикатор загрузки пока данные загружаются
   }

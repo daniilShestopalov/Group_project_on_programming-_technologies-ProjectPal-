@@ -14,6 +14,9 @@ class _MainPageContentState extends State<MainPageContent> {
   late ApiService apiService;
   late String token;
   dynamic user;
+  late int allTasks;
+  late int notCompletedTasks;
+
 
   @override
   void initState() {
@@ -25,28 +28,17 @@ class _MainPageContentState extends State<MainPageContent> {
     apiService = ApiService();
     final token = await apiService.getJwtToken();
     user = await apiService.getUserById(token!, widget.userId);
-    setState(() {}); // Перестроить виджет после получения данных
+    int countTasks = await apiService.getTasksCountByGroup(user.groupId, token);
+    int countProject = await apiService.getProjectCountByUserId(user.id, token);
+    setState(() {
+      allTasks = countTasks;
+      notCompletedTasks = countProject;
+    });
   }
 
-  int completedTasks = 2;
-  int notCompletedTasks = 4;
 
-  List<NotificationItem> notifications = [
-    NotificationItem(
-      text: 'Учитель выложил домашнее задание',
-      avatarUrl: 'https://example.com/avatar1.jpg',
-      isSystem: false,
-    ),
-    NotificationItem(
-      text: 'Системное уведомление о важном событии',
-      isSystem: true,
-    ),
-    NotificationItem(
-      text: 'Ваш друг отправил вам сообщение',
-      avatarUrl: 'https://example.com/avatar2.jpg',
-      isSystem: false,
-    ),
-  ];
+
+  List<NotificationItem> notifications = [];
 
   void _showNotifications() {
     showDialog(
@@ -76,12 +68,11 @@ class _MainPageContentState extends State<MainPageContent> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
-                    text: 'Добрый день,\n' + '${user.name}',
+                    text: 'Здраствуйте,\n' + '${user.name}',
                     style: figmaTextStyles.header2Regular.copyWith(
                       color: FigmaColors.darkBlueMain,
                     ),
                   ),
-                  // Добавим иконку уведомлений
                   Stack(
                     children: [
                       IconButton(
@@ -118,11 +109,10 @@ class _MainPageContentState extends State<MainPageContent> {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
-              // Центрируем текст "Ваша статистика"
+              SizedBox(height: 16),
               Center(
                 child: CustomText(
-                  text: 'Ваша статистика',
+                  text: 'Статистика',
                   style: figmaTextStyles.header1Medium.copyWith(
                     color: FigmaColors.darkBlueMain,
                   ),
@@ -135,13 +125,12 @@ class _MainPageContentState extends State<MainPageContent> {
         Container(
           child: Center(
             child: CustomPieChart(
-              completedTasks: completedTasks,
+              allTasks: allTasks,
               incompleteTasks: notCompletedTasks,
             ),
           ),
         ),
         SizedBox(height: 20),
-        // Добавим информацию о заданиях
       ],
     );
   }

@@ -6,14 +6,12 @@ class ConcreteTaskPageContent extends StatefulWidget {
   final String subject;
   final String date;
   final String teacher;
-  final List<Task> tasks;
 
   const ConcreteTaskPageContent({
     required this.userId,
     required this.subject,
     required this.date,
     required this.teacher,
-    required this.tasks
   });
 
   @override
@@ -32,7 +30,6 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
         subject: widget.subject,
         date: widget.date,
         teacher: widget.teacher,
-        tasks: widget.tasks,
         userId: widget.userId,
         instruction: '',
       ),

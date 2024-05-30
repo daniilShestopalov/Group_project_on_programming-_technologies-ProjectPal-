@@ -66,7 +66,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
           children: [
             SizedBox(height: 20),
             CustomText(
-              text: '${user.surname} ${user.name} ${user.patronymic}',
+              text: '${user.surname}${user.name} ${user.patronymic}',
               style: widget.figmaTextStyles.mediumText.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),

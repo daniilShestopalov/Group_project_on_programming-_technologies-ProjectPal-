@@ -3,10 +3,10 @@ import 'package:project_pal/core/app_export.dart';
 class ConcreteDayPage extends StatefulWidget {
 
   final int userId;
-  final List<Map<String, dynamic>> tasks;
   final DateTime selectedDate;
+  final List<int> taskIds;
 
-  const ConcreteDayPage({Key? key, required this.userId, required this.tasks, required this.selectedDate, }) : super(key: key);
+  const ConcreteDayPage({Key? key, required this.userId, required this.selectedDate, required this.taskIds}) : super(key: key);
 
   @override
   _ConcreteDayState createState() => _ConcreteDayState();
@@ -26,7 +26,7 @@ class _ConcreteDayState extends State<ConcreteDayPage> {
         userId: widget.userId,
       ),
       drawer: CustomSideMenu(figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
-      body: ConcreteDayPageContent(userId: widget.userId, tasks: widget.tasks, selectedDate: widget.selectedDate,),
+      body: ConcreteDayPageContent(userId: widget.userId, selectedDate: widget.selectedDate, taskIds: widget.taskIds, ),
       bottomNavigationBar: CustomBottomBar(currentPage: '', userId: widget.userId,), // Добавляем кастомный нижний бар
     );
   }

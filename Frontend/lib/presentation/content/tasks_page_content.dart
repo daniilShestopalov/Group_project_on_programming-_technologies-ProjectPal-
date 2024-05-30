@@ -21,11 +21,8 @@ class _TasksPageContentState extends State<TasksPageContent> {
 
     return TaskBlockWidget(
       subject: taskData['name'],
-      date: '$remainingDays',
+      endDate: DateTime.now(),
       teacher: DataUtils.getTeacherNameById(taskData['teacherId']),
-      tasks: [
-        Task(description: taskData['description'], isCompleted: false),
-      ],
       userId: 0,
     );
   }).toList();
@@ -112,9 +109,8 @@ class _TasksPageContentState extends State<TasksPageContent> {
                     padding: EdgeInsets.only(bottom: 16),
                     child: TaskBlockWidget(
                       subject: taskBlocks[index].subject,
-                      date: taskBlocks[index].date,
+                      endDate: DateTime.now(),
                       teacher: taskBlocks[index].teacher,
-                      tasks: taskBlocks[index].tasks,
                       userId: widget.userId,
                     ),
                   );
@@ -136,7 +132,7 @@ class _TasksPageContentState extends State<TasksPageContent> {
     );
   }
 
-  void sortTasksByDeadline() {
+  /*void sortTasksByDeadline() {
     setState(() {
       taskBlocks.sort((a, b) {
         int remainingDaysA = int.parse(a.date);
@@ -144,7 +140,7 @@ class _TasksPageContentState extends State<TasksPageContent> {
         return sortOrder == SortOrder.ascending ? remainingDaysA.compareTo(remainingDaysB) : remainingDaysB.compareTo(remainingDaysA);
       });
     });
-  }
+  }*/
 
   void sortTasksByTeacher() {
     setState(() {
@@ -165,7 +161,7 @@ class _TasksPageContentState extends State<TasksPageContent> {
   void sortTasks(int index) {
     switch (index) {
       case 0:
-        sortTasksByDeadline();
+        /*sortTasksByDeadline();*/
         break;
       case 1:
         sortTasksByTeacher();

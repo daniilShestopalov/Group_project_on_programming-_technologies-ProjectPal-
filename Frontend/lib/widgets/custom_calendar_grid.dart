@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class CustomCalendarGrid extends StatelessWidget {
   final List<DateTime> daysInMonth;
-  final Map<DateTime, int> tasksPerDay;
+  final Map<DateTime, List<int>> taskIdsPerDay;
   final int userId;
 
-  CustomCalendarGrid({required this.daysInMonth, required this.tasksPerDay, required this.userId});
+  CustomCalendarGrid({required this.daysInMonth, required this.taskIdsPerDay, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +22,20 @@ class CustomCalendarGrid extends StatelessWidget {
           final int dayOfWeek = dateTime.weekday;
           final Color dayColor = _getDayColor(dayOfWeek);
 
-          final int tasksCount = tasksPerDay[dateTime]?.toInt() ?? 0;
-          print('Tasks count for $dateTime: $tasksCount'); // Отладочный вывод
+          final List<int>? taskIds = taskIdsPerDay[dateTime];
+          final int tasksCount = taskIds?.length ?? 0;
 
           return GestureDetector(
             onTap: () {
               print('Tapped on date: $dateTime');
+              // Переход на страницу выбранного дня с передачей айди задач
               AppRoutes.navigateToPageWithFadeTransition(
                 context,
-                ConcreteDayPage(userId: userId, selectedDate: dateTime, tasks: []),
+                ConcreteDayPage(
+                  userId: userId,
+                  selectedDate: dateTime,
+                  taskIds: taskIds ?? [], // Передаем список айди задач
+                ),
               );
             },
             child: Container(

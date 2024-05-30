@@ -1,12 +1,12 @@
 import 'package:project_pal/core/app_export.dart';
 
 class CustomPieChart extends StatefulWidget {
-  final int completedTasks;
+  final int allTasks;
   final int incompleteTasks;
 
   const CustomPieChart({
     Key? key,
-    required this.completedTasks,
+    required this.allTasks,
     required this.incompleteTasks,
   }) : super(key: key);
 
@@ -48,17 +48,13 @@ class _CustomPieChartState extends State<CustomPieChart> {
             ),
           ),
         ),
+        SizedBox(height: 20),
         GestureDetector(
-          onTap: () {
-            setState(() {
-              touchedIndex = 0;
-            });
-          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Center(
               child: CustomText(
-                text: 'Выполненные задания: ${widget.completedTasks}',
+                text: 'Всего заданий: ${widget.allTasks}',
                 style: figmaTextStyles.header2Medium.copyWith(
                   color: touchedIndex == 0 ? FigmaColors.selectorColor : FigmaColors.darkBlueMain,
                 ),
@@ -67,16 +63,11 @@ class _CustomPieChartState extends State<CustomPieChart> {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            setState(() {
-              touchedIndex = 1;
-            });
-          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Center(
               child: CustomText(
-                text: 'Невыполненные задания: ${widget.incompleteTasks}',
+                text: 'Всего проектов: ${widget.incompleteTasks}',
                 style: figmaTextStyles.header2Medium.copyWith(
                   color: touchedIndex == 1 ? FigmaColors.selectorColor : FigmaColors.darkBlueMain,
                 ),
@@ -92,7 +83,7 @@ class _CustomPieChartState extends State<CustomPieChart> {
     return [
       PieChartSectionData(
         color: FigmaColors.darkBlueMain,
-        value: widget.completedTasks.toDouble(),
+        value: widget.allTasks.toDouble(),
         radius: touchedIndex == 0 ? 70.0 : 50.0,
         badgeWidget: _buildBadgeWidget(FigmaColors.darkBlueMain),
       ),

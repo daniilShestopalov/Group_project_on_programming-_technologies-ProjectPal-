@@ -14,7 +14,12 @@ class CustomGroupListViewBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppRoutes.navigateToPageWithFadeTransition(context, ProfileViewPage(userId: userId, userViewId: user.id));
+        if (userId == user.id) {
+          AppRoutes.navigateToPageWithFadeTransition(context, ProfilePage(userId: userId));
+        } else {
+          AppRoutes.navigateToPageWithFadeTransition(context, ProfileViewPage(userId: userId, userViewId: user.id));
+        }
+        
       },
       child: Container(
         width: 312,

@@ -15,8 +15,9 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
   DateTime currentDate = DateTime.now();
   final ApiService apiService = ApiService();
   late String token;
-  List<Tasks> tasks = [];  // Изменено с List<Task> на List<Tasks>
-  Map<DateTime, int> tasksPerDay = {};
+  List<Tasks> tasks = [];
+  Map<DateTime, List<int>> taskIdsPerDay = {}; // Изменено на Map<DateTime, List<int>>
+  late int groupId;
 
   @override
   void initState() {
@@ -33,7 +34,7 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
   Future<void> _fetchTasks() async {
     try {
       final user = await apiService.getUserById(token, widget.userId);
-      final groupId = user.groupId ?? 0;
+      groupId = user.groupId ?? 0;
       tasks = await apiService.getTasksByMonthAndGroup(
         groupId,
         currentDate.year,
@@ -41,14 +42,12 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
         token,
       );
 
-      tasksPerDay.clear();
+      taskIdsPerDay.clear();
       for (var task in tasks) {
         DateTime endDate = DateTime(task.endDate.year, task.endDate.month, task.endDate.day);
-        tasksPerDay.update(endDate, (value) => value + 1, ifAbsent: () => 1);
+        taskIdsPerDay.update(endDate, (value) => [...value, task.id], ifAbsent: () => [task.id]); // Обновлено для добавления идентификатора задачи в список
       }
-      print('Таски: $tasksPerDay');
-
-
+      print('Таски: $taskIdsPerDay');
 
       setState(() {});
     } catch (e) {
@@ -119,7 +118,11 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: CustomCalendarGrid(daysInMonth: daysInMonth, tasksPerDay: tasksPerDay, userId: widget.userId),
+              child: CustomCalendarGrid(
+                daysInMonth: daysInMonth,
+                userId: widget.userId,
+                taskIdsPerDay: taskIdsPerDay,
+              ),
             ),
           ),
         ),

@@ -2,7 +2,10 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:project_pal/core/app_export.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiService {
@@ -145,6 +148,24 @@ class ApiService {
     }
   }
 
+  Future<Group> getGroupById(String token, int groupId) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/group/$groupId'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final utf8Body = utf8.decode(response.bodyBytes); // Явное декодирование в UTF-8
+      final groupData = json.decode(utf8Body);
+      return Group.fromJson(groupData);
+    } else {
+      throw Exception('Failed to load groups');
+    }
+  }
+
   Future<int> getUserCountByGroup(int groupId, String token) async {
     final response = await http.get(
       Uri.parse('$baseUrl/user/group/$groupId/count'),
@@ -160,7 +181,6 @@ class ApiService {
       throw Exception('Failed to load user count');
     }
   }
-
 
   Future<void> updateUserAvatar(String token, int userId, String newAvatarLink) async {
     final Uri url = Uri.parse('$baseUrl/user/avatar');
@@ -187,38 +207,77 @@ class ApiService {
     }
   }
 
-
   Future<void> uploadAvatar(String token, File imageFile) async {
     try {
       final apiUrl = '$baseUrl/file/upload/avatar';
       final request = http.MultipartRequest('POST', Uri.parse(apiUrl));
 
-      // Чтение содержимого файла как массив байтов
-      List<int> imageBytes = await imageFile.readAsBytes();
-
-      // Кодирование массива байтов в base64 строку
-      String base64Image = base64Encode(imageBytes);
-
-      // Добавление base64 строки в параметры запроса
-      request.fields['file'] = base64Image;
-
       // Добавление заголовка авторизации
       request.headers['Authorization'] = 'Bearer $token';
 
-      // Отправка запроса
-      var streamedResponse = await request.send();
+      // Определение MIME-типа файла
+      final mimeType = lookupMimeType(imageFile.path);
+      if (mimeType == null) {
+        print('Could not determine MIME type of the file');
+        return;
+      }
+
+      // Отладочные сообщения
+      print('Image file path: ${imageFile.path}');
+      print('Image file MIME type: $mimeType');
+
+      // Добавление файла
+      final file = await http.MultipartFile.fromPath(
+        'file',
+        imageFile.path,
+        contentType: MediaType.parse(mimeType),
+      );
+      request.files.add(file);
+
+      var response = await request.send();
 
       // Проверка статус кода ответа
-      if (streamedResponse.statusCode == 200) {
-        print('File uploaded successfully');
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        print('File uploaded successfully: $responseBody');
+      } else if (response.statusCode == 415) {
+        print('Only image files are allowed for avatars');
+      } else if (response.statusCode == 413) {
+        print('File size must be less than 2MB');
       } else {
-        print('Error uploading file');
+        print('Image upload failed with status: ${response.statusCode}');
       }
     } catch (e) {
       print('Error uploading file: $e');
     }
   }
 
+  Future<File?> downloadAvatar(String token, String filename) async {
+    String url = '$baseUrl/file/download/avatar/$filename';
+
+    try {
+      var response = await http.get(
+        Uri.parse(url),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (response.statusCode == 200) {
+        Directory tempDir = await getTemporaryDirectory();
+        File file = File('${tempDir.path}/$filename');
+        await file.writeAsBytes(response.bodyBytes);
+        print('Avatar saved successfully: ${file.path}');
+        return file;
+      } else {
+        // Handle other status codes if needed
+        print('Failed to download avatar. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error downloading avatar: $e');
+      return null;
+    }
+
+  }
 
   Future<User> getUserById(String token, int userId) async {
     try {
@@ -248,7 +307,6 @@ class ApiService {
     }
   }
 
-
   Future<List<User>> getUsersByGroup(int groupId, String token) async {
     final response = await http.get(
       Uri.parse('$baseUrl/user/group/$groupId'),
@@ -259,14 +317,41 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
+      final utf8Body = utf8.decode(response.bodyBytes); // Явное декодирование в UTF-8
+      final List<dynamic> data = jsonDecode(utf8Body);
       return data.map((json) => User.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load users by group');
     }
   }
 
+  Future<Tasks> getTaskById(String token, int taskId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/task/$taskId');
+      print('Request URL: $url');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
 
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final utf8Body = utf8.decode(response.bodyBytes); // Явное декодирование в UTF-8
+        final TasksData = json.decode(utf8Body);
+        return Tasks.fromJson(TasksData);
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
 
   Future<List<Tasks>> getTasksByMonthAndGroup(int groupId, int year, int month, String token) async {
     final url = Uri.parse('$baseUrl/task/group/month');
@@ -300,12 +385,11 @@ class ApiService {
     }
   }
 
-
   Future<List<Tasks>> getTasksByDayAndGroup(int groupId, DateTime date, String token) async {
     final url = Uri.parse('$baseUrl/task/group/date');
     final Map<String, dynamic> requestBody = {
       'id': groupId,
-      'date': date.toIso8601String(),
+      'date': date.toIso8601String(), // Преобразуем дату в строку в формате ISO 8601
     };
 
     try {
@@ -333,6 +417,64 @@ class ApiService {
     }
   }
 
+  Future<List<Tasks>> getTasksByGroupId(String token, int groupId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/task/group/$groupId');
+      print('Request URL: $url');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((json) => Tasks.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<int> getTasksCountByGroup(int groupId, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/task/group/$groupId/count'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load user count');
+    }
+  }
+
+  Future<int> getProjectCountByUserId(int studentId, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/project/student/$studentId/count'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load user count');
+    }
+  }
 
   Future<List<User>> getUsersByRole(String role, String token) async {
     final response = await http.get(
@@ -344,7 +486,8 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
+      final utf8Body = utf8.decode(response.bodyBytes); // Явное декодирование в UTF-8
+      final List<dynamic> data = jsonDecode(utf8Body);
       List<User> users = [];
 
       // Преобразование данных в список объектов User
@@ -409,8 +552,6 @@ class ApiService {
       throw Exception('Failed to update user');
     }
   }
-
-
 
 }
 

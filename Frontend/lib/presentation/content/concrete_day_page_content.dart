@@ -2,12 +2,16 @@ import 'package:intl/intl.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class ConcreteDayPageContent extends StatefulWidget {
-
   final int userId;
-  final List<Map<String, dynamic>> tasks;
   final DateTime selectedDate;
+  final List<int> taskIds;
 
-  const ConcreteDayPageContent({Key? key, required this.userId, required this.tasks, required this.selectedDate, }) : super(key: key);
+  const ConcreteDayPageContent({
+    Key? key,
+    required this.userId,
+    required this.selectedDate,
+    required this.taskIds,
+  }) : super(key: key);
 
   @override
   _ConcreteDayPageContentState createState() => _ConcreteDayPageContentState();
@@ -15,30 +19,15 @@ class ConcreteDayPageContent extends StatefulWidget {
 
 class _ConcreteDayPageContentState extends State<ConcreteDayPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
-
+  final ApiService apiService = ApiService();
   SortOrder sortOrder = SortOrder.ascending;
   int selectedIndex = 0;
-
   List<TaskBlockWidget> taskBlocks = [];
 
   @override
   void initState() {
     super.initState();
-
-    taskBlocks = widget.tasks.map((taskData) {
-      Duration daysUntilEndDate = taskData['endDate'].difference(DateTime.now());
-      String remainingDays = '${daysUntilEndDate.inDays}';
-
-      return TaskBlockWidget(
-        subject: taskData['name'],
-        date: '$remainingDays',
-        teacher: DataUtils.getTeacherNameById(taskData['teacherId']),
-        tasks: [
-          Task(description: taskData['description'], isCompleted: false),
-        ],
-        userId: 0,
-      );
-    }).toList();
+    fetchTasks();
   }
 
   @override
@@ -46,7 +35,6 @@ class _ConcreteDayPageContentState extends State<ConcreteDayPageContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Блок 1
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
@@ -111,7 +99,6 @@ class _ConcreteDayPageContentState extends State<ConcreteDayPageContent> {
             ],
           ),
         ),
-        // Блок 2
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -121,34 +108,53 @@ class _ConcreteDayPageContentState extends State<ConcreteDayPageContent> {
                 if (taskBlocks.isNotEmpty && index < taskBlocks.length) {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 16),
-                    child: TaskBlockWidget(
-                      subject: taskBlocks[index].subject,
-                      date: taskBlocks[index].date,
-                      teacher: taskBlocks[index].teacher,
-                      tasks: taskBlocks[index].tasks,
-                      userId: widget.userId,
-                    ),
+                    child: taskBlocks[index],
                   );
                 } else {
                   return SizedBox(); // Возвращаем пустой виджет, если список пуст или индекс недействителен.
                 }
               },
-            )
+            ),
           ),
         ),
       ],
     );
   }
 
+  // Функция для получения задач по их идентификаторам
+  Future<void> fetchTasks() async {
+    try {
+      final token = await apiService.getJwtToken() ?? '';
+      final tasks = await Future.wait(widget.taskIds.map((taskId) async {
+        return apiService.getTaskById(token, taskId); // Получаем задачу по идентификатору
+      }));
+      final taskBlockWidgets = await Future.wait(tasks.map((task) async {
+        final teacher = await apiService.getUserById(token, task.teacherUserId);
+        return TaskBlockWidget(
+          subject: task.name,
+          endDate: task.endDate,
+          teacher: "${teacher.name} ${teacher.surname} ${teacher.patronymic}",
+          userId: widget.userId,
+        );
+      }).toList());
+
+      setState(() {
+        taskBlocks = taskBlockWidgets;
+      });
+    } catch (e) {
+      print('Error fetching tasks: $e');
+    }
+  }
+  // Функции сортировки задач
   void sortTasksByDeadline() {
     setState(() {
       taskBlocks.sort((a, b) {
-        int remainingDaysA = int.parse(a.date);
-        int remainingDaysB = int.parse(b.date);
-        return sortOrder == SortOrder.ascending ? remainingDaysA.compareTo(remainingDaysB) : remainingDaysB.compareTo(remainingDaysA);
+        return sortOrder == SortOrder.ascending ? a.endDate.compareTo(b.endDate) : b.endDate.compareTo(a.endDate);
       });
     });
   }
+
+
 
   void sortTasksByTeacher() {
     setState(() {
