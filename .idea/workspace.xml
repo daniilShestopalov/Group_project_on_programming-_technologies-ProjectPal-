@@ -8,7 +8,6 @@
       <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/api_service.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/students_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/students_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/android12splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/android12splash.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/src/main/res/drawable-hdpi/splash.png" afterDir="false" />
@@ -59,6 +58,8 @@
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_2.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/registration_page_3.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_3.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page/reset_password_page_3.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_1.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_2.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_3.dart" beforeDir="false" />
@@ -138,27 +139,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ertna/OneDrive/Documents/GitHub/Group_project_on_programming-_technologies-ProjectPal-/Frontend&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ScreenshotViewer.SavePath": "C:/Users/ertna/OneDrive/Рабочий стол",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "master",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "C:/Users/ertna/OneDrive/Рабочий стол",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ertna\OneDrive\Documents\GitHub\Group_project_on_programming-_technologies-ProjectPal-\Frontend\assets\icon" />
