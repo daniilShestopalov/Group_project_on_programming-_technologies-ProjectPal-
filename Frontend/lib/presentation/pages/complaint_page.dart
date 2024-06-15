@@ -29,7 +29,7 @@ class _ComplaintPageState extends State<ComplaintPage> {
       ),
       drawer: CustomSideMenu(figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
       body: ComplaintPageContent(userId: widget.userId),
-      bottomNavigationBar: CustomBottomBar(currentPage: 'main', userId: widget.userId,),
+      bottomNavigationBar: CustomBottomBar(currentPage: '', userId: widget.userId,),
     );
   }
 }

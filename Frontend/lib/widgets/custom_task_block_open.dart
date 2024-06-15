@@ -45,13 +45,14 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
   Future<void> _loadTaskAnswer() async {
     try {
       String token = await apiService.getJwtToken() ?? '';
-      final List<Map<String, dynamic>> data = await apiService
-          .getTaskAnswerByTaskId(token, widget.taskId);
+      final List<Map<String, dynamic>> data =
+          await apiService.getTaskAnswerByTaskId(token, widget.taskId);
       if (data.isNotEmpty) {
         setState(() {
           answerId = data[0]['id'];
-          submissionDate = data[0]['submissionDate'] != null ? DateTime.parse(
-              data[0]['submissionDate']) : DateTime.now();
+          submissionDate = data[0]['submissionDate'] != null
+              ? DateTime.parse(data[0]['submissionDate'])
+              : DateTime.now();
           teacherComment = data[0]['teacherCommentary'] ?? '';
           teacherGrade = data[0]['grade'];
           answerLink = data[0]['fileLink'] ?? '';
@@ -75,6 +76,8 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
       remainingDaysText = '${widget.date} дня';
     } else if (days >= 5) {
       remainingDaysText = '${widget.date} дней';
+    } else if (days < 0 && teacherGrade != null) {
+      remainingDaysText = 'Выполнено';
     } else {
       remainingDaysText = 'Просрочено';
     }
@@ -131,8 +134,8 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                               SizedBox(width: 4),
                               CustomText(
                                 text: '$remainingDaysText',
-                                style: figmaTextStyles.headerTextMedium
-                                    .copyWith(
+                                style:
+                                    figmaTextStyles.headerTextMedium.copyWith(
                                   color: FigmaColors.darkBlueMain,
                                 ),
                               ),
@@ -188,7 +191,8 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                       onTap: () async {
                         print(answerLink);
                         String? token = await apiService.getJwtToken();
-                        String? filepath = await apiService.downloadProjectAnswer(token! ,answerLink);
+                        String? filepath = await apiService
+                            .downloadProjectAnswer(token!, answerLink);
                         if (filepath != null) {
                           openFile(filepath);
                         }
@@ -240,8 +244,8 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                 CustomButton(
                   text: 'Прикрепить ответ',
                   onPressed: () async {
-                    FilePickerResult? result = await FilePicker.platform
-                        .pickFiles(
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
                       type: FileType.custom,
                       allowedExtensions: ['pdf'],
                     );
@@ -250,9 +254,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                         String token = await apiService.getJwtToken() ?? '';
                         String filePath = result.files.first.path!;
                         File file = File(filePath);
-                        String fileName = file.path
-                            .split('/')
-                            .last;
+                        String fileName = file.path.split('/').last;
                         await apiService.uploadTaskAnswerFile(token, file);
                         if (teacherGrade != null && answerId != null) {
                           await apiService.updateTaskAnswer(
@@ -260,8 +262,8 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                             id: answerId!,
                             taskId: widget.taskId,
                             studentUserId: widget.userId,
-                            submissionDate: submissionDate?.toIso8601String() ??
-                                '',
+                            submissionDate:
+                                submissionDate?.toIso8601String() ?? '',
                             teacherCommentary: teacherComment,
                             grade: teacherGrade!,
                             fileLink: '$fileName',
@@ -315,5 +317,4 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
       print('Файл не найден: $filePath');
     }
   }
-
 }

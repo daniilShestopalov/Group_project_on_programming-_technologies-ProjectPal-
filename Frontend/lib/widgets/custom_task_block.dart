@@ -23,6 +23,31 @@ class TaskBlockWidget extends StatefulWidget {
 
 class _TaskBlockWidgetState extends State<TaskBlockWidget> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  final ApiService apiService = ApiService();
+  int? teacherGrade;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTaskAnswer();
+  }
+
+  Future<void> _loadTaskAnswer() async {
+    try {
+      String token = await apiService.getJwtToken() ?? '';
+      final List<Map<String, dynamic>> data =
+          await apiService.getTaskAnswerByTaskId(token, widget.taskId);
+      if (data.isNotEmpty) {
+        setState(() {
+          teacherGrade = data[0]['grade'];
+        });
+      } else {
+        teacherGrade = null;
+      }
+    } catch (e) {
+      print('Failed to load task answer: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +56,10 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
     String endDate = difference.toString();
 
     String remainingDaysText = '';
-    if (difference < 0) {
+    if (difference < 0 && teacherGrade == null) {
       remainingDaysText = 'Просрочено';
+    } else if (difference < 0 && teacherGrade != null) {
+      remainingDaysText = 'Выполнено';
     } else if (difference == 0) {
       remainingDaysText = 'Сегодня';
     } else if (difference == 1) {
@@ -42,7 +69,6 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
     } else {
       remainingDaysText = '$difference дней';
     }
-
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -96,6 +122,15 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
                               text: widget.teacher,
                               style: figmaTextStyles.caption1Regular.copyWith(
                                 color: FigmaColors.darkBlueMain,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: CustomText(
+                                text: widget.description,
+                                style: figmaTextStyles.regularText.copyWith(
+                                  color: FigmaColors.darkBlueMain,
+                                ),
                               ),
                             ),
                           ],

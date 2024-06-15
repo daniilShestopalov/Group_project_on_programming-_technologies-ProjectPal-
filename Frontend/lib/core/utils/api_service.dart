@@ -318,8 +318,6 @@ class ApiService {
         },
       );
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final utf8Body = utf8.decode(response.bodyBytes); // Явное декодирование в UTF-8

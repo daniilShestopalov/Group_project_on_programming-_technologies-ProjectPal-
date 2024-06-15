@@ -12,15 +12,11 @@ class ComplaintPageContent extends StatefulWidget {
 class _ComplaintPageContentState extends State<ComplaintPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
 
-  List<int> professors = DataUtils.getTeacherIds();
 
 
   @override
   void initState() {
     super.initState();
-    // Получаем список идентификаторов преподавателей и выводим его в консоль
-    professors = DataUtils.getTeacherIds();
-    print('List of professors: $professors');
   }
 
 

@@ -16,7 +16,7 @@ class _TasksPageContentState extends State<TasksPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   final ApiService apiService = ApiService();
   SortOrder sortOrder = SortOrder.ascending;
-  late User user;
+  User? user;
   int selectedIndex = 0;
   List<TaskBlockWidget> taskBlocks = [];
 
@@ -129,7 +129,7 @@ class _TasksPageContentState extends State<TasksPageContent> {
           ),
         ],
       ),
-      floatingActionButton: user.role != 'STUDENT'
+      floatingActionButton: user?.role != 'STUDENT'
           ? FloatingActionButton(
         onPressed: () {
           AppRoutes.navigateToPageWithFadeTransition(context, TasksCreatePage(userId: widget.userId, subject: '', date: '', teacher: '', description: '', taskId: 0,));
