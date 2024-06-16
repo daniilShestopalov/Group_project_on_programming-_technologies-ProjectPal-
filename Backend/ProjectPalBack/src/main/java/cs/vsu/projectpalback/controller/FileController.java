@@ -27,7 +27,7 @@ public class FileController {
     @Operation(summary = "Upload avatar image", description = "Upload an avatar image file. Only image files are allowed.")
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/upload/avatar")
-    public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file, @RequestParam("id") int id) {
         if (!FileUtils.isImage(file)) {
             LOGGER.warn("Upload attempt with non-image file for avatar");
             return ResponseEntity.status(415).body("Only image files are allowed for avatars");
@@ -37,7 +37,7 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File size must be less than 2MB");
         }
         try {
-            String filename = fileService.saveAvatar(file);
+            String filename = fileService.saveAvatar(file, id);
             LOGGER.info("Avatar uploaded successfully: {}", filename);
             return ResponseEntity.ok("Avatar uploaded successfully");
         } catch (RuntimeException e) {
@@ -49,13 +49,13 @@ public class FileController {
     @Operation(summary = "Upload task file", description = "Upload a task file. Only PDF files are allowed.")
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/upload/task")
-    public ResponseEntity<String> uploadTaskFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadTaskFile(@RequestParam("file") MultipartFile file, @RequestParam("id") int id) {
         if (!FileUtils.isPdf(file)) {
             LOGGER.warn("Upload attempt with non-PDF file for task");
             return ResponseEntity.status(415).body("Only PDF files are allowed for tasks");
         }
         try {
-            String filename = fileService.saveTaskFile(file);
+            String filename = fileService.saveTaskFile(file, id);
             LOGGER.info("Task file uploaded successfully: {}", filename);
             return ResponseEntity.ok("Task file uploaded successfully");
         } catch (RuntimeException e) {
@@ -67,13 +67,13 @@ public class FileController {
     @Operation(summary = "Upload project file", description = "Upload a project file. Only PDF files are allowed.")
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/upload/project")
-    public ResponseEntity<String> uploadProjectFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadProjectFile(@RequestParam("file") MultipartFile file, @RequestParam("id") int id) {
         if (!FileUtils.isPdf(file)) {
             LOGGER.warn("Upload attempt with non-PDF file for project");
             return ResponseEntity.status(415).body("Only PDF files are allowed for projects");
         }
         try {
-            String filename = fileService.saveProjectFile(file);
+            String filename = fileService.saveProjectFile(file, id);
             LOGGER.info("Project file uploaded successfully: {}", filename);
             return ResponseEntity.ok("Project file uploaded successfully");
         } catch (RuntimeException e) {
@@ -85,13 +85,13 @@ public class FileController {
     @Operation(summary = "Upload task answer file", description = "Upload a task answer file. Only PDF files are allowed.")
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/upload/task-answer")
-    public ResponseEntity<String> uploadTaskAnswerFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadTaskAnswerFile(@RequestParam("file") MultipartFile file, @RequestParam("id") int id) {
         if (!FileUtils.isPdf(file)) {
             LOGGER.warn("Upload attempt with non-PDF file for task answer");
             return ResponseEntity.status(415).body("Only PDF files are allowed for task answers");
         }
         try {
-            String filename = fileService.saveTaskAnswerFile(file);
+            String filename = fileService.saveTaskAnswerFile(file, id);
             LOGGER.info("Task answer file uploaded successfully: {}", filename);
             return ResponseEntity.ok("Task answer file uploaded successfully");
         } catch (RuntimeException e) {
@@ -103,13 +103,13 @@ public class FileController {
     @Operation(summary = "Upload project answer file", description = "Upload a project answer file. Only PDF files are allowed.")
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/upload/project-answer")
-    public ResponseEntity<String> uploadProjectAnswerFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadProjectAnswerFile(@RequestParam("file") MultipartFile file, @RequestParam("id") int id) {
         if (!FileUtils.isPdf(file)) {
             LOGGER.warn("Upload attempt with non-PDF file for project answer");
             return ResponseEntity.status(415).body("Only PDF files are allowed for project answers");
         }
         try {
-            String filename = fileService.saveProjectAnswerFile(file);
+            String filename = fileService.saveProjectAnswerFile(file, id);
             LOGGER.info("Project answer file uploaded successfully: {}", filename);
             return ResponseEntity.ok("Project answer file uploaded successfully");
         } catch (RuntimeException e) {
@@ -120,41 +120,121 @@ public class FileController {
 
     @Operation(summary = "Download avatar image", description = "Download an avatar image file.")
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/download/avatar/{filename}")
-    public ResponseEntity<Resource> getAvatar(@PathVariable String filename) {
-        LOGGER.info("Downloading avatar image: {}", filename);
-        return FileUtils.getFileResponse(fileService.getAvatar(filename), filename);
+    @GetMapping("/download/avatar/{id}/{filename}")
+    public ResponseEntity<Resource> getAvatar(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        LOGGER.info("Downloading avatar image: {}", fullFilename);
+        return FileUtils.getFileResponse(fileService.getAvatar(fullFilename), filename);
     }
 
     @Operation(summary = "Download task file", description = "Download a task file.")
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/download/task/{filename}")
-    public ResponseEntity<Resource> getTaskFile(@PathVariable String filename) {
-        LOGGER.info("Downloading task file: {}", filename);
-        return FileUtils.getFileResponse(fileService.getTaskFile(filename), filename);
+    @GetMapping("/download/task/{id}/{filename}")
+    public ResponseEntity<Resource> getTaskFile(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        LOGGER.info("Downloading task file: {}", fullFilename);
+        return FileUtils.getFileResponse(fileService.getTaskFile(fullFilename), filename);
     }
 
     @Operation(summary = "Download project file", description = "Download a project file.")
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/download/project/{filename}")
-    public ResponseEntity<Resource> getProjectFile(@PathVariable String filename) {
-        LOGGER.info("Downloading project file: {}", filename);
-        return FileUtils.getFileResponse(fileService.getProjectFile(filename), filename);
+    @GetMapping("/download/project/{id}/{filename}")
+    public ResponseEntity<Resource> getProjectFile(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        LOGGER.info("Downloading project file: {}", fullFilename);
+        return FileUtils.getFileResponse(fileService.getProjectFile(fullFilename), filename);
     }
 
     @Operation(summary = "Download task answer file", description = "Download a task answer file.")
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/download/task-answer/{filename}")
-    public ResponseEntity<Resource> getTaskAnswerFile(@PathVariable String filename) {
-        LOGGER.info("Downloading task answer file: {}", filename);
-        return FileUtils.getFileResponse(fileService.getTaskAnswerFile(filename), filename);
+    @GetMapping("/download/task-answer/{id}/{filename}")
+    public ResponseEntity<Resource> getTaskAnswerFile(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        LOGGER.info("Downloading task answer file: {}", fullFilename);
+        return FileUtils.getFileResponse(fileService.getTaskAnswerFile(fullFilename), filename);
     }
 
     @Operation(summary = "Download project answer file", description = "Download a project answer file.")
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/download/project-answer/{filename}")
-    public ResponseEntity<Resource> getProjectAnswerFile(@PathVariable String filename) {
-        LOGGER.info("Downloading project answer file: {}", filename);
-        return FileUtils.getFileResponse(fileService.getProjectAnswerFile(filename), filename);
+    @GetMapping("/download/project-answer/{id}/{filename}")
+    public ResponseEntity<Resource> getProjectAnswerFile(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        LOGGER.info("Downloading project answer file: {}", fullFilename);
+        return FileUtils.getFileResponse(fileService.getProjectAnswerFile(fullFilename), filename);
+    }
+
+    @Operation(summary = "Delete avatar image", description = "Delete an avatar image file.")
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete/avatar/{id}/{filename}")
+    public ResponseEntity<String> deleteAvatar(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        try {
+            fileService.deleteAvatar(fullFilename);
+            LOGGER.info("Avatar deleted successfully: {}", fullFilename);
+            return ResponseEntity.ok("Avatar deleted successfully");
+        } catch (RuntimeException e) {
+            LOGGER.error("Error deleting avatar", e);
+            return ResponseEntity.status(500).body("Error deleting avatar");
+        }
+    }
+
+    @Operation(summary = "Delete task file", description = "Delete a task file.")
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete/task/{id}/{filename}")
+    public ResponseEntity<String> deleteTaskFile(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        try {
+            fileService.deleteTaskFile(fullFilename);
+            LOGGER.info("Task file deleted successfully: {}", fullFilename);
+            return ResponseEntity.ok("Task file deleted successfully");
+        } catch (RuntimeException e) {
+            LOGGER.error("Error deleting task file", e);
+            return ResponseEntity.status(500).body("Error deleting task file");
+        }
+    }
+
+    @Operation(summary = "Delete project file", description = "Delete a project file.")
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete/project/{id}/{filename}")
+    public ResponseEntity<String> deleteProjectFile(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        try {
+            fileService.deleteProjectFile(fullFilename);
+            LOGGER.info("Project file deleted successfully: {}", fullFilename);
+            return ResponseEntity.ok("Project file deleted successfully");
+        } catch (RuntimeException e) {
+            LOGGER.error("Error deleting project file", e);
+            return ResponseEntity.status(500).body("Error deleting project file");
+        }
+    }
+
+    @Operation(summary = "Delete task answer file", description = "Delete a task answer file.")
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete/task-answer/{id}/{filename}")
+    public ResponseEntity<String> deleteTaskAnswerFile(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        try {
+            fileService.deleteTaskAnswerFile(fullFilename);
+            LOGGER.info("Task answer file deleted successfully: {}", fullFilename);
+            return ResponseEntity.ok("Task answer file deleted successfully");
+        } catch (RuntimeException e) {
+            LOGGER.error("Error deleting task answer file", e);
+            return ResponseEntity.status(500).body("Error deleting task answer file");
+        }
+    }
+
+    @Operation(summary = "Delete project answer file", description = "Delete a project answer file.")
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete/project-answer/{id}/{filename}")
+    public ResponseEntity<String> deleteProjectAnswerFile(@PathVariable int id, @PathVariable String filename) {
+        String fullFilename = id + "_" + filename;
+        try {
+            fileService.deleteProjectAnswerFile(fullFilename);
+            LOGGER.info("Project answer file deleted successfully: {}", fullFilename);
+            return ResponseEntity.ok("Project answer file deleted successfully");
+        } catch (RuntimeException e) {
+            LOGGER.error("Error deleting project answer file", e);
+            return ResponseEntity.status(500).body("Error deleting project answer file");
+        }
     }
 }

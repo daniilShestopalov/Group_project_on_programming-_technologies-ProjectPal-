@@ -40,30 +40,31 @@ public class FileService {
         }
     }
 
-    public String saveAvatar(MultipartFile file) {
-        return saveFile(file, Path.of(avatarDirectory));
+    public String saveAvatar(MultipartFile file, int id) {
+        return saveFile(file, Path.of(avatarDirectory), id);
     }
 
-    public String saveTaskFile(MultipartFile file) {
-        return saveFile(file, Path.of(taskFilesDirectory));
+    public String saveTaskFile(MultipartFile file, int id) {
+        return saveFile(file, Path.of(taskFilesDirectory), id);
     }
 
-    public String saveProjectFile(MultipartFile file) {
-        return saveFile(file, Path.of(projectFilesDirectory));
+    public String saveProjectFile(MultipartFile file, int id) {
+        return saveFile(file, Path.of(projectFilesDirectory), id);
     }
 
-    public String saveTaskAnswerFile(MultipartFile file) {
-        return saveFile(file, Path.of(taskAnswersDirectory));
+    public String saveTaskAnswerFile(MultipartFile file, int id) {
+        return saveFile(file, Path.of(taskAnswersDirectory), id);
     }
 
-    public String saveProjectAnswerFile(MultipartFile file) {
-        return saveFile(file, Path.of(projectAnswersDirectory));
+    public String saveProjectAnswerFile(MultipartFile file, int id) {
+        return saveFile(file, Path.of(projectAnswersDirectory), id);
     }
 
-    private String saveFile(MultipartFile file, Path directory) {
+    private String saveFile(MultipartFile file, Path directory, int id) {
         try {
-            String filename = file.getOriginalFilename();
-            Path filepath = directory.resolve(Objects.requireNonNull(filename));
+            String originalFilename = file.getOriginalFilename();
+            String filename = id + "_" + Objects.requireNonNull(originalFilename);
+            Path filepath = directory.resolve(filename);
             Files.write(filepath, file.getBytes());
             LOGGER.info("File saved: {}", filepath);
             return filename;
@@ -101,6 +102,37 @@ public class FileService {
 
     public byte[] getProjectAnswerFile(String filename) {
         return getFile(Path.of(projectAnswersDirectory), filename);
+    }
+
+    public void deleteAvatar(String filename) {
+        deleteFile(Path.of(avatarDirectory), filename);
+    }
+
+    public void deleteTaskFile(String filename) {
+        deleteFile(Path.of(taskFilesDirectory), filename);
+    }
+
+    public void deleteProjectFile(String filename) {
+        deleteFile(Path.of(projectFilesDirectory), filename);
+    }
+
+    public void deleteTaskAnswerFile(String filename) {
+        deleteFile(Path.of(taskAnswersDirectory), filename);
+    }
+
+    public void deleteProjectAnswerFile(String filename) {
+        deleteFile(Path.of(projectAnswersDirectory), filename);
+    }
+
+    private void deleteFile(Path directory, String filename) {
+        try {
+            Path filepath = directory.resolve(filename);
+            Files.delete(filepath);
+            LOGGER.info("File deleted: {}", filepath);
+        } catch (IOException e) {
+            LOGGER.error("Error deleting file: {}", e.getMessage());
+            throw new RuntimeException("Error deleting file", e);
+        }
     }
 
 }
