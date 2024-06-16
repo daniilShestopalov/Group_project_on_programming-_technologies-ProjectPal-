@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="20c8accb-b2c1-4a18-b041-e4300cde7315" name="Changes" comment="Переработка старых экранов. Доведение до ума и обновление дизайна">
       <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/api_service.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/concrete_project_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/students_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/concrete_project_page.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/students_page.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_project_block.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_project_block_open.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/build.gradle" afterDir="false" />

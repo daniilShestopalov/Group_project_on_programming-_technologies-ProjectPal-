@@ -280,32 +280,6 @@ class ApiService {
 
   }
 
-  Future<File?> downloadTaskAnswer(String token, String filename) async {
-    String url = '$baseUrl/file/download/task-answer/$filename';
-
-    try {
-      var response = await http.get(
-        Uri.parse(url),
-        headers: {'Authorization': 'Bearer $token'},
-      );
-
-      if (response.statusCode == 200) {
-        Directory tempDir = await getTemporaryDirectory();
-        File file = File('${tempDir.path}/$filename');
-        await file.writeAsBytes(response.bodyBytes);
-        print('Task answer file saved successfully: ${file.path}');
-        return file;
-      } else {
-        // Обработка других статус-кодов при необходимости
-        print('Failed to download task answer file. Status code: ${response.statusCode}');
-        return null;
-      }
-    } catch (e) {
-      print('Error downloading task answer file: $e');
-      return null;
-    }
-  }
-
   Future<User> getUserById(String token, int userId) async {
     try {
       final Uri url = Uri.parse('$baseUrl/user/$userId');
@@ -469,6 +443,63 @@ class ApiService {
     }
   }
 
+  Future<List<Project>> getStudentProjectByUserId(String token, int studentId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/student-project/projects/$studentId');
+      print('Request URL: $url');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+        return data.map((json) => Project.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<Project>> getProjectsByStudentProjectId(String token, int id) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/project/$id');
+      print('Request URL: $url');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      print('22222');
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+        return data.map((json) => Project.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print ('вторая не пошла');
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+
+
   Future<int> getTasksCountByGroup(int groupId, String token) async {
     final response = await http.get(
       Uri.parse('$baseUrl/task/group/$groupId/count'),
@@ -526,7 +557,7 @@ class ApiService {
     }
   }
 
-  Future<String?> downloadProjectAnswer(String token, String filename) async {
+  Future<String?> downloadTaskAnswer(String token, String filename) async {
     try {
       var response = await http.get(Uri.parse('$baseUrl/file/download/task-answer/$filename'),
         headers: {
@@ -659,6 +690,31 @@ class ApiService {
       throw Exception('Error: $e');
     }
   }
+
+  Future<Map<String, dynamic>> getProjectAnswerByProjectId(String token, int projectId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/project-answer/project/$projectId');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+        return jsonResponse;
+      } else {
+        print('Failed to load task answer. Status code: ${response.statusCode}');
+        throw Exception('Failed to load task answer. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch project answer: $e');
+    }
+  }
+
+
 
   Future<void> uploadTaskAnswerFile(String token, File pdfFile) async {
     try {
@@ -873,6 +929,90 @@ class Tasks {
       fileLink: json['fileLink'],
       startDate: DateTime.parse(json['startDate']),
       endDate: DateTime.parse(json['endDate']),
+    );
+  }
+}
+
+class Project {
+  final int id; // обязательное поле
+  final String name; // обязательное поле
+  final int teacherUserId; // обязательное поле
+  final String? description; // nullable поле
+  final String fileLink; // обязательное поле
+  final DateTime startDate; // обязательное поле
+  final DateTime? endDate; // nullable поле
+
+  Project({
+    required this.id,
+    required this.name,
+    required this.teacherUserId,
+    this.description, // nullable
+    required this.fileLink,
+    required this.startDate,
+    this.endDate, // nullable
+  });
+
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      id: json['id'],
+      name: json['name'],
+      teacherUserId: json['teacherUserId'],
+      description: json['description'],
+      fileLink: json['fileLink'],
+      startDate: DateTime.parse(json['startDate']),
+      endDate: json['endDate'] != null ? DateTime.parse(json['endDate']) : null,
+    );
+  }
+}
+
+class StudentProject {
+  final int id;
+  final int studentUserId;
+  final int projectId;
+
+  StudentProject({
+    required this.id,
+    required this.studentUserId,
+    required this.projectId,
+  });
+
+  factory StudentProject.fromJson(Map<String, dynamic> json) {
+    return StudentProject(
+      id: json['id'],
+      studentUserId: json['studentUserId'],
+      projectId: json['projectId'],
+    );
+  }
+}
+
+class ProjectAnswer {
+  final int id;
+  final int projectId;
+  final DateTime submissionDate;
+  final String teacherCommentary;
+  final String studentCommentary;
+  final int grade;
+  final String fileLink;
+
+  ProjectAnswer({
+    required this.id,
+    required this.projectId,
+    required this.submissionDate,
+    required this.teacherCommentary,
+    required this.studentCommentary,
+    required this.grade,
+    required this.fileLink,
+  });
+
+  factory ProjectAnswer.fromJson(Map<String, dynamic> json) {
+    return ProjectAnswer(
+      id: json['id'],
+      projectId: json['projectId'],
+      submissionDate: DateTime.parse(json['submissionDate']),
+      teacherCommentary: json['teacherCommentary'],
+      studentCommentary: json['studentCommentary'],
+      grade: json['grade'],
+      fileLink: json['fileLink'],
     );
   }
 }

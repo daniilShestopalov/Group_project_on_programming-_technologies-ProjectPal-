@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:project_pal/core/app_export.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class TaskBlockOpenWidget extends StatefulWidget {
+class ProjectBlockOpenWidget extends StatefulWidget {
   final String subject;
   final String date;
   final String teacher;
@@ -13,7 +12,7 @@ class TaskBlockOpenWidget extends StatefulWidget {
   final String instruction;
   final int taskId;
 
-  TaskBlockOpenWidget({
+  ProjectBlockOpenWidget({
     required this.subject,
     required this.date,
     required this.teacher,
@@ -23,10 +22,10 @@ class TaskBlockOpenWidget extends StatefulWidget {
   });
 
   @override
-  _TaskBlockOpenWidgetState createState() => _TaskBlockOpenWidgetState();
+  _ProjectBlockOpenWidgetState createState() => _ProjectBlockOpenWidgetState();
 }
 
-class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
+class _ProjectBlockOpenWidgetState extends State<ProjectBlockOpenWidget> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   final ApiService apiService = ApiService();
   int? answerId;
@@ -45,17 +44,18 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
   Future<void> _loadTaskAnswer() async {
     try {
       String token = await apiService.getJwtToken() ?? '';
-      final List<Map<String, dynamic>> data =
-          await apiService.getTaskAnswerByTaskId(token, widget.taskId);
+      final Map<String, dynamic> data =
+      await apiService.getProjectAnswerByProjectId(token, widget.taskId);
+      print(data);
       if (data.isNotEmpty) {
         setState(() {
-          answerId = data[0]['id'];
-          submissionDate = data[0]['submissionDate'] != null
-              ? DateTime.parse(data[0]['submissionDate'])
+          answerId = data['id'];
+          submissionDate = data['submissionDate'] != null
+              ? DateTime.parse(data['submissionDate'])
               : DateTime.now();
-          teacherComment = data[0]['teacherCommentary'] ?? '';
-          teacherGrade = data[0]['grade'];
-          answerLink = data[0]['fileLink'] ?? '';
+          teacherComment = data['teacherCommentary'] ?? '';
+          teacherGrade = data['grade'];
+          answerLink = data['fileLink'] ?? '';
         });
       } else {
         print('No task answer found');
@@ -135,7 +135,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                               CustomText(
                                 text: '$remainingDaysText',
                                 style:
-                                    figmaTextStyles.headerTextMedium.copyWith(
+                                figmaTextStyles.headerTextMedium.copyWith(
                                   color: FigmaColors.darkBlueMain,
                                 ),
                               ),
@@ -245,7 +245,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                   text: 'Прикрепить ответ',
                   onPressed: () async {
                     FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
+                    await FilePicker.platform.pickFiles(
                       type: FileType.custom,
                       allowedExtensions: ['pdf'],
                     );
@@ -263,7 +263,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                             taskId: widget.taskId,
                             studentUserId: widget.userId,
                             submissionDate:
-                                submissionDate?.toIso8601String() ?? '',
+                            submissionDate?.toIso8601String() ?? '',
                             teacherCommentary: teacherComment,
                             grade: teacherGrade!,
                             fileLink: '$fileName',

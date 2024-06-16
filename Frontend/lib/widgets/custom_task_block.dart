@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class TaskBlockWidget extends StatefulWidget {
@@ -25,6 +26,7 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   final ApiService apiService = ApiService();
   int? teacherGrade;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -36,7 +38,7 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
     try {
       String token = await apiService.getJwtToken() ?? '';
       final List<Map<String, dynamic>> data =
-          await apiService.getTaskAnswerByTaskId(token, widget.taskId);
+      await apiService.getTaskAnswerByTaskId(token, widget.taskId);
       if (data.isNotEmpty) {
         setState(() {
           teacherGrade = data[0]['grade'];
@@ -46,11 +48,19 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
       }
     } catch (e) {
       print('Failed to load task answer: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     DateTime now = DateTime.now();
     int difference = widget.endDate.difference(now).inDays;
     String endDate = difference.toString();
@@ -88,12 +98,12 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: FigmaColors.contrastToMain,
+            color: getBackgroundColor(teacherGrade),
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                color: FigmaColors.darkBlueMain,
-                offset: Offset(0, 6),
+                color: Colors.black,
+                offset: Offset(0, 5),
                 blurRadius: 6,
               ),
             ],
@@ -157,5 +167,17 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
         ),
       ),
     );
+  }
+
+  Color getBackgroundColor(int? teacherGrade) {
+    DateTime now = DateTime.now();
+    int difference = widget.endDate.difference(now).inDays;
+    if (difference > 0 && teacherGrade == null) {
+      return FigmaColors.editTask; // Желтый цвет для пустого значения
+    } else if (teacherGrade == 2 || (difference < 0 && teacherGrade == null)) {
+      return FigmaColors.lightRedMain; // Красный цвет для значения 2
+    } else {
+      return FigmaColors.greenGrade; // Зеленый цвет для значений 3, 4 и 5
+    }
   }
 }

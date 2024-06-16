@@ -68,3 +68,6 @@ export 'package:project_pal/presentation/content/complaint_content_page.dart';
 export 'package:project_pal/presentation/content/students_page_content.dart';
 export 'package:project_pal/presentation/pages/students_page.dart';
 export 'package:project_pal/widgets/custom_project_block.dart';
+export 'package:project_pal/presentation/pages/concrete_project_page.dart';
+export 'package:project_pal/presentation/content/concrete_project_page_content.dart';
+export 'package:project_pal/widgets/custom_project_block_open.dart';

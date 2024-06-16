@@ -6,7 +6,7 @@ class ProjectBlockWidget extends StatefulWidget {
   final String teacher;
   final int userId;
   final String description;
-  final int taskId;
+  final int projectId;
 
   ProjectBlockWidget({
     required this.subject,
@@ -14,7 +14,7 @@ class ProjectBlockWidget extends StatefulWidget {
     required this.teacher,
     required this.userId,
     required this.description,
-    required this.taskId,
+    required this.projectId,
   });
 
   @override
@@ -23,16 +23,60 @@ class ProjectBlockWidget extends StatefulWidget {
 
 class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  final ApiService apiService = ApiService();
+  int? teacherGrade;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTaskAnswer();
+  }
+
+  Future<void> _loadTaskAnswer() async {
+    try {
+      String token = await apiService.getJwtToken() ?? '';
+      final Map<String, dynamic> projectAnswer =
+      await apiService.getProjectAnswerByProjectId(token, widget.projectId);
+
+      print('Project answer received: $projectAnswer');
+
+      if (projectAnswer.isNotEmpty) {
+        setState(() {
+          teacherGrade = projectAnswer['grade'];
+        });
+      } else {
+        setState(() {
+          teacherGrade = null;
+        });
+      }
+    } catch (e) {
+      print('Failed to load task answer: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     DateTime now = DateTime.now();
     int difference = widget.endDate.difference(now).inDays;
     String endDate = difference.toString();
 
     String remainingDaysText = '';
-    if (difference < 0) {
+    if (difference < 0 && teacherGrade == null) {
       remainingDaysText = 'Просрочено';
+    } else if (difference < 0 && teacherGrade != null) {
+      remainingDaysText = 'Выполнено';
     } else if (difference == 0) {
       remainingDaysText = 'Сегодня';
     } else if (difference == 1) {
@@ -43,31 +87,30 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
       remainingDaysText = '$difference дней';
     }
 
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GestureDetector(
         onTap: () {
           AppRoutes.navigateToPageWithFadeTransition(
             context,
-            ConcreteTaskPage(
+            ConcreteProjectPage(
               userId: widget.userId,
               subject: widget.subject,
               date: endDate,
               teacher: widget.teacher,
               description: widget.description,
-              taskId: widget.taskId,
+              taskId: widget.projectId,
             ),
           );
         },
         child: Container(
           decoration: BoxDecoration(
-            color: FigmaColors.contrastToMain,
+            color: getBackgroundColor(teacherGrade),
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                color: FigmaColors.darkBlueMain,
-                offset: Offset(0, 6),
+                color: Colors.black,
+                offset: Offset(0, 5),
                 blurRadius: 6,
               ),
             ],
@@ -98,6 +141,15 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
                                 color: FigmaColors.darkBlueMain,
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: CustomText(
+                                text: widget.description,
+                                style: figmaTextStyles.regularText.copyWith(
+                                  color: FigmaColors.darkBlueMain,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -123,4 +175,17 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
       ),
     );
   }
+
+  Color getBackgroundColor(int? teacherGrade) {
+    DateTime now = DateTime.now();
+    int difference = widget.endDate.difference(now).inDays;
+    if (difference > 0 && teacherGrade == null) {
+      return FigmaColors.editTask; // Желтый цвет для пустого значения
+    } else if (teacherGrade == 2 || (difference < 0 && teacherGrade == null)) {
+      return FigmaColors.lightRedMain; // Красный цвет для значения 2
+    } else {
+      return FigmaColors.greenGrade; // Зеленый цвет для значений 3, 4 и 5
+    }
+  }
 }
+
