@@ -70,4 +70,8 @@ export 'package:project_pal/presentation/pages/students_page.dart';
 export 'package:project_pal/widgets/custom_project_block.dart';
 export 'package:project_pal/presentation/pages/concrete_project_page.dart';
 export 'package:project_pal/presentation/content/concrete_project_page_content.dart';
+export 'package:project_pal/presentation/content/task_update_page_content.dart';
 export 'package:project_pal/widgets/custom_project_block_open.dart';
+export 'package:project_pal/widgets/custom_search_field.dart';
+export 'package:project_pal/widgets/custom_task_block_open_update.dart';
+export 'package:project_pal/presentation/pages/task_update_page.dart';

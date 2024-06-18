@@ -166,7 +166,7 @@ class _ProjectPageContentState extends State<ProjectPageContent> {
             floatingActionButton: user?.role != 'STUDENT'
                 ? FloatingActionButton(
               onPressed: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, TasksCreatePage(userId: widget.userId, subject: '', date: '', teacher: '', description: '', taskId: 0,));
+                //AppRoutes.navigateToPageWithFadeTransition(context, TasksCreatePage(userId: widget.userId, subject: '', date: DateTime.now(), teacher: '', description: '', taskId: 0,));
               },
               child: Icon(Icons.create_outlined),
               backgroundColor: FigmaColors.contrastToMain,

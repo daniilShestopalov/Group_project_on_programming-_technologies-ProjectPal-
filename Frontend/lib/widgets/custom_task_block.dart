@@ -4,18 +4,22 @@ import 'package:project_pal/core/app_export.dart';
 class TaskBlockWidget extends StatefulWidget {
   final String subject;
   final DateTime endDate;
+  final DateTime startDate;
   final String teacher;
   final int userId;
   final String description;
+  final String fileLink;
   final int taskId;
 
   TaskBlockWidget({
     required this.subject,
     required this.endDate,
+    required this.startDate,
     required this.teacher,
     required this.userId,
     required this.description,
     required this.taskId,
+    required this.fileLink,
   });
 
   @override
@@ -93,6 +97,8 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
               teacher: widget.teacher,
               description: widget.description,
               taskId: widget.taskId,
+              startDate: widget.startDate,
+              fileLink: widget.fileLink,
             ),
           );
         },

@@ -65,6 +65,7 @@ class AuthPageState extends State<AuthPage> {
                   CustomTextField(
                     hintText: 'Пароль',
                     obscureText: true,
+                    maxLines: 1,
                     controller: passwordController,
                     figmaTextStyles: figmaTextStyles,
                   ),

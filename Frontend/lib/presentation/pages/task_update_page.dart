@@ -1,6 +1,6 @@
 import 'package:project_pal/core/app_export.dart';
 
-class TasksCreatePage extends StatefulWidget {
+class TasksUpdatePage extends StatefulWidget {
   final int userId;
   final String subject;
   final DateTime endDate;
@@ -10,7 +10,7 @@ class TasksCreatePage extends StatefulWidget {
   final String fileLink;
   final int taskId;
 
-  const TasksCreatePage({
+  const TasksUpdatePage({
     Key? key,
     required this.userId,
     required this.subject,
@@ -23,10 +23,10 @@ class TasksCreatePage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TasksCreatePageState createState() => _TasksCreatePageState();
+  _TasksUpdatePageState createState() => _TasksUpdatePageState();
 }
 
-class _TasksCreatePageState extends State<TasksCreatePage> {
+class _TasksUpdatePageState extends State<TasksUpdatePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -41,7 +41,7 @@ class _TasksCreatePageState extends State<TasksCreatePage> {
       ),
       drawer: CustomSideMenu(
           figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
-      body: TasksCreatePageContent(
+      body: TasksUpdatePageContent(
         userId: widget.userId,
         subject: widget.subject,
         teacher: widget.teacher,

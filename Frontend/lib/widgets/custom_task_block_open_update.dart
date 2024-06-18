@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:project_pal/core/app_export.dart';
 
-class TaskBlockOpenCreateWidget extends StatefulWidget {
+class TaskBlockOpenUpdateWidget extends StatefulWidget {
   final String? subject;
   final DateTime? endDate;
   final DateTime? startDate;
@@ -16,7 +16,7 @@ class TaskBlockOpenCreateWidget extends StatefulWidget {
   final int taskId;
   final String? fileLink;
 
-  TaskBlockOpenCreateWidget({
+  TaskBlockOpenUpdateWidget({
     required this.subject,
     required this.endDate,
     required this.startDate,
@@ -30,10 +30,10 @@ class TaskBlockOpenCreateWidget extends StatefulWidget {
   });
 
   @override
-  _TaskBlockOpenCreateWidgetState createState() => _TaskBlockOpenCreateWidgetState();
+  _TaskBlockOpenUpdateWidgetState createState() => _TaskBlockOpenUpdateWidgetState();
 }
 
-class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
+class _TaskBlockOpenUpdateWidgetState extends State<TaskBlockOpenUpdateWidget> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
@@ -276,11 +276,11 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
           ),
           SizedBox(height: 16),
           CustomButton(
-            text: 'Отправить задачу',
+            text: 'Обновить задачу',
             onPressed: () async {
               String? token = await apiService.getJwtToken();
               if (token != null && _selectedEndDate != null) {
-                await apiService.createTask(
+                await apiService.updateTask(
                   token: token,
                   taskId: widget.taskId,
                   name: _nameController.text,
@@ -294,7 +294,7 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
                 AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: widget.userId));
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Задание создано'),
+                    content: Text('Задание обновлено'),
                   ),
                 );
               }

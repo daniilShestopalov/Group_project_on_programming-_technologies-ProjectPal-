@@ -120,7 +120,7 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 36),
             child: ListView.builder(
               itemCount: groupBlocks.length,
               itemBuilder: (context, index) {

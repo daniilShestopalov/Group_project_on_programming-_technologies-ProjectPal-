@@ -37,8 +37,13 @@ class _TasksPageContentState extends State<TasksPageContent> {
   Future<void> fetchTasks(String token) async {
     try {
       final User user = await apiService.getUserById(token, widget.userId);
-      int groupId = user.groupId!;
-      final tasks = await apiService.getTasksByGroupId(token, groupId);
+      List<Tasks> tasks;
+      if (user.role == 'STUDENT') {
+        tasks = await apiService.getTasksByGroupId(token, user.groupId!);
+      } else {
+        tasks = await apiService.getTasksByTeacherId(token, user.id);
+        print(tasks);
+      }
       final taskBlockWidgets = await Future.wait(tasks.map((task) async {
         final teacher = await apiService.getUserById(token, task.teacherUserId);
         return TaskBlockWidget(
@@ -48,6 +53,8 @@ class _TasksPageContentState extends State<TasksPageContent> {
           userId: widget.userId,
           description: task.description,
           taskId: task.id,
+          startDate: task.startDate,
+          fileLink: task.fileLink,
         );
       }).toList());
 
@@ -79,7 +86,8 @@ class _TasksPageContentState extends State<TasksPageContent> {
               children: [
                 // Блок 1
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -124,15 +132,24 @@ class _TasksPageContentState extends State<TasksPageContent> {
                                 decoration: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
-                                      color: index == selectedIndex ? FigmaColors.darkBlueMain : Colors.transparent,
+                                      color: index == selectedIndex
+                                          ? FigmaColors.darkBlueMain
+                                          : Colors.transparent,
                                       width: 2.0,
                                     ),
                                   ),
                                 ),
                                 child: Text(
-                                  index == 0 ? 'По дедлайну' : index == 1 ? 'По преподавателю' : 'По предмету',
-                                  style: figmaTextStyles.caption1Regular.copyWith(
-                                    color: index == selectedIndex ? FigmaColors.darkBlueMain : FigmaColors.exitColor,
+                                  index == 0
+                                      ? 'По дедлайну'
+                                      : index == 1
+                                          ? 'По преподавателю'
+                                          : 'По предмету',
+                                  style:
+                                      figmaTextStyles.caption1Regular.copyWith(
+                                    color: index == selectedIndex
+                                        ? FigmaColors.darkBlueMain
+                                        : FigmaColors.exitColor,
                                   ),
                                 ),
                               ),
@@ -158,6 +175,8 @@ class _TasksPageContentState extends State<TasksPageContent> {
                             userId: widget.userId,
                             description: taskBlocks[index].description,
                             taskId: taskBlocks[index].taskId,
+                            startDate: taskBlocks[index].startDate,
+                            fileLink: taskBlocks[index].fileLink,
                           ),
                         );
                       },
@@ -168,12 +187,23 @@ class _TasksPageContentState extends State<TasksPageContent> {
             ),
             floatingActionButton: user?.role != 'STUDENT'
                 ? FloatingActionButton(
-              onPressed: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, TasksCreatePage(userId: widget.userId, subject: '', date: '', teacher: '', description: '', taskId: 0,));
-              },
-              child: Icon(Icons.create_outlined),
-              backgroundColor: FigmaColors.contrastToMain,
-            )
+                    onPressed: () {
+                      AppRoutes.navigateToPageWithFadeTransition(
+                          context,
+                          TasksCreatePage(
+                            userId: widget.userId,
+                            subject: '',
+                            teacher: '',
+                            description: '',
+                            taskId: 0,
+                            endDate: DateTime.now(),
+                            startDate: DateTime.now(),
+                            fileLink: '',
+                          ));
+                    },
+                    child: Icon(Icons.create_outlined),
+                    backgroundColor: FigmaColors.contrastToMain,
+                  )
                 : null,
           );
         }
@@ -184,7 +214,9 @@ class _TasksPageContentState extends State<TasksPageContent> {
   void sortTasksByDeadline() {
     setState(() {
       taskBlocks.sort((a, b) {
-        return sortOrder == SortOrder.ascending ? a.endDate.compareTo(b.endDate) : b.endDate.compareTo(a.endDate);
+        return sortOrder == SortOrder.ascending
+            ? a.endDate.compareTo(b.endDate)
+            : b.endDate.compareTo(a.endDate);
       });
     });
   }
@@ -192,7 +224,9 @@ class _TasksPageContentState extends State<TasksPageContent> {
   void sortTasksByTeacher() {
     setState(() {
       taskBlocks.sort((a, b) {
-        return sortOrder == SortOrder.ascending ? a.teacher.compareTo(b.teacher) : b.teacher.compareTo(a.teacher);
+        return sortOrder == SortOrder.ascending
+            ? a.teacher.compareTo(b.teacher)
+            : b.teacher.compareTo(a.teacher);
       });
     });
   }
@@ -200,7 +234,9 @@ class _TasksPageContentState extends State<TasksPageContent> {
   void sortTasksBySubject() {
     setState(() {
       taskBlocks.sort((a, b) {
-        return sortOrder == SortOrder.ascending ? a.subject.compareTo(b.subject) : b.subject.compareTo(a.subject);
+        return sortOrder == SortOrder.ascending
+            ? a.subject.compareTo(b.subject)
+            : b.subject.compareTo(a.subject);
       });
     });
   }

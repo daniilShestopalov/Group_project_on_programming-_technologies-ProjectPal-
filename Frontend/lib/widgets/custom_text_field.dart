@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -5,7 +6,8 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final bool enabled;
-  final TextEditingController? controller; // Обновлено: контроллер может быть null
+  final int? maxLines; // Новый параметр для задания максимального количества строк
+  final TextEditingController? controller;
   final FigmaTextStyles figmaTextStyles;
 
   const CustomTextField({
@@ -14,17 +16,19 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.enabled = true,
-    this.controller, // Обновлено: контроллер может быть null
+    this.maxLines, // Добавляем параметр для максимального количества строк
+    this.controller,
     required this.figmaTextStyles,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller, // Используем контроллер, если он предоставлен
+      controller: controller,
       enabled: enabled,
       keyboardType: keyboardType,
       obscureText: obscureText,
+      maxLines: maxLines,
       style: figmaTextStyles.headerTextRegular.copyWith(
         color: FigmaColors.darkBlueMain,
       ),

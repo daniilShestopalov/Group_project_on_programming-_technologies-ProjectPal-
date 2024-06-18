@@ -1,6 +1,6 @@
 import 'package:project_pal/core/app_export.dart';
 
-class TasksCreatePageContent extends StatefulWidget {
+class TasksUpdatePageContent extends StatefulWidget {
 
   final int userId;
   final String subject;
@@ -11,7 +11,7 @@ class TasksCreatePageContent extends StatefulWidget {
   final int taskId;
   final String fileLink;
 
-  const TasksCreatePageContent({
+  const TasksUpdatePageContent({
     required this.userId,
     required this.subject,
     required this.endDate,
@@ -23,10 +23,10 @@ class TasksCreatePageContent extends StatefulWidget {
   });
 
   @override
-  _TasksCreatePageContentState createState() => _TasksCreatePageContentState();
+  _TasksUpdatePageContentState createState() => _TasksUpdatePageContentState();
 }
 
-class _TasksCreatePageContentState extends State<TasksCreatePageContent> {
+class _TasksUpdatePageContentState extends State<TasksUpdatePageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
 
   @override
@@ -34,7 +34,7 @@ class _TasksCreatePageContentState extends State<TasksCreatePageContent> {
     padding: const EdgeInsets.symmetric(horizontal: 16),
     child: Container(
       padding: EdgeInsets.only(top: 36),
-      child: TaskBlockOpenCreateWidget(
+      child: TaskBlockOpenUpdateWidget(
         subject: widget.subject,
         teacher: widget.teacher,
         userId: widget.userId,

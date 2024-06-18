@@ -137,6 +137,8 @@ class _ConcreteDayPageContentState extends State<ConcreteDayPageContent> {
           userId: widget.userId,
           description: task.description,
           taskId: task.id,
+          startDate: task.startDate,
+          fileLink: task.fileLink,
         );
       }).toList());
 

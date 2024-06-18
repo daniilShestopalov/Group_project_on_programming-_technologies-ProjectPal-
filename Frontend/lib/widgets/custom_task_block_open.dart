@@ -256,7 +256,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                         File file = File(filePath);
                         String fileName = file.path.split('/').last;
                         await apiService.uploadTaskAnswerFile(token, file);
-                        if (teacherGrade != null && answerId != null) {
+                        if (answerId != null) {
                           await apiService.updateTaskAnswer(
                             token: token,
                             id: answerId!,
@@ -269,7 +269,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                             fileLink: '$fileName',
                           );
                         } else {
-                          print('Error: Teacher grade or answer ID is null');
+                          print('Error: answer ID is null');
                         }
                       } catch (e) {
                         print('Error uploading file: $e');
