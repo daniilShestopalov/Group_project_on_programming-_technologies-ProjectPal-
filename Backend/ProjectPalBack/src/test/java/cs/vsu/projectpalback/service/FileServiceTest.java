@@ -52,11 +52,12 @@ public class FileServiceTest {
 
     @Test
     public void testSaveAndRetrieveAvatar() throws IOException {
+        int id = 1;
         String filename = UUID.randomUUID().toString() + ".png";
         byte[] content = "Avatar content".getBytes();
         MockMultipartFile file = new MockMultipartFile("file", filename, "image/png", content);
 
-        String savedFilename = fileService.saveAvatar(file);
+        String savedFilename = fileService.saveAvatar(file, id);
         assertNotNull(savedFilename);
 
         byte[] retrievedContent = fileService.getAvatar(savedFilename);
@@ -67,11 +68,12 @@ public class FileServiceTest {
 
     @Test
     public void testSaveAndRetrieveTaskFile() throws IOException {
+        int id = 2;
         String filename = UUID.randomUUID().toString() + ".txt";
         byte[] content = "Task file content".getBytes();
         MockMultipartFile file = new MockMultipartFile("file", filename, "text/plain", content);
 
-        String savedFilename = fileService.saveTaskFile(file);
+        String savedFilename = fileService.saveTaskFile(file, id);
         assertNotNull(savedFilename);
 
         byte[] retrievedContent = fileService.getTaskFile(savedFilename);
@@ -82,11 +84,12 @@ public class FileServiceTest {
 
     @Test
     public void testSaveAndRetrieveProjectFile() throws IOException {
+        int id = 3;
         String filename = UUID.randomUUID().toString() + ".pdf";
         byte[] content = "Project file content".getBytes();
         MockMultipartFile file = new MockMultipartFile("file", filename, "application/pdf", content);
 
-        String savedFilename = fileService.saveProjectFile(file);
+        String savedFilename = fileService.saveProjectFile(file, id);
         assertNotNull(savedFilename);
 
         byte[] retrievedContent = fileService.getProjectFile(savedFilename);
@@ -97,11 +100,12 @@ public class FileServiceTest {
 
     @Test
     public void testSaveAndRetrieveTaskAnswerFile() throws IOException {
+        int id = 4;
         String filename = UUID.randomUUID().toString() + ".docx";
         byte[] content = "Task answer file content".getBytes();
         MockMultipartFile file = new MockMultipartFile("file", filename, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", content);
 
-        String savedFilename = fileService.saveTaskAnswerFile(file);
+        String savedFilename = fileService.saveTaskAnswerFile(file, id);
         assertNotNull(savedFilename);
 
         byte[] retrievedContent = fileService.getTaskAnswerFile(savedFilename);
@@ -112,11 +116,12 @@ public class FileServiceTest {
 
     @Test
     public void testSaveAndRetrieveProjectAnswerFile() throws IOException {
+        int id = 5;
         String filename = UUID.randomUUID().toString() + ".xlsx";
         byte[] content = "Project answer file content".getBytes();
         MockMultipartFile file = new MockMultipartFile("file", filename, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", content);
 
-        String savedFilename = fileService.saveProjectAnswerFile(file);
+        String savedFilename = fileService.saveProjectAnswerFile(file, id);
         assertNotNull(savedFilename);
 
         byte[] retrievedContent = fileService.getProjectAnswerFile(savedFilename);

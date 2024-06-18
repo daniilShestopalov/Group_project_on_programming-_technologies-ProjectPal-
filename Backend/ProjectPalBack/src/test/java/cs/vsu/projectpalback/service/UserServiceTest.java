@@ -77,8 +77,9 @@ public class UserServiceTest {
     @Test
     public void testGetUsersByGroup() {
         GroupDTO group = new GroupDTO();
-        group.setGroupNumber(101);
-        group.setCourseNumber(1);
+        group.setGroupNumber(102);
+        group.setCourseNumber(2);
+        group.setId(4);
         group = groupService.createGroup(group);
 
         UserDTO userDTO = new UserDTO();
@@ -88,11 +89,13 @@ public class UserServiceTest {
         userDTO.setPassword("password");
         userDTO.setSurname("Test User");
         userDTO.setPatronymic("Test User");
-        userDTO.setRole(Role.TEACHER);
+        userDTO.setRole(Role.STUDENT);
         userDTO.setGroupId(group.getId());
 
-        userService.createUser(userDTO);
-        assertSame("Test User", userService.getUsersByGroup(group.getId()).get(0).getName());
+        userDTO = userService.createUser(userDTO);
+        System.out.println(userService.countUsersByGroup(group.getId()));
+        System.out.println(userService.getUsersByGroup(group.getId()).get(0));
+        assertSame(userDTO.getName(), userService.getUsersByGroup(group.getId()).get(0).getName());
     }
 
     @Test
