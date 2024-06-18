@@ -69,7 +69,7 @@ public class UserService {
 
    public List<UserWithoutPasswordDTO> getUsersByGroup(Integer groupId) {
         LOGGER.debug("Fetching users by group: {}", groupId);
-        return userWithoutPasswordMapper.toDtoList(userRepository.findByGroupId(groupId));
+        return userWithoutPasswordMapper.toDtoList(userRepository.findByGroupIdAndRole(groupId, Role.STUDENT));
    }
 
     public UserWithoutPasswordDTO getUserByLoginWithoutPassword(String login) {

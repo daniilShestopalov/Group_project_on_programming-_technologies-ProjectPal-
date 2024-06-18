@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByLogin(String login);
-    List<User> findByGroupId(Integer groupId);
+    List<User> findByGroupIdAndRole(Integer groupId, Role role);
     List<User> findByRole(Role role);
     long countByGroupId(Integer groupId);
 

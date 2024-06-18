@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
@@ -95,10 +96,15 @@ public class UserController {
     @GetMapping("/group/{groupId}")
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get users by group", description = "Returns a list of users by the given group ID")
-    public ResponseEntity<List<UserWithoutPasswordDTO>> getUsersByGroup(@PathVariable Integer groupId) {
+    public ResponseEntity<List<UserWithoutPasswordDTO>> getUsersByGroup(@PathVariable(required = false) String groupId) {
         try {
-            LOGGER.info("Fetching users by group ID: {}", groupId);
-            return ResponseEntity.ok(userService.getUsersByGroup(groupId));
+            if (Objects.equals(groupId, "null")) {
+                LOGGER.info("Fetching users without group ID");
+                return ResponseEntity.ok(userService.getUsersByGroup(null));
+            } else {
+                LOGGER.info("Fetching users by group ID: {}", groupId);
+                return ResponseEntity.ok(userService.getUsersByGroup(Integer.valueOf(groupId)));
+            }
         } catch (Exception e) {
             LOGGER.error("Error fetching users by group ID: {}", groupId, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
