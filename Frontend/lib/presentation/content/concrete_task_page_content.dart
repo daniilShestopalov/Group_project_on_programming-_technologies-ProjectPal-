@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
-
 
 class ConcreteTaskPageContent extends StatefulWidget {
   final int userId;
@@ -10,6 +10,7 @@ class ConcreteTaskPageContent extends StatefulWidget {
   final String description;
   final String fileLink;
   final int taskId;
+  final int studentId;
 
   const ConcreteTaskPageContent({
     required this.userId,
@@ -20,6 +21,7 @@ class ConcreteTaskPageContent extends StatefulWidget {
     required this.description,
     required this.taskId,
     required this.fileLink,
+    required this.studentId,
   });
 
   @override
@@ -55,7 +57,7 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
     try {
       ApiService apiService = ApiService();
       String? token = await apiService.getJwtToken();
-      await apiService.deleteTask( token:token!, taskId:widget.taskId);
+      await apiService.deleteTask(token: token!, taskId: widget.taskId);
       AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: widget.userId));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -69,17 +71,21 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        padding: EdgeInsets.only(top: 26),
-        child: TaskBlockOpenWidget(
-          subject: widget.subject,
-          date: widget.date,
-          teacher: widget.teacher,
-          userId: widget.userId,
-          instruction: widget.description,
-          taskId: widget.taskId,
+    body: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 100),
+        child: Container(
+          padding: EdgeInsets.only(top: 26),
+          child: TaskBlockOpenWidget(
+            subject: widget.subject,
+            date: widget.date,
+            teacher: widget.teacher,
+            userId: widget.userId,
+            instruction: widget.description,
+            taskId: widget.taskId,
+            taskLink: widget.fileLink,
+            studentId: widget.studentId,
+          ),
         ),
       ),
     ),
@@ -87,7 +93,7 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
       future: _userFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(); // Можно показать заглушку или индикатор загрузки
+          return Container(); // Placeholder or loading indicator
         } else {
           if (snapshot.hasData && snapshot.data!.role != 'STUDENT') {
             return Column(
@@ -97,9 +103,9 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
                 FloatingActionButton(
                   onPressed: deleteTask,
                   child: Icon(Icons.delete),
-                  backgroundColor: Colors.red, // Красный цвет для удаления
+                  backgroundColor: Colors.red,
                 ),
-                SizedBox(height: 16), // Отступ между кнопками, если нужен
+                SizedBox(height: 16),
                 FloatingActionButton(
                   onPressed: () {
                     AppRoutes.navigateToPageWithFadeTransition(
@@ -119,10 +125,11 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
                   child: Icon(Icons.create_outlined),
                   backgroundColor: FigmaColors.contrastToMain,
                 ),
+                SizedBox(height: 30,)
               ],
             );
           } else {
-            return Container(); // Возвращаем пустой контейнер, если пользователь студент или произошла ошибка
+            return Container(); // Return empty container for students or error cases
           }
         }
       },

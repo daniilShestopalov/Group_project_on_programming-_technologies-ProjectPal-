@@ -1,35 +1,36 @@
 import 'package:project_pal/core/app_export.dart';
 
-class ConcreteTaskPage extends StatefulWidget {
-
-  final int userId;
+class TaskGroupViewPage extends StatefulWidget {
+  final Group group;
   final String subject;
-  final String date;
+  final DateTime endDate;
   final DateTime startDate;
   final String teacher;
+  final int userId;
   final String description;
   final String fileLink;
   final int taskId;
-  final int studentID;
+  final String endDateString;
 
-  const ConcreteTaskPage({
+  const TaskGroupViewPage({
     Key? key,
     required this.userId,
+    required this.group,
     required this.subject,
-    required this.date,
+    required this.endDate,
     required this.startDate,
     required this.teacher,
     required this.description,
-    required this.taskId,
     required this.fileLink,
-    required this.studentID,
+    required this.taskId,
+    required this.endDateString,
   }) : super(key: key);
 
   @override
-  _ConcreteTaskState createState() => _ConcreteTaskState();
+  _TaskGroupViewPageState createState() => _TaskGroupViewPageState();
 }
 
-class _ConcreteTaskState extends State<ConcreteTaskPage> {
+class _TaskGroupViewPageState extends State<TaskGroupViewPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -42,19 +43,24 @@ class _ConcreteTaskState extends State<ConcreteTaskPage> {
         },
         userId: widget.userId,
       ),
-      drawer: CustomSideMenu(figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
-      body: ConcreteTaskPageContent(
+      drawer: CustomSideMenu(
+          figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
+      body: TaskGroupViewPageContent(
         userId: widget.userId,
+        group: widget.group,
         subject: widget.subject,
-        date: widget.date,
+        endDate: widget.endDate,
+        startDate: widget.startDate,
         teacher: widget.teacher,
         description: widget.description,
-        taskId: widget.taskId,
-        startDate: widget.startDate,
         fileLink: widget.fileLink,
-        studentId: widget.studentID,
+        taskId: widget.taskId,
+        endDateString: widget.endDateString,
       ),
-      bottomNavigationBar: CustomBottomBar(currentPage: 'task', userId: widget.userId,), // Добавляем кастомный нижний бар
+      bottomNavigationBar: CustomBottomBar(
+        currentPage: '',
+        userId: widget.userId,
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
+import 'package:project_pal/presentation/pages/task_group_page.dart';
 
 class TaskBlockWidget extends StatefulWidget {
   final String subject;
@@ -31,6 +32,7 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
   final ApiService apiService = ApiService();
   int? teacherGrade;
   bool isLoading = true;
+  int? studentId;
 
   @override
   void initState() {
@@ -42,9 +44,10 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
     try {
       String token = await apiService.getJwtToken() ?? '';
       final List<Map<String, dynamic>> data =
-      await apiService.getTaskAnswerByTaskId(token, widget.taskId);
+          await apiService.getTaskAnswerByTaskId(token, widget.taskId);
       if (data.isNotEmpty) {
         setState(() {
+          studentId = data[0]['studentUserId'];
           teacherGrade = data[0]['grade'];
         });
       } else {
@@ -89,18 +92,18 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
       child: GestureDetector(
         onTap: () {
           AppRoutes.navigateToPageWithFadeTransition(
-            context,
-            ConcreteTaskPage(
-              userId: widget.userId,
-              subject: widget.subject,
-              date: endDate,
-              teacher: widget.teacher,
-              description: widget.description,
-              taskId: widget.taskId,
-              startDate: widget.startDate,
-              fileLink: widget.fileLink,
-            ),
-          );
+              context,
+              TaskGroupPage(
+                endDateString: endDate,
+                userId: widget.userId,
+                subject: widget.subject,
+                endDate: widget.endDate,
+                startDate: widget.startDate,
+                teacher: widget.teacher,
+                description: widget.description,
+                fileLink: widget.fileLink,
+                taskId: widget.taskId,
+              ));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -178,7 +181,7 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
   Color getBackgroundColor(int? teacherGrade) {
     DateTime now = DateTime.now();
     int difference = widget.endDate.difference(now).inDays;
-    if (difference > 0 && teacherGrade == null) {
+    if (difference >= 0 && teacherGrade == null || teacherGrade == 0) {
       return FigmaColors.editTask; // Желтый цвет для пустого значения
     } else if (teacherGrade == 2 || (difference < 0 && teacherGrade == null)) {
       return FigmaColors.lightRedMain; // Красный цвет для значения 2

@@ -595,10 +595,10 @@ class ApiService {
     }
   }
 
-  Future<String?> downloadTaskAnswer(String token, String filename) async {
+  Future<String?> downloadTaskAnswer(String token, int id, String filename) async {
     try {
       var response = await http.get(
-        Uri.parse('$baseUrl/file/download/task-answer/$filename'),
+        Uri.parse('$baseUrl/file/download/task-answer/$id/$filename'),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -606,6 +606,35 @@ class ApiService {
 
       if (response.statusCode == 200) {
         // Получаем путь для сохранения файла на устройстве
+        String dir = (await getExternalStorageDirectory())!.path;
+        String filePath = '$dir/$filename';
+
+        // Создаем файл и записываем в него данные из ответа
+        File file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+        print('Файл успешно скачан: $filePath');
+        return filePath;
+      } else {
+        // Обработка ошибок
+        print('Ошибка: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Ошибка при выполнении запроса: $e');
+      return null;
+    }
+  }
+
+  Future<String?> downloadTaskFile(String token, int id, String filename) async {
+    try {
+      var response = await http.get(
+        Uri.parse('$baseUrl/file/download/task/$id/$filename'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
         String dir = (await getExternalStorageDirectory())!.path;
         String filePath = '$dir/$filename';
 
@@ -801,9 +830,9 @@ class ApiService {
     }
   }
 
-  Future<void> uploadTaskFile(String token, File pdfFile) async {
+  Future<void> uploadTaskFile(String token, File pdfFile, int taskId) async {
     try {
-      final apiUrl = '$baseUrl/file/upload/task/';
+      final apiUrl = '$baseUrl/file/upload/task?id=$taskId';
       final request = http.MultipartRequest('POST', Uri.parse(apiUrl));
 
       // Добавление заголовка авторизации
@@ -839,6 +868,7 @@ class ApiService {
       print('Error uploading file: $e');
     }
   }
+
 
   Future<void> updateUserWithoutPassword({
     required int id,
@@ -945,7 +975,7 @@ class ApiService {
     }
   }
 
-  Future<void> createTask({
+  Future<int?> createTask({
     required String token,
     required int taskId,
     required String name,
@@ -985,10 +1015,77 @@ class ApiService {
       print('Response Status Code: ${response.statusCode}');
       print('Response Body: ${response.body}');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Task created successfully');
+        try {
+          Map<String, dynamic> responseBody = jsonDecode(response.body);
+          int newTaskId = responseBody['id'];
+          print(newTaskId);// Предполагаем, что id возвращается в поле 'id'
+          return newTaskId;
+        } catch (e) {
+          print('Failed to parse response body: $e');
+        }
       } else {
-        print('Failed to create task. Error ${response.statusCode}: ${response.reasonPhrase}');
+        print(
+            'Failed to create task. Error ${response.statusCode}: ${response.reasonPhrase}');
+        // Попробуйте распарсить тело ответа, если это JSON, для получения дополнительной информации об ошибке
+        try {
+          Map<String, dynamic> responseBody = jsonDecode(response.body);
+          print('Detailed Error Message: ${responseBody['message']}');
+        } catch (e) {
+          print('Failed to parse error message: $e');
+        }
+      }
+    } catch (e) {
+      print('Failed to create task: $e');
+    }
+  }
+
+  Future<void> createTaskAnswer({
+    required String token,
+    required int taskId,
+    required int id,
+    required int studentUserId,
+    required DateTime submissionDate,
+    required String teacherCommentary,
+    required String studentCommentary,
+    required int grade,
+    required String fileLink,
+  }) async {
+    final String url = '$baseUrl/task-answer';
+
+    Map<String, dynamic> requestBody = {
+    'id': id,
+    'taskId': taskId,
+    'studentUserId': studentUserId,
+    'submissionDate': submissionDate.toIso8601String(),
+    'teacherCommentary': teacherCommentary,
+    'studentCommentary': studentCommentary,
+    'grade': grade,
+    'fileLink': fileLink
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        print('Task Answer created successfully');
+      } else {
+        print(
+            'Failed to create task. Error ${response.statusCode}: ${response.reasonPhrase}');
         // Попробуйте распарсить тело ответа, если это JSON, для получения дополнительной информации об ошибке
         try {
           Map<String, dynamic> responseBody = jsonDecode(response.body);
@@ -1019,15 +1116,14 @@ class ApiService {
       if (response.statusCode == 200) {
         print('Task with ID $taskId deleted successfully');
       } else {
-        print('Failed to delete task. Error ${response.statusCode}: ${response.reasonPhrase}');
+        print(
+            'Failed to delete task. Error ${response.statusCode}: ${response.reasonPhrase}');
         print('Response Body: ${response.body}');
       }
     } catch (e) {
       print('Failed to delete task: $e');
     }
   }
-
-
 }
 
 class Group {

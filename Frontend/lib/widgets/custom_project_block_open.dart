@@ -190,12 +190,12 @@ class _ProjectBlockOpenWidgetState extends State<ProjectBlockOpenWidget> {
                     InkWell(
                       onTap: () async {
                         print(answerLink);
-                        String? token = await apiService.getJwtToken();
-                        String? filepath = await apiService
-                            .downloadTaskAnswer(token!, answerLink);
-                        if (filepath != null) {
-                          openFile(filepath);
-                        }
+                       // String? token = await apiService.getJwtToken();
+                       // String? filepath = await apiService
+                        //    .downloadTaskAnswer(token!, answerLink);
+                        //if (filepath != null) {
+                         // openFile(filepath);
+                       // }
                       },
                       child: Text(
                         answerLink,

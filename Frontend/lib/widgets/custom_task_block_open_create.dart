@@ -240,7 +240,7 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
                         String filePath = result.files.first.path!;
                         File file = File(filePath);
                         _fileLink.text = file.path.split('/').last;
-                        await apiService.uploadTaskFile(token, file, );
+                        await apiService.uploadTaskFile(token, file, widget.taskId);
                       } catch (e) {
                         print('Error uploading file: $e');
                       }
@@ -280,7 +280,7 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
             onPressed: () async {
               String? token = await apiService.getJwtToken();
               if (token != null && _selectedEndDate != null) {
-                await apiService.createTask(
+               int? taskId = await apiService.createTask(
                   token: token,
                   taskId: widget.taskId,
                   name: _nameController.text,
@@ -291,6 +291,19 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
                   startDate: _selectedStartDate ?? DateTime.now(),
                   endDate: _selectedEndDate!,
                 );
+                final students = await apiService.getUsersByGroup(_selectedGroup!.id, token);
+                for (var student in students) {
+                  await apiService.createTaskAnswer(token: token,
+                    taskId: taskId!,
+                    id: 0,
+                    studentUserId: student.id,
+                    submissionDate: DateTime.now(),
+                    teacherCommentary: '',
+                    studentCommentary: '',
+                    grade: 0,
+                    fileLink: ''
+                );}
+
                 AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: widget.userId));
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

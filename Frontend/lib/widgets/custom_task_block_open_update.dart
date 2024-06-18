@@ -240,7 +240,7 @@ class _TaskBlockOpenUpdateWidgetState extends State<TaskBlockOpenUpdateWidget> {
                         String filePath = result.files.first.path!;
                         File file = File(filePath);
                         _fileLink.text = file.path.split('/').last;
-                        await apiService.uploadTaskFile(token, file, );
+                        await apiService.uploadTaskFile(token, file, widget.taskId);
                       } catch (e) {
                         print('Error uploading file: $e');
                       }
