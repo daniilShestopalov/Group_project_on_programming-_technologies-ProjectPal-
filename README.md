@@ -30,3 +30,4 @@
 # Видео
 - [Видео-презентация приложения](https://youtu.be/7BYRHDHmcSs)
 - [Видео-обзор клиентской части](https://youtu.be/yq_ubeAi_IM)
+- [Видео-обзор серверной части](https://youtu.be/_D5ZkuGC0RE)
