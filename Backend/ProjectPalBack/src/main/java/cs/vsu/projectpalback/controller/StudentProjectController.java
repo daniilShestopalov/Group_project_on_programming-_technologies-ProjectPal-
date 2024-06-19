@@ -27,7 +27,7 @@ public class StudentProjectController {
     private final StudentProjectService studentProjectService;
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @Operation(summary = "Get all student projects", description = "Returns a list of all student projects")
     public ResponseEntity<List<StudentProjectDTO>> getAllStudentProjects() {
         try {

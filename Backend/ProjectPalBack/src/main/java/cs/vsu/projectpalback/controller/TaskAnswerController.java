@@ -58,8 +58,8 @@ public class TaskAnswerController {
     }
 
     @GetMapping("/task/{taskId}")
-    @PreAuthorize("isAuthenticated()")
-    @Operation(summary = "Get task answers by task ID", description = "Returns a list of task answers by the given task ID")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @Operation(summary = "Get task answers by task ID (admin, teacher)", description = "Returns a list of task answers by the given task ID")
     public ResponseEntity<List<TaskAnswerDTO>> getTaskAnswersByTaskId(@PathVariable Integer taskId) {
         try {
             LOGGER.info("Fetching task answers by task ID: {}", taskId);
