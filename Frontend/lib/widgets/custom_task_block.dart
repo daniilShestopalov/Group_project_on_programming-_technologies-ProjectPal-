@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
-import 'package:project_pal/presentation/pages/task_group_page.dart';
 
 class TaskBlockWidget extends StatefulWidget {
+  final String role;
   final String subject;
   final DateTime endDate;
   final DateTime startDate;
@@ -11,6 +11,7 @@ class TaskBlockWidget extends StatefulWidget {
   final String description;
   final String fileLink;
   final int taskId;
+  final int groupId;
 
   TaskBlockWidget({
     required this.subject,
@@ -21,6 +22,8 @@ class TaskBlockWidget extends StatefulWidget {
     required this.description,
     required this.taskId,
     required this.fileLink,
+    required this.role,
+    required this.groupId,
   });
 
   @override
@@ -32,7 +35,6 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
   final ApiService apiService = ApiService();
   int? teacherGrade;
   bool isLoading = true;
-  int? studentId;
 
   @override
   void initState() {
@@ -47,8 +49,9 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
           await apiService.getTaskAnswerByTaskId(token, widget.taskId);
       if (data.isNotEmpty) {
         setState(() {
-          studentId = data[0]['studentUserId'];
           teacherGrade = data[0]['grade'];
+
+
         });
       } else {
         teacherGrade = null;
@@ -91,9 +94,26 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GestureDetector(
         onTap: () {
-          AppRoutes.navigateToPageWithFadeTransition(
+          if(widget.role == 'STUDENT') {
+            AppRoutes.navigateToPageWithFadeTransition(
+                context,
+                ConcreteTaskPage(
+                  userId: widget.userId,
+                  subject: widget.subject,
+                  date: endDate,
+                  teacher: widget.teacher,
+                  description: widget.description,
+                  taskId: widget.taskId,
+                  startDate: widget.startDate,
+                  fileLink: widget.fileLink,
+                  studentID: widget.userId,
+                  groupId: widget.groupId,
+                  endDate: widget.endDate,
+                ));
+          } else {
+            AppRoutes.navigateToPageWithFadeTransition(
               context,
-              TaskGroupPage(
+              TaskGroupViewPage(
                 endDateString: endDate,
                 userId: widget.userId,
                 subject: widget.subject,
@@ -103,7 +123,10 @@ class _TaskBlockWidgetState extends State<TaskBlockWidget> {
                 description: widget.description,
                 fileLink: widget.fileLink,
                 taskId: widget.taskId,
+                groupId: widget.groupId,
               ));
+          }
+
         },
         child: Container(
           decoration: BoxDecoration(

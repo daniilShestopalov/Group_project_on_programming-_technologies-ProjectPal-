@@ -1,20 +1,26 @@
 import 'package:project_pal/core/app_export.dart';
 
 class ProjectBlockWidget extends StatefulWidget {
+  final String role;
   final String subject;
   final DateTime endDate;
+  final DateTime startDate;
   final String teacher;
   final int userId;
   final String description;
+  final String fileLink;
   final int projectId;
 
   ProjectBlockWidget({
     required this.subject,
     required this.endDate,
+    required this.startDate,
     required this.teacher,
     required this.userId,
     required this.description,
     required this.projectId,
+    required this.fileLink,
+    required this.role,
   });
 
   @override
@@ -26,6 +32,7 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
   final ApiService apiService = ApiService();
   int? teacherGrade;
   bool isLoading = true;
+  int? studentId;
 
   @override
   void initState() {
@@ -36,19 +43,17 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
   Future<void> _loadTaskAnswer() async {
     try {
       String token = await apiService.getJwtToken() ?? '';
-      final Map<String, dynamic> projectAnswer =
+      final Map<String, dynamic> data =
       await apiService.getProjectAnswerByProjectId(token, widget.projectId);
-
-      print('Project answer received: $projectAnswer');
-
-      if (projectAnswer.isNotEmpty) {
+      if (data.isNotEmpty) {
         setState(() {
-          teacherGrade = projectAnswer['grade'];
+          studentId = data['studentUserId'];
+          teacherGrade = data['grade'];
+
+
         });
       } else {
-        setState(() {
-          teacherGrade = null;
-        });
+        teacherGrade = null;
       }
     } catch (e) {
       print('Failed to load task answer: $e');
@@ -59,9 +64,6 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -69,8 +71,12 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
     }
 
     DateTime now = DateTime.now();
+    print(widget.endDate);
+    print('дней');
     int difference = widget.endDate.difference(now).inDays;
+    print(difference);
     String endDate = difference.toString();
+    print(endDate);
 
     String remainingDaysText = '';
     if (difference < 0 && teacherGrade == null) {
@@ -87,21 +93,42 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
       remainingDaysText = '$difference дней';
     }
 
+
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GestureDetector(
         onTap: () {
-          AppRoutes.navigateToPageWithFadeTransition(
-            context,
-            ConcreteProjectPage(
-              userId: widget.userId,
-              subject: widget.subject,
-              date: endDate,
-              teacher: widget.teacher,
-              description: widget.description,
-              taskId: widget.projectId,
-            ),
-          );
+          if(widget.role == 'STUDENT') {
+            AppRoutes.navigateToPageWithFadeTransition(
+                context,
+                ConcreteProjectPage(
+                  userId: widget.userId,
+                  subject: widget.subject,
+                  date: endDate,
+                  teacher: widget.teacher,
+                  description: widget.description,
+                  taskId: widget.projectId,
+                  startDate: widget.startDate,
+                  fileLink: widget.fileLink,
+                  endDate: widget.endDate,
+                ));
+          } else {
+            AppRoutes.navigateToPageWithFadeTransition(
+                context,
+                ConcreteProjectPage(
+                  userId: widget.userId,
+                  subject: widget.subject,
+                  endDate: widget.endDate,
+                  startDate: widget.startDate,
+                  teacher: widget.teacher,
+                  description: widget.description,
+                  fileLink: widget.fileLink,
+                  taskId: widget.projectId,
+                  date: endDate,
+                ));
+          }
+
         },
         child: Container(
           decoration: BoxDecoration(
@@ -179,7 +206,7 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
   Color getBackgroundColor(int? teacherGrade) {
     DateTime now = DateTime.now();
     int difference = widget.endDate.difference(now).inDays;
-    if (difference > 0 && teacherGrade == null) {
+    if (difference >= 0 && teacherGrade == null || teacherGrade == 0) {
       return FigmaColors.editTask; // Желтый цвет для пустого значения
     } else if (teacherGrade == 2 || (difference < 0 && teacherGrade == null)) {
       return FigmaColors.lightRedMain; // Красный цвет для значения 2
@@ -188,4 +215,3 @@ class _ProjectBlockWidgetState extends State<ProjectBlockWidget> {
     }
   }
 }
-

@@ -125,6 +125,7 @@ class _ConcreteDayPageContentState extends State<ConcreteDayPageContent> {
   Future<void> fetchTasks() async {
     try {
       final token = await apiService.getJwtToken() ?? '';
+      final user = await apiService.getUserById(token, widget.userId);
       final tasks = await Future.wait(widget.taskIds.map((taskId) async {
         return apiService.getTaskById(token, taskId); // Получаем задачу по идентификатору
       }));
@@ -139,6 +140,8 @@ class _ConcreteDayPageContentState extends State<ConcreteDayPageContent> {
           taskId: task.id,
           startDate: task.startDate,
           fileLink: task.fileLink,
+          role: user.role,
+          groupId: task.groupId,
         );
       }).toList());
 

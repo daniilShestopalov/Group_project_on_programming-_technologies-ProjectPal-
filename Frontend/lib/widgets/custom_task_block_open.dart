@@ -5,23 +5,29 @@ import 'package:project_pal/core/app_export.dart';
 
 class TaskBlockOpenWidget extends StatefulWidget {
   final String subject;
-  final String date;
+  final DateTime startDate;
+  final DateTime endDate;
   final String teacher;
+  final String date;
   final int userId;
+  final int groupId;
   final int studentId;
-  final String instruction;
-  final String taskLink;
   final int taskId;
+  final String description;
+  final String taskLink;
 
   TaskBlockOpenWidget({
-    required this.subject,
     required this.date,
-    required this.teacher,
     required this.userId,
-    required this.instruction,
-    required this.taskLink,
     required this.taskId,
     required this.studentId,
+    required this.subject,
+    required this.teacher,
+    required this.description,
+    required this.taskLink,
+    required this.groupId,
+    required this.startDate,
+    required this.endDate,
   });
 
   @override
@@ -31,13 +37,16 @@ class TaskBlockOpenWidget extends StatefulWidget {
 class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
   FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   final ApiService apiService = ApiService();
-  int? answerId;
-  DateTime? submissionDate;
-  String teacherComment = '';
-  int? teacherGrade;
-  String? answerLink;
   late User user;
-  int? selectedGrade; // Для выбора оценки
+  TextEditingController commentary = TextEditingController();
+  TextEditingController commentaryStudent = TextEditingController();
+
+  int? idAnswer;
+  DateTime? submissionDate;
+  String? teacherCommentary;
+  String? studentCommentary;
+  int? grade;
+  String? fileLink;
 
   late Future<void> _taskAnswerFuture;
 
@@ -51,17 +60,23 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
     try {
       String token = await apiService.getJwtToken() ?? '';
       user = await apiService.getUserById(token, widget.userId);
-      final List<Map<String, dynamic>> data =
-          await apiService.getTaskAnswerByTaskId(token, widget.taskId);
+      print(widget.taskId);
+      final Map<String, dynamic> data =
+          await apiService.getTaskAnswerByTaskIdAndByStudentId(
+              token, widget.taskId, widget.studentId);
       if (data.isNotEmpty) {
         setState(() {
-          answerId = data[0]['id'];
-          submissionDate = data[0]['submissionDate'] != null
-              ? DateTime.parse(data[0]['submissionDate'])
+          idAnswer = data['id'];
+          print(idAnswer);
+          submissionDate = data['submissionDate'] != null
+              ? DateTime.parse(data['submissionDate'])
               : DateTime.now();
-          teacherComment = data[0]['teacherCommentary'] ?? '';
-          teacherGrade = data[0]['grade'];
-          answerLink = data[0]['fileLink'] ?? '';
+          teacherCommentary = data['teacherCommentary'];
+          studentCommentary = data['studentCommentary'];
+          grade = data['grade'];
+          fileLink = data['fileLink'];
+          commentary.text = teacherCommentary ?? '';
+          commentaryStudent.text = studentCommentary ?? '';
         });
       } else {
         print('No task answer found');
@@ -90,7 +105,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
             remainingDaysText = '${widget.date} дня';
           } else if (days >= 5) {
             remainingDaysText = '${widget.date} дней';
-          } else if (days < 0 && teacherGrade != null) {
+          } else if (days < 0 && grade != null) {
             remainingDaysText = 'Выполнено';
           } else {
             remainingDaysText = 'Просрочено';
@@ -168,8 +183,8 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                             ),
                           ),
                           CustomText(
-                            text: widget.instruction.isNotEmpty
-                                ? widget.instruction
+                            text: widget.description.isNotEmpty
+                                ? widget.description
                                 : 'Описание для задания отсутствует',
                             style: figmaTextStyles.regularText.copyWith(
                               color: FigmaColors.darkBlueMain,
@@ -184,15 +199,15 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                           ),
                           InkWell(
                             onTap: () async {
-                              print(widget.taskLink);
                               String? token = await apiService.getJwtToken();
-                              String? filepath =
-                                  await apiService.downloadTaskFile(
-                                      token!, widget.taskId, widget.taskLink);
-                              openFile(filepath!);
+                              String? filepath = await apiService
+                                  .downloadTaskFile(token!, idAnswer!, widget.taskLink);
+                              if (filepath != null) {
+                                openFile(filepath);
+                              }
                             },
                             child: Text(
-                              widget.taskLink,
+                              widget.taskLink ?? 'Пусто',
                               style: TextStyle(
                                 color: Colors.blue,
                                 decoration: TextDecoration.underline,
@@ -209,15 +224,14 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                           InkWell(
                             onTap: () async {
                               String? token = await apiService.getJwtToken();
-                              String? filepath =
-                                  await apiService.downloadTaskAnswer(
-                                      token!, answerId!, answerLink!);
+                              String? filepath = await apiService
+                                  .downloadTaskAnswer(token!, idAnswer!, fileLink!);
                               if (filepath != null) {
                                 openFile(filepath);
                               }
                             },
                             child: Text(
-                              answerLink ?? 'Пусто',
+                              fileLink ?? 'Пусто',
                               style: TextStyle(
                                 color: Colors.blue,
                                 decoration: TextDecoration.underline,
@@ -233,24 +247,38 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                           ),
                           // Отображение текущей оценки или текста, если оценка не установлена
                           CustomText(
-                            text: teacherGrade != 0
-                                ? '$teacherGrade'
-                                : 'Работа еще не оценена',
+                            text:
+                                grade != 0 ? '$grade' : 'Работа еще не оценена',
                             style: figmaTextStyles.regularText.copyWith(
                               color: FigmaColors.darkBlueMain,
                             ),
                           ),
                           SizedBox(height: 16),
                           CustomText(
-                            text: 'Комментарий к работе:',
+                            text: 'Комментарий предподавателя:',
                             style: figmaTextStyles.header1Medium.copyWith(
                               color: FigmaColors.darkBlueMain,
                             ),
                           ),
                           CustomText(
-                            text: teacherComment.isNotEmpty
-                                ? teacherComment
-                                : 'Комментарий отсутствует',
+                            text: commentary.text.isEmpty
+                                ? 'Комментарий отсутствует'
+                                : commentary.text,
+                            style: figmaTextStyles.regularText.copyWith(
+                              color: FigmaColors.darkBlueMain,
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          CustomText(
+                            text: 'Комментарий студента:',
+                            style: figmaTextStyles.header1Medium.copyWith(
+                              color: FigmaColors.darkBlueMain,
+                            ),
+                          ),
+                          CustomText(
+                            text: commentaryStudent.text.isEmpty
+                                ? 'Комментарий отсутствует'
+                                : commentaryStudent.text,
                             style: figmaTextStyles.regularText.copyWith(
                               color: FigmaColors.darkBlueMain,
                             ),
@@ -276,7 +304,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: DropdownButton<int>(
-                        value: selectedGrade,
+                        value: grade,
                         hint: Text('Выберите оценку'),
                         items: [0, 1, 2, 3, 4, 5].map((int value) {
                           return DropdownMenuItem<int>(
@@ -286,39 +314,86 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                         }).toList(),
                         onChanged: (int? value) {
                           setState(() {
-                            selectedGrade = value;
+                            grade = value;
                           });
                         },
                       ),
                     ),
                   if (user.role != 'STUDENT')
                     Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: CustomText(
+                        text: "Ваш комментарий к работе",
+                        style: figmaTextStyles.caption1Medium
+                            .copyWith(color: FigmaColors.darkBlueMain),
+                        align: TextAlign.center,
+                      ),
+                    ),
+                  if (user.role != 'STUDENT')
+                    CustomTextField(
+                      hintText: '',
+                      maxLines: 6,
+                      controller: commentary,
+                      figmaTextStyles: figmaTextStyles,
+                      enabled: true,
+                    ),
+                  if (user.role == 'STUDENT')
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: CustomText(
+                        text: "Ваш комментарий к работе",
+                        style: figmaTextStyles.caption1Medium
+                            .copyWith(color: FigmaColors.darkBlueMain),
+                        align: TextAlign.center,
+                      ),
+                    ),
+                  if (user.role == 'STUDENT')
+                    CustomTextField(
+                      hintText: '',
+                      maxLines: 6,
+                      controller: commentaryStudent,
+                      figmaTextStyles: figmaTextStyles,
+                      enabled: true,
+                    ),
+                  if (user.role != 'STUDENT')
+                    Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 6),
+                          horizontal: 70, vertical: 12),
                       child: CustomButton(
-                        text: 'Поставить оценку',
+                        text: 'Оценить работу',
                         onPressed: () async {
                           try {
                             String token = await apiService.getJwtToken() ?? '';
                             print(token);
                             await apiService.updateTaskAnswer(
                               token: token,
-                              id: answerId!,
+                              id: idAnswer!,
                               taskId: widget.taskId,
-                              studentUserId: widget.userId,
+                              studentUserId: widget.studentId,
                               submissionDate:
                                   submissionDate?.toIso8601String() ?? '',
-                              teacherCommentary: teacherComment,
-                              grade: selectedGrade ?? 0,
-                              fileLink: answerLink ?? '',
+                              teacherCommentary: commentary.text,
+                              grade: grade ?? 0,
+                              fileLink: fileLink ?? '',
+                              studentCommentary: studentCommentary ?? '',
                             );
                             AppRoutes.navigateToPageWithFadeTransition(
-                                context, TasksPage(userId: widget.userId));
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Работа оценена'),
-                                )
-                            );
+                                context,
+                                TaskGroupViewPage(
+                                  userId: widget.userId,
+                                  groupId: widget.groupId,
+                                  subject: widget.subject,
+                                  endDate: widget.endDate,
+                                  startDate: widget.startDate,
+                                  teacher: widget.teacher,
+                                  description: widget.description,
+                                  fileLink: widget.taskLink,
+                                  taskId: widget.taskId,
+                                  endDateString: widget.date,
+                                ));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Работа оценена'),
+                            ));
                           } catch (e) {
                             print('Error uploading file: $e');
                           }
@@ -344,21 +419,25 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                             String filePath = result.files.first.path!;
                             File file = File(filePath);
                             String fileName = file.path.split('/').last;
-                            await apiService.uploadTaskAnswerFile(token, file);
-                            if (answerId != null) {
+                            await apiService.uploadTaskAnswerFile(token, file, idAnswer!);
+                            if (idAnswer != null) {
                               await apiService.updateTaskAnswer(
                                 token: token,
-                                id: answerId!,
+                                id: idAnswer!,
                                 taskId: widget.taskId,
                                 studentUserId: widget.studentId,
                                 submissionDate:
                                     submissionDate?.toIso8601String() ?? '',
-                                teacherCommentary: teacherComment,
-                                grade: teacherGrade ?? 0,
+                                teacherCommentary: teacherCommentary ?? '',
+                                studentCommentary: commentaryStudent.text,
+                                grade: grade ?? 0,
                                 fileLink: '$fileName',
                               );
                               AppRoutes.navigateToPageWithFadeTransition(
-                                  context, TasksPage(userId: widget.userId));
+                                  context,
+                                  TasksPage(
+                                    userId: widget.userId,
+                                  ));
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('Работа отправлена'),
@@ -388,13 +467,12 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
 
   Color _getTaskColor() {
     int remainingDays = int.parse(widget.date);
-    int? grade = teacherGrade;
 
     if (remainingDays <= 0 || (grade == null || grade == 2)) {
       return Color(0xFFC55353); // Цвет C55353
     } else if (grade == 0) {
       return Color(0xFFFCEBC1); // Цвет FCEBC1
-    } else if (grade > 2) {
+    } else if (grade! > 2) {
       return Color(0xFF85C8A0); // Цвет 85C8A0
     } else {
       return FigmaColors.editTask; // Возвращаем исходный цвет

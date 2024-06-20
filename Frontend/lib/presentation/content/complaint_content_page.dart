@@ -11,14 +11,30 @@ class ComplaintPageContent extends StatefulWidget {
 
 class _ComplaintPageContentState extends State<ComplaintPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  final ApiService apiService = ApiService();
 
-
+  List<Complaint> complaint = []; // Список преподавателей
 
   @override
   void initState() {
     super.initState();
+    loadComplaint();
   }
 
+  Future<void> loadComplaint() async {
+
+    final token = await apiService.getJwtToken();
+
+    try {
+      // Получаем список преподавателей из API
+      final complaints = await ApiService().getComplaint(token!);
+      setState(() {
+        complaint = complaints;
+      });
+    } catch (e) {
+      print('Error loading professors: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +53,7 @@ class _ComplaintPageContentState extends State<ComplaintPageContent> {
                   Expanded(
                     child: Center(
                       child: CustomText(
-                        text: 'Преподаватели',
+                        text: 'Жалобы',
                         style: figmaTextStyles.header1Medium.copyWith(
                           color: FigmaColors.darkBlueMain,
                         ),
@@ -51,22 +67,23 @@ class _ComplaintPageContentState extends State<ComplaintPageContent> {
           ),
         ),
         // Блок 2
-        /*Expanded(
+        Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ListView.builder(
-              itemCount: professors.length,
+              itemCount: complaint.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16),
-                  child: CustomGroupListViewBlock(
-                    userId: professors[index],
+                  child: CustomComplaintListViewBlock(
+                    userId: widget.userId,
+                    complaint: complaint[index],
                   ),
                 );
               },
             ),
           ),
-        ),*/
+        ),
       ],
     );
   }

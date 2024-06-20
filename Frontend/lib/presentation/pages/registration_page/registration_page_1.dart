@@ -58,6 +58,7 @@ class RegistrationPage1 extends StatelessWidget {
                   hintText: 'Пароль',
                   obscureText: true,
                   controller: passwordController,
+                  maxLines: 1,
                   figmaTextStyles: figmaTextStyles,
                 ),
                 SizedBox(height: 16),

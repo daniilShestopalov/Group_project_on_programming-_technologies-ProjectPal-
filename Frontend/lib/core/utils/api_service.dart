@@ -185,11 +185,11 @@ class ApiService {
   }
 
   Future<void> updateUserAvatar(
-      String token, int userId, String newAvatarLink) async {
+      String token, int id, String newAvatarLink) async {
     final Uri url = Uri.parse('$baseUrl/user/avatar');
     print(newAvatarLink);
     final Map<String, dynamic> requestBody = {
-      'id': userId,
+      'id': id,
       'avatarLink': newAvatarLink,
     };
 
@@ -210,9 +210,9 @@ class ApiService {
     }
   }
 
-  Future<void> uploadAvatar(String token, File imageFile) async {
+  Future<void> uploadAvatar(String token, File imageFile, int id) async {
     try {
-      final apiUrl = '$baseUrl/file/upload/avatar';
+      final apiUrl = '$baseUrl/file/upload/avatar?id=$id';
       final request = http.MultipartRequest('POST', Uri.parse(apiUrl));
 
       // Добавление заголовка авторизации
@@ -255,14 +255,16 @@ class ApiService {
     }
   }
 
-  Future<File?> downloadAvatar(String token, String filename) async {
-    String url = '$baseUrl/file/download/avatar/$filename';
+  Future<File?> downloadAvatar(String token, int id, String filename) async {
+    String url = '$baseUrl/file/download/avatar/$id/$filename';
 
     try {
       var response = await http.get(
         Uri.parse(url),
         headers: {'Authorization': 'Bearer $token'},
       );
+
+      print(response.body);
 
       if (response.statusCode == 200) {
         Directory tempDir = await getTemporaryDirectory();
@@ -326,6 +328,31 @@ class ApiService {
     }
   }
 
+  Future<List<User>> getUsersByProjectId(int projectId, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/student-project/students/$projectId'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print(projectId);
+    print(response.body);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final utf8Body =
+      utf8.decode(response.bodyBytes); // Явное декодирование в UTF-8
+      final List<dynamic> data = jsonDecode(utf8Body);
+      return data.map((json) => User.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load users by group');
+    }
+  }
+
+
+
   Future<Tasks> getTaskById(String token, int taskId) async {
     try {
       final Uri url = Uri.parse('$baseUrl/task/$taskId');
@@ -355,6 +382,40 @@ class ApiService {
     }
   }
 
+  Future<List<Project>> getProjectsByStudentIdAndMonth(
+      int studentId, int year, String month, int monthValue, bool leapYear, String token) async {
+    final url = Uri.parse('$baseUrl/project/student/month');
+    final Map<String, dynamic> requestBody = {
+      'id': studentId,
+      'yearMonth': {
+        'year': year,
+        'month': month,
+        'monthValue': monthValue,
+        'leapYear': leapYear,
+      },
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = jsonDecode(response.body);
+        return data.map((projectJson) => Project.fromJson(projectJson)).toList();
+      } else {
+        throw Exception('Failed to load projects: ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the server: $e');
+    }
+  }
+
   Future<List<Tasks>> getTasksByMonthAndGroup(
       int groupId, int year, int month, String token) async {
     final url = Uri.parse('$baseUrl/task/group/month');
@@ -373,6 +434,44 @@ class ApiService {
         },
         body: jsonEncode(requestBody), // Кодируем тело запроса в JSON
       );
+
+      if (response.statusCode == 200) {
+        // Вывод тела ответа (весь список задач)
+        print('Тело ответа в UTF-8:');
+        print(utf8.decode(response.bodyBytes)); // Вывод в UTF-8
+
+        List<dynamic> data = jsonDecode(response.body);
+        return data.map((taskJson) => Tasks.fromJson(taskJson)).toList();
+      } else {
+        throw Exception('Failed to load tasks: ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the server: $e');
+    }
+  }
+
+  Future<List<Tasks>> getTasksByMonthAndTeacherId(
+      int teacherId, int year, int month, String token) async {
+    final url = Uri.parse('$baseUrl/task/teacher/month');
+    final Map<String, dynamic> requestBody = {
+      'id': teacherId,
+      'yearMonth': "$year-0$month"
+    };
+
+    print(requestBody);
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type':
+          'application/json', // Устанавливаем тип контента как JSON
+        },
+        body: jsonEncode(requestBody), // Кодируем тело запроса в JSON
+      );
+
+      print(response.body);
+
 
       if (response.statusCode == 200) {
         // Вывод тела ответа (весь список задач)
@@ -443,6 +542,62 @@ class ApiService {
         final List<dynamic> data =
             jsonDecode(utf8.decode(response.bodyBytes)); // Декодирование UTF-8
         return data.map((json) => Tasks.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<Project>> getProjectsByStudentId(String token, int studentId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/student-project/projects/$studentId');
+      print('Request URL: $url');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data =
+        jsonDecode(utf8.decode(response.bodyBytes)); // Декодирование UTF-8
+        return data.map((json) => Project.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<Project>> getProjectsByTeacherId(String token, int teacherId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/project/teacher/$teacherId');
+      print('Request URL: $url');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data =
+        jsonDecode(utf8.decode(response.bodyBytes)); // Декодирование UTF-8
+        return data.map((json) => Project.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load user data');
       }
@@ -553,6 +708,38 @@ class ApiService {
     }
   }
 
+  Future<int> getProjectsCountByTeacherId(int teacherId, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/project/teacher/$teacherId/count'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load user count');
+    }
+  }
+
+  Future<int> getTasksCountByTeacherId(int teacherId, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/task/teacher/$teacherId/count'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load user count');
+    }
+  }
+
   Future<int> getProjectCountByUserId(int studentId, String token) async {
     final response = await http.get(
       Uri.parse('$baseUrl/project/student/$studentId/count'),
@@ -566,6 +753,23 @@ class ApiService {
       return json.decode(response.body);
     } else {
       throw Exception('Failed to load user count');
+    }
+  }
+
+  Future<String> getUserRoleById(int userId, String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/user/$userId/role'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final utf8Body = utf8.decode(response.bodyBytes);
+      return utf8Body; // Возвращаем роль пользователя в виде строки
+    } else {
+      throw Exception('Failed to load user role by id');
     }
   }
 
@@ -595,10 +799,66 @@ class ApiService {
     }
   }
 
+  Future<List<Complaint>> getComplaint(String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/complaint'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final utf8Body =
+      utf8.decode(response.bodyBytes); // Явное декодирование в UTF-8
+      final List<dynamic> data = jsonDecode(utf8Body);
+      List<Complaint> complaint = [];
+
+      // Преобразование данных в список объектов User
+      for (var userData in data) {
+        complaint.add(Complaint.fromJson(userData));
+      }
+
+      return complaint;
+    } else {
+      throw Exception('Failed to load users by role');
+    }
+  }
+
   Future<String?> downloadTaskAnswer(String token, int id, String filename) async {
     try {
       var response = await http.get(
         Uri.parse('$baseUrl/file/download/task-answer/$id/$filename'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Получаем путь для сохранения файла на устройстве
+        String dir = (await getExternalStorageDirectory())!.path;
+        String filePath = '$dir/$filename';
+
+        // Создаем файл и записываем в него данные из ответа
+        File file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+        print('Файл успешно скачан: $filePath');
+        return filePath;
+      } else {
+        // Обработка ошибок
+        print('Ошибка: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Ошибка при выполнении запроса: $e');
+      return null;
+    }
+  }
+
+  Future<String?> downloadProjectAnswer(String token, int id, String filename) async {
+    try {
+      var response = await http.get(
+        Uri.parse('$baseUrl/file/download/project-answer/$id/$filename'),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -635,6 +895,7 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
+        // Получаем путь для сохранения файла на устройстве
         String dir = (await getExternalStorageDirectory())!.path;
         String filePath = '$dir/$filename';
 
@@ -654,6 +915,82 @@ class ApiService {
     }
   }
 
+  Future<String?> downloadProjectFile(String token, int id, String filename) async {
+    try {
+      var response = await http.get(
+        Uri.parse('$baseUrl/file/download/project/$id/$filename'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        String dir = (await getExternalStorageDirectory())!.path;
+        String filePath = '$dir/$filename';
+
+        // Создаем файл и записываем в него данные из ответа
+        File file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+        print('Файл успешно скачан: $filePath');
+        return filePath;
+      } else {
+        // Обработка ошибок
+        print('Ошибка: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Ошибка при выполнении запроса: $e');
+      return null;
+    }
+  }
+
+  Future<void> updateProjectAnswer({
+    required String token,
+    required int? id,
+    required int taskId,
+    required String submissionDate,
+    required String teacherCommentary,
+    required String studentCommentary,
+    required int grade,
+    required String fileLink,
+  }) async {
+    final String url = '$baseUrl/project-answer';
+
+    Map<String, dynamic> requestBody = {
+      "id": id,
+      "projectId": taskId,
+      "submissionDate": submissionDate,
+      "teacherCommentary": teacherCommentary,
+      "studentCommentary": studentCommentary,
+      "grade": grade,
+      "fileLink": fileLink,
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        print('Task answer updated successfully');
+      } else {
+        print(
+            'Failed to update task answer. Error ${response.statusCode}: ${response.reasonPhrase}');
+        print('Response Body: ${response.body}');
+      }
+    } catch (e) {
+      print('Failed to update task answer: $e');
+    }
+  }
+
   Future<void> updateTaskAnswer({
     required String token,
     required int id,
@@ -661,6 +998,7 @@ class ApiService {
     required int studentUserId,
     required String submissionDate,
     required String teacherCommentary,
+    required String studentCommentary,
     required int grade,
     required String fileLink,
   }) async {
@@ -672,7 +1010,7 @@ class ApiService {
       "studentUserId": studentUserId,
       "submissionDate": submissionDate,
       "teacherCommentary": teacherCommentary,
-      "studentCommentary": '',
+      "studentCommentary": studentCommentary,
       "grade": grade,
       "fileLink": fileLink,
     };
@@ -729,6 +1067,95 @@ class ApiService {
     }
   }
 
+  Future<Map<String, dynamic>> getTaskAnswerByTaskIdAndByStudentId(String token, int taskId, int studentId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/task-answer/task/student');
+      print('Request URL: $url');
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'userId': studentId,
+          'taskId': taskId,
+        }),
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      } else {
+        throw Exception('Failed to load task answer');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<Map<String, dynamic>> getProjectAnswerByTaskId(String token, int taskId) async {
+    try {
+      final Uri url = Uri.parse('$baseUrl/project-answer/project/$taskId');
+      print('Request URL: $url');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      } else {
+        throw Exception('Failed to load task answer');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<void> createComplaint(String token, int senderUserId, int complainedUserId) async {
+    var url = Uri.parse('$baseUrl/complaint'); // замените на ваш URL API
+
+    var requestBody = jsonEncode({
+      "id": 0, // предполагаю, что сервер сам назначит id
+      "complaintSenderUserId": senderUserId,
+      "complainedAboutUserId": complainedUserId
+    });
+
+    try {
+      var response = await http.post(
+        url,
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: requestBody,
+      );
+
+      if (response.statusCode == 201) {
+        print('Жалоба успешно создана');
+        // Можно добавить дополнительную логику, если необходимо
+      } else {
+        print('Не удалось создать жалобу. Код ошибки: ${response.statusCode}');
+        print('Тело ответа: ${response.body}');
+        throw Exception('Failed to create complaint. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Ошибка при отправке запроса: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getTaskAnswerByTaskId(
       String token, int taskId) async {
     try {
@@ -764,7 +1191,7 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> getProjectAnswerByProjectId(
+  Future <Map<String, dynamic>> getProjectAnswerByProjectId(
       String token, int projectId) async {
     try {
       final Uri url = Uri.parse('$baseUrl/project-answer/project/$projectId');
@@ -777,9 +1204,16 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonResponse =
-            jsonDecode(utf8.decode(response.bodyBytes));
-        return jsonResponse;
+        final dynamic jsonResponse =
+        jsonDecode(utf8.decode(response.bodyBytes));
+
+        if (jsonResponse != null) {
+          final Map<String, dynamic> data =
+          jsonResponse();
+          return data;
+        } else {
+          throw Exception('Failed to decode task answer data');
+        }
       } else {
         print(
             'Failed to load task answer. Status code: ${response.statusCode}');
@@ -787,13 +1221,88 @@ class ApiService {
             'Failed to load task answer. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('Failed to fetch project answer: $e');
+      print('Exception: $e');
+      throw Exception('Error: $e');
     }
   }
 
-  Future<void> uploadTaskAnswerFile(String token, File pdfFile) async {
+  Future<Map<String, dynamic>> getTaskAnswerByTaskIdAndStudentId(
+      String token, int taskId, int userId) async {
     try {
-      final apiUrl = '$baseUrl/file/upload/task-answer';
+      final Uri url = Uri.parse('$baseUrl/task-answer/task/student');
+      final response = await http.post(
+          url,
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode({
+            "userId": userId,
+            "taskId": taskId
+          })
+      );
+
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+
+        if (jsonResponse != null && jsonResponse is Map<String, dynamic>) {
+          return jsonResponse;
+        } else {
+          throw Exception('Не удалось декодировать данные ответа на задачу');
+        }
+      } else {
+        print('Не удалось загрузить ответ на задачу. Код статуса: ${response.statusCode}');
+        throw Exception('Не удалось загрузить ответ на задачу. Код статуса: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      throw Exception('Ошибка: $e');
+    }
+  }
+
+
+  Future<void> uploadTaskAnswerFile(String token, File pdfFile, int taskId) async {
+    try {
+      final apiUrl = '$baseUrl/file/upload/task-answer?id=$taskId';
+      final request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+
+      // Добавление заголовка авторизации
+      request.headers['Authorization'] = 'Bearer $token';
+
+      // Определение MIME-типа файла (PDF)
+      final mimeType = 'application/pdf';
+
+      // Отладочные сообщения
+      print('PDF file path: ${pdfFile.path}');
+      print('PDF file MIME type: $mimeType');
+
+      // Добавление файла
+      final file = await http.MultipartFile.fromPath(
+        'file',
+        pdfFile.path,
+        contentType: MediaType.parse(mimeType),
+      );
+      request.files.add(file);
+
+      var response = await request.send();
+
+      // Проверка статус кода ответа
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        print('File uploaded successfully: $responseBody');
+      } else if (response.statusCode == 415) {
+        print('Only PDF files are allowed for task answers');
+      } else {
+        print('File upload failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+  Future<void> uploadProjectAnswerFile(String token, File pdfFile, int taskId) async {
+    try {
+      final apiUrl = '$baseUrl/file/upload/project-answer?id=$taskId';
       final request = http.MultipartRequest('POST', Uri.parse(apiUrl));
 
       // Добавление заголовка авторизации
@@ -869,6 +1378,44 @@ class ApiService {
     }
   }
 
+  Future<void> uploadProjectFile(String token, File pdfFile, int taskId) async {
+    try {
+      final apiUrl = '$baseUrl/file/upload/project?id=$taskId';
+      final request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+
+      // Добавление заголовка авторизации
+      request.headers['Authorization'] = 'Bearer $token';
+
+      // Определение MIME-типа файла (PDF)
+      final mimeType = 'application/pdf';
+
+      // Отладочные сообщения
+      print('PDF file path: ${pdfFile.path}');
+      print('PDF file MIME type: $mimeType');
+
+      // Добавление файла
+      final file = await http.MultipartFile.fromPath(
+        'file',
+        pdfFile.path,
+        contentType: MediaType.parse(mimeType),
+      );
+      request.files.add(file);
+
+      var response = await request.send();
+
+      // Проверка статус кода ответа
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        print('File uploaded successfully: $responseBody');
+      } else if (response.statusCode == 415) {
+        print('Only PDF files are allowed for task answers');
+      } else {
+        print('File upload failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
 
   Future<void> updateUserWithoutPassword({
     required int id,
@@ -879,7 +1426,7 @@ class ApiService {
     required String phoneNumber,
     required String avatarLink,
     required String role,
-    required int groupId,
+    required int? groupId,
     required String token,
   }) async {
     final data = jsonEncode(<String, dynamic>{
@@ -923,6 +1470,65 @@ class ApiService {
       print('User updated successfully');
     } else {
       throw Exception('Failed to update user');
+    }
+  }
+
+  Future<void> createUser({
+    required int id,
+    required String login,
+    required String password,
+    required String name,
+    required String surname,
+    required String patronymic,
+    required String phoneNumber,
+    required String avatarLink,
+    required String role,
+    required int? groupId,
+    required String token,
+  }) async {
+    final data = jsonEncode(<String, dynamic>{
+      'id': id,
+      'login': login,
+      'password': password,
+      'name': name,
+      'surname': surname,
+      'patronymic': patronymic,
+      'phoneNumber': phoneNumber,
+      'avatarLink': avatarLink,
+      'role': role,
+      'groupId': groupId,
+    });
+
+    print('Updating user'); // Debug print
+    print('Data to be sent: $data');
+
+    final response = await http.put(
+      Uri.parse('$baseUrl/user/without-password'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'id': id,
+        'login': login,
+        'password': password,
+        'name': name,
+        'surname': surname,
+        'patronymic': patronymic,
+        'phoneNumber': phoneNumber,
+        'avatarLink': avatarLink,
+        'role': role,
+        'groupId': groupId,
+      }),
+    );
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}'); // Debug print
+
+    if (response.statusCode == 200) {
+      print('User create successfully');
+    } else {
+      throw Exception('Failed to create user');
     }
   }
 
@@ -1039,6 +1645,7 @@ class ApiService {
     } catch (e) {
       print('Failed to create task: $e');
     }
+    return null;
   }
 
   Future<void> createTaskAnswer({
@@ -1099,6 +1706,304 @@ class ApiService {
     }
   }
 
+  Future<void> createProjectAnswer({
+    required String token,
+    required int projectId,
+    required int id,
+    required DateTime submissionDate,
+    required String teacherCommentary,
+    required String studentCommentary,
+    required int grade,
+    required String fileLink,
+  }) async {
+    final String url = '$baseUrl/project-answer';
+
+    Map<String, dynamic> requestBody = {
+      'id': id,
+      'projectId': projectId,
+      'submissionDate': submissionDate.toIso8601String(),
+      'teacherCommentary': teacherCommentary,
+      'studentCommentary': studentCommentary,
+      'grade': grade,
+      'fileLink': fileLink
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        print('Task Answer created successfully');
+      } else {
+        print(
+            'Failed to create task. Error ${response.statusCode}: ${response.reasonPhrase}');
+        // Попробуйте распарсить тело ответа, если это JSON, для получения дополнительной информации об ошибке
+        try {
+          Map<String, dynamic> responseBody = jsonDecode(response.body);
+          print('Detailed Error Message: ${responseBody['message']}');
+        } catch (e) {
+          print('Failed to parse error message: $e');
+        }
+      }
+    } catch (e) {
+      print('Failed to create task: $e');
+    }
+  }
+
+  Future<void> createStudentProject({
+    required String token,
+    required int id,
+    required int studentUserId,
+    required int projectId,
+  }) async {
+    final String url = '$baseUrl/student-project';
+
+    Map<String, dynamic> requestBody = {
+      "id": id,
+      "studentUserId": studentUserId,
+      "projectId": projectId,
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 201) {
+        print('Project created successfully');
+      }
+    } catch (e) {
+      print('Failed to create Project: $e');
+    }
+  }
+
+  Future<int?> createGroup({
+    required String token,
+    required int id,
+    required int groupNumber,
+    required int courseNumber,
+  }) async {
+    final String url = '$baseUrl/group';
+
+    Map<String, dynamic> requestBody = {
+      "id": id,
+      "groupNumber": groupNumber,
+      "courseNumber": courseNumber,
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 201) {
+        print('Group created successfully');
+        try {
+          Map<String, dynamic> responseBody = jsonDecode(response.body);
+          int newGroupId = responseBody['id'];
+          print(newGroupId);// Предполагаем, что id возвращается в поле 'id'
+          return newGroupId;
+        } catch (e) {
+          print('Failed to parse response body: $e');
+        }
+      }
+    } catch (e) {
+      print('Failed to create task: $e');
+    }
+    return null;
+  }
+
+  Future<int?> updateGroup({
+    required String token,
+    required int id,
+    required int groupNumber,
+    required int courseNumber,
+  }) async {
+    final String url = '$baseUrl/group';
+
+    Map<String, dynamic> requestBody = {
+      "id": id,
+      "groupNumber": groupNumber,
+      "courseNumber": courseNumber,
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        print('Group created successfully');
+        try {
+          Map<String, dynamic> responseBody = jsonDecode(response.body);
+          int newGroupId = responseBody['id'];
+          print(newGroupId);// Предполагаем, что id возвращается в поле 'id'
+          return newGroupId;
+        } catch (e) {
+          print('Failed to parse response body: $e');
+        }
+      }
+    } catch (e) {
+      print('Failed to create task: $e');
+    }
+    return null;
+  }
+
+  Future<int?> createProject({
+    required String token,
+    required int id,
+    required String name,
+    required int teacherId,
+    required String description,
+    required String fileLink,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    final String url = '$baseUrl/project';
+
+    Map<String, dynamic> requestBody = {
+      "id": id,
+      "name": name,
+      "teacherUserId": teacherId,
+      "description": description,
+      "fileLink": fileLink,
+      "startDate": startDate.toIso8601String(),
+      "endDate": endDate.toIso8601String(),
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 201) {
+        print('Group created successfully');
+        try {
+          Map<String, dynamic> responseBody = jsonDecode(response.body);
+          int newGroupId = responseBody['id'];
+          print(newGroupId);// Предполагаем, что id возвращается в поле 'id'
+          return newGroupId;
+        } catch (e) {
+          print('Failed to parse response body: $e');
+        }
+      }
+    } catch (e) {
+      print('Failed to create task: $e');
+    }
+    return null;
+  }
+
+  Future<int?> updateProject({
+    required String token,
+    required int id,
+    required String name,
+    required int teacherId,
+    required String description,
+    required String fileLink,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    final String url = '$baseUrl/project';
+
+    Map<String, dynamic> requestBody = {
+      "id": id,
+      "name": name,
+      "teacherUserId": teacherId,
+      "description": description,
+      "fileLink": fileLink,
+      "startDate": startDate.toIso8601String(),
+      "endDate": endDate.toIso8601String(),
+    };
+
+    print('Request URL: $url');
+    print('Request Body: ${jsonEncode(requestBody)}');
+
+    try {
+      final http.Response response = await http.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 201) {
+        print('Group created successfully');
+        try {
+          Map<String, dynamic> responseBody = jsonDecode(response.body);
+          int newGroupId = responseBody['id'];
+          print(newGroupId);// Предполагаем, что id возвращается в поле 'id'
+          return newGroupId;
+        } catch (e) {
+          print('Failed to parse response body: $e');
+        }
+      }
+    } catch (e) {
+      print('Failed to create task: $e');
+    }
+    return null;
+  }
+
   Future<void> deleteTask({
     required String token,
     required int taskId,
@@ -1122,6 +2027,84 @@ class ApiService {
       }
     } catch (e) {
       print('Failed to delete task: $e');
+    }
+  }
+
+  Future<void> deleteProject({
+    required String token,
+    required int taskId,
+  }) async {
+    final String url = '$baseUrl/project/$taskId';
+
+    try {
+      final http.Response response = await http.delete(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Project with ID $taskId deleted successfully');
+      } else {
+        print(
+            'Failed to delete task. Error ${response.statusCode}: ${response.reasonPhrase}');
+        print('Response Body: ${response.body}');
+      }
+    } catch (e) {
+      print('Failed to delete task: $e');
+    }
+  }
+
+  Future<void> deleteComplaint({
+    required String token,
+    required int complaintId,
+  }) async {
+    final String url = '$baseUrl/complaint/$complaintId';
+
+    try {
+      final http.Response response = await http.delete(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('complaint with ID $complaintId deleted successfully');
+      } else {
+        print(
+            'Failed to delete complaint. Error ${response.statusCode}: ${response.reasonPhrase}');
+        print('Response Body: ${response.body}');
+      }
+    } catch (e) {
+      print('Failed to delete complaint: $e');
+    }
+  }
+
+  Future<void> deleteGroup({
+    required String token,
+    required int groupId,
+  }) async {
+    final String url = '$baseUrl/group/$groupId';
+
+    try {
+      final http.Response response = await http.delete(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('groupId with ID $groupId deleted successfully');
+      } else {
+        print(
+            'Failed to delete groupId. Error ${response.statusCode}: ${response.reasonPhrase}');
+        print('Response Body: ${response.body}');
+      }
+    } catch (e) {
+      print('Failed to delete groupId: $e');
     }
   }
 }
@@ -1247,18 +2230,18 @@ class Project {
   final String name; // обязательное поле
   final int teacherUserId; // обязательное поле
   final String? description; // nullable поле
-  final String fileLink; // обязательное поле
+  final String? fileLink; // обязательное поле
   final DateTime startDate; // обязательное поле
-  final DateTime? endDate; // nullable поле
+  final DateTime endDate; // nullable поле
 
   Project({
     required this.id,
     required this.name,
     required this.teacherUserId,
-    this.description, // nullable
+    required this.description, // nullable
     required this.fileLink,
     required this.startDate,
-    this.endDate, // nullable
+    required this.endDate, // nullable
   });
 
   factory Project.fromJson(Map<String, dynamic> json) {
@@ -1269,7 +2252,7 @@ class Project {
       description: json['description'],
       fileLink: json['fileLink'],
       startDate: DateTime.parse(json['startDate']),
-      endDate: json['endDate'] != null ? DateTime.parse(json['endDate']) : null,
+      endDate: DateTime.parse(json['startDate']),
     );
   }
 }
@@ -1322,6 +2305,26 @@ class ProjectAnswer {
       studentCommentary: json['studentCommentary'],
       grade: json['grade'],
       fileLink: json['fileLink'],
+    );
+  }
+}
+
+class Complaint {
+  final int id;
+  final int complaintSenderUserId;
+  final int complainedAboutUserId;
+
+  Complaint({
+    required this.id,
+    required this.complaintSenderUserId,
+    required this.complainedAboutUserId,
+  });
+
+  factory Complaint.fromJson(Map<String, dynamic> json) {
+    return Complaint(
+      id: json['id'],
+      complaintSenderUserId: json['complaintSenderUserId'],
+      complainedAboutUserId: json['complainedAboutUserId'],
     );
   }
 }

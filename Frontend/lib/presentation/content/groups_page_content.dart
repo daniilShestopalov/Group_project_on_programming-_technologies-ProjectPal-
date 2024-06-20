@@ -15,6 +15,7 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
 
   SortOrder sortOrder = SortOrder.ascending;
   int selectedIndex = 0;
+  User? user;
 
   List<Group> groupBlocks = [];
 
@@ -32,6 +33,8 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
         throw Exception('Token is null');
       }
 
+      final userLoaded = await apiService.getUserById(token, widget.userId);
+
       final groups = await apiService.fetchGroups(token);
 
       for (var group in groups) {
@@ -41,103 +44,116 @@ class _GroupsPageContentState extends State<GroupsPageContent> {
 
       setState(() {
         groupBlocks = groups;
+        user = userLoaded;
       });
     } catch (error) {
       print('Error during loading groups: $error');
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: CustomText(
-                        text: 'Группы',
-                        style: figmaTextStyles.header1Medium.copyWith(
-                          color: FigmaColors.darkBlueMain,
+    return Scaffold(
+      floatingActionButton: user?.role != 'STUDENT'
+          ? FloatingActionButton(
+        onPressed: () {
+          AppRoutes.navigateToPageWithFadeTransition(
+              context,
+              GroupCreatePage(userId: widget.userId,));
+        },
+        child: Icon(Icons.create_outlined),
+        backgroundColor: FigmaColors.contrastToMain,
+      )
+          : null,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: CustomText(
+                          text: 'Группы',
+                          style: figmaTextStyles.header1Medium.copyWith(
+                            color: FigmaColors.darkBlueMain,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SortIcon(
-                    initialOrder: sortOrder,
-                    onSortChanged: (order) {
-                      setState(() {
-                        sortOrder = order;
-                        sortGroups(selectedIndex);
-                      });
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  for (int index = 0; index < 3; index++)
-                    GestureDetector(
-                      onTap: () {
+                    SortIcon(
+                      initialOrder: sortOrder,
+                      onSortChanged: (order) {
                         setState(() {
-                          selectedIndex = index;
-                          sortGroups(index);
+                          sortOrder = order;
+                          sortGroups(selectedIndex);
                         });
                       },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: index == selectedIndex ? FigmaColors.darkBlueMain : Colors.transparent,
-                              width: 2.0,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (int index = 0; index < 3; index++)
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = index;
+                            sortGroups(index);
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: index == selectedIndex ? FigmaColors.darkBlueMain : Colors.transparent,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            index == 0 ? 'По номеру' : index == 1 ? 'По количеству' : 'По курсу',
+                            style: figmaTextStyles.caption1Regular.copyWith(
+                              color: index == selectedIndex ? FigmaColors.darkBlueMain : FigmaColors.exitColor,
                             ),
                           ),
                         ),
-                        child: Text(
-                          index == 0 ? 'По номеру' : index == 1 ? 'По количеству' : 'По курсу',
-                          style: figmaTextStyles.caption1Regular.copyWith(
-                            color: index == selectedIndex ? FigmaColors.darkBlueMain : FigmaColors.exitColor,
-                          ),
-                        ),
                       ),
-                    ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 36),
-            child: ListView.builder(
-              itemCount: groupBlocks.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 16),
-                  child: CustomGroupListBlock(
-                    userId: widget.userId,
-                    group: groupBlocks[index],
-                  ),
-                );
-              },
+                  ],
+                ),
+              ],
             ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 36),
+              child: ListView.builder(
+                itemCount: groupBlocks.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 16),
+                    child: CustomGroupListBlock(
+                      userId: widget.userId,
+                      group: groupBlocks[index],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
+
 
   void sortGroupsByNumberOfGroup() {
     setState(() {

@@ -16,7 +16,7 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
   final ApiService apiService = ApiService();
   late String token;
   List<Tasks> tasks = [];
-  Map<DateTime, List<int>> taskIdsPerDay = {}; // Изменено на Map<DateTime, List<int>>
+  Map<DateTime, List<int>> taskIdsPerDay = {};
   late int groupId;
 
   @override
@@ -26,33 +26,64 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
   }
 
   Future<void> _initializeData() async {
-    token = await apiService.getJwtToken() ?? '';
-
-    await _fetchTasks();
+    try {
+      token = await apiService.getJwtToken() ?? '';
+      await _fetchTasks();
+    } catch (e) {
+      print('Error initializing data: $e');
+      // Handle error as needed
+    }
   }
 
   Future<void> _fetchTasks() async {
     try {
       final user = await apiService.getUserById(token, widget.userId);
-      groupId = user.groupId ?? 0;
-      tasks = await apiService.getTasksByMonthAndGroup(
-        groupId,
-        currentDate.year,
-        currentDate.month,
-        token,
-      );
+      String role = await apiService.getUserRoleById(widget.userId, token);
+      role = role.replaceAll('"', ''); // Убираем кавычки из строки, если они есть
+      print('Role: $role'); // Добавляем вывод для отладки
 
-      taskIdsPerDay.clear();
-      for (var task in tasks) {
-        DateTime endDate = DateTime(task.endDate.year, task.endDate.month, task.endDate.day);
-        taskIdsPerDay.update(endDate, (value) => [...value, task.id], ifAbsent: () => [task.id]); // Обновлено для добавления идентификатора задачи в список
+      if (role == 'STUDENT') {
+        groupId = user.groupId ?? 0;
+        tasks = await apiService.getTasksByMonthAndGroup(
+          groupId,
+          currentDate.year,
+          currentDate.month,
+          token,
+        );
+        print('Tasks for STUDENT: $tasks');
+      } else if (role == "TEACHER") {
+        tasks = await apiService.getTasksByMonthAndTeacherId(
+          widget.userId,
+          currentDate.year,
+          currentDate.month,
+          token,
+        );
+        print('Tasks for TEACHER: $tasks');
+      } else {
+        print('No tasks to fetch for this role');
+        tasks.clear(); // Очищаем задачи, если роль не "STUDENT" и не "TEACHER"
       }
-      print('Таски: $taskIdsPerDay');
 
+      // Обновляем taskIdsPerDay на основе полученных задач
+      _updateTaskIdsPerDay();
+      // Обновляем UI
       setState(() {});
     } catch (e) {
-      print('Error: $e');
+      print('Error fetching tasks: $e');
+      // Обрабатываем ошибку по мере необходимости
     }
+  }
+
+
+  void _updateTaskIdsPerDay() {
+    taskIdsPerDay.clear();
+    for (var task in tasks) {
+      DateTime endDate =
+      DateTime(task.endDate.year, task.endDate.month, task.endDate.day);
+      taskIdsPerDay.update(endDate, (value) => [...value, task.id],
+          ifAbsent: () => [task.id]);
+    }
+    print('Updated TaskIdsPerDay: $taskIdsPerDay');
   }
 
   @override
@@ -94,14 +125,16 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
                     showArrows: true,
                     onTapArrowLeft: () {
                       setState(() {
-                        currentDate = DateTime(currentDate.year, currentDate.month - 1);
+                        currentDate =
+                            DateTime(currentDate.year, currentDate.month - 1);
                         daysInMonth = _getDaysInMonth(currentDate);
                         _fetchTasks();
                       });
                     },
                     onTapArrowRight: () {
                       setState(() {
-                        currentDate = DateTime(currentDate.year, currentDate.month + 1);
+                        currentDate =
+                            DateTime(currentDate.year, currentDate.month + 1);
                         daysInMonth = _getDaysInMonth(currentDate);
                         _fetchTasks();
                       });
@@ -131,7 +164,8 @@ class _CalendarPageContentState extends State<CalendarPageContent> {
   }
 
   List<DateTime> _getDaysInMonth(DateTime currentDate) {
-    final int daysInMonth = DateTime(currentDate.year, currentDate.month + 1, 0).day;
+    final int daysInMonth =
+        DateTime(currentDate.year, currentDate.month + 1, 0).day;
     final List<DateTime> days = [];
     for (int i = 1; i <= daysInMonth; i++) {
       days.add(DateTime(currentDate.year, currentDate.month, i));

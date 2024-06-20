@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class CustomTaskGroupListViewBlock extends StatefulWidget {
@@ -30,97 +29,113 @@ class CustomTaskGroupListViewBlock extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomTaskGroupListViewBlockState createState() =>
-      _CustomTaskGroupListViewBlockState();
+  _CustomTaskGroupListViewBlockState createState() => _CustomTaskGroupListViewBlockState();
 }
 
-class _CustomTaskGroupListViewBlockState
-    extends State<CustomTaskGroupListViewBlock> {
+class _CustomTaskGroupListViewBlockState extends State<CustomTaskGroupListViewBlock> {
   late ApiService apiService;
-  late int answerId;
-  late DateTime submissionDate;
-  late String teacherComment;
-  late int teacherGrade;
-  late String answerLink;
+  int? studentId;
+  FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  String? statusText;
 
   @override
   void initState() {
     super.initState();
     apiService = ApiService();
-    _loadTaskAnswer();
+    _loadTaskAnswers();
   }
 
-  Future<void> _loadTaskAnswer() async {
+  Future<void> _loadTaskAnswers() async {
     try {
       String token = await apiService.getJwtToken() ?? '';
-      final List<Map<String, dynamic>> data =
-          await apiService.getTaskAnswerByTaskId(token, widget.userId);
-      if (data.isNotEmpty) {
-        setState(() {
-          answerId = data[0]['id'];
-          submissionDate = data[0]['submissionDate'] != null
-              ? DateTime.parse(data[0]['submissionDate'])
-              : DateTime.now();
-          teacherComment = data[0]['teacherCommentary'] ?? '';
-          teacherGrade = data[0]['grade'];
-          answerLink = data[0]['fileLink'] ?? '';
-        });
-      } else {
-        print('No task answer found');
-      }
+      Map<String, dynamic> data =
+      await apiService.getTaskAnswerByTaskIdAndStudentId(token, widget.taskId, widget.user.id);
+      print('Data for student ${widget.user.id}: $data'); // Отладочное сообщение
+
+      setState(() {
+        if (data.isNotEmpty) {
+          int teacherGrade = data['grade'];
+          String answerLink = data['fileLink'] ?? '';
+          if (answerLink.isNotEmpty && teacherGrade == 0) {
+            statusText = 'Ответ выложен';
+          } else if (teacherGrade > 0) {
+            statusText = 'Работа оценена';
+          } else {
+            statusText = 'В работе';
+          }
+        } else {
+          statusText = 'Нет данных'; // Установка значения по умолчанию, если данных нет
+        }
+      });
     } catch (e) {
-      print('Failed to load task answer: $e');
+      print('Failed to load task answer for student ${widget.user.id}: $e'); // Отладочное сообщение
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         AppRoutes.navigateToPageWithFadeTransition(
-            context,
-            ConcreteTaskPage(
-              userId: widget.userId,
-              subject: widget.subject,
-              date: widget.endDateString,
-              teacher: widget.teacher,
-              description: widget.description,
-              taskId: widget.taskId,
-              startDate: widget.startDate,
-              fileLink: widget.fileLink,
-              studentID: widget.user.id,
-            ));
+          context,
+          ConcreteTaskPage(
+            userId: widget.userId,
+            subject: widget.subject,
+            date: widget.endDateString,
+            teacher: widget.teacher,
+            description: widget.description,
+            taskId: widget.taskId,
+            startDate: widget.startDate,
+            endDate: widget.endDate,
+            fileLink: widget.fileLink,
+            studentID: widget.user.id,
+            groupId: widget.group.id,
+          ),
+        );
       },
-      child: Container(
-        width: 312,
-        height: 38,
-        decoration: BoxDecoration(
-          color: Color(0xFFC6D8DE),
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 2,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Text(
-                '${widget.user.surname} ${widget.user.name} ${widget.user.patronymic}',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: FigmaColors.darkBlueMain,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFFC6D8DE),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 1),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CustomText(
+                  text: 'Студент: ${widget.user.surname} ${widget.user.name} ${widget.user.patronymic}',
+                  style: figmaTextStyles.regularText.copyWith(
+                    color: FigmaColors.darkBlueMain,
+                  ),
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: CustomText(
+                    text: 'Статус: $statusText', // Используем определенный статус текста
+                    style: figmaTextStyles.regularText.copyWith(
+                      color: FigmaColors.darkBlueMain,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

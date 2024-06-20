@@ -7,20 +7,32 @@
     <list default="true" id="20c8accb-b2c1-4a18-b041-e4300cde7315" name="Changes" comment="Переработка старых экранов. Доведение до ума и обновление дизайна">
       <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/api_service.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/concrete_project_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/group_create_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/group_update_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/project_create_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/project_update_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/students_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/task_group_view_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/task_update_page_content.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/tasks_group_page_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/user_create_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/concrete_project_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/group_create_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/group_update_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/project_create_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/project_update_page.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/students_page.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/task_group_page.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/task_group_view_page.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/task_update_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/user_create_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_complaint_list_view_block.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_block_open_create.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_group_block_open_update.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_projcet_block_open_create.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_project_block.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_project_block_open.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_project_block_open_update.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_search_field.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block_open_update.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_group_list_block.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_group_list_view_block.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/.gitignore" afterDir="false" />

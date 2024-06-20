@@ -1,5 +1,5 @@
 import 'package:project_pal/core/app_export.dart';
-
+import 'package:flutter/material.dart';
 
 class CustomSideMenu extends StatefulWidget {
   final FigmaTextStyles figmaTextStyles;
@@ -17,45 +17,58 @@ class CustomSideMenu extends StatefulWidget {
 
 class _CustomSideMenuState extends State<CustomSideMenu> {
   late ApiService apiService;
-  late String token;
   dynamic user;
-  late String userRole = '';
+  String userRole = '';
+  String errorMessage = '';
 
   @override
   void initState() {
     super.initState();
+    apiService = ApiService();
     _initializeData();
   }
 
   Future<void> _initializeData() async {
-    apiService = ApiService();
-    final token = await apiService.getJwtToken();
-    user = await apiService.getUserById(token!, widget.userId);
-
-    // Определение роли пользователя
-    switch (user.role) {
-      case 'STUDENT':
-        userRole = 'Студент';
-        break;
-      case 'TEACHER':
-        userRole = 'Преподаватель';
-        break;
-      case 'ADMIN':
-        userRole = 'Администратор';
-        break;
-      default:
-        userRole = 'Неизвестно';
+    try {
+      final token = await apiService.getJwtToken();
+      if (token != null) {
+        user = await apiService.getUserById(token, widget.userId);
+        if (user != null) {
+          print(user.role);
+          switch (user.role) {
+            case 'STUDENT':
+              userRole = 'Студент';
+              break;
+            case 'TEACHER':
+              userRole = 'Преподаватель';
+              break;
+            case 'ADMIN':
+              userRole = 'Администратор';
+              break;
+            default:
+              userRole = 'Неизвестно';
+          }
+        } else {
+          errorMessage = 'Ошибка: Пользователь не загружен';
+        }
+      } else {
+        errorMessage = 'Ошибка: Токен не получен';
+      }
+    } catch (e) {
+      errorMessage = 'Ошибка при инициализации данных: $e';
     }
-    setState(() {}); // Перестроить виджет после получения данных
+    setState(() {}); // Обновить состояние после загрузки данных
   }
 
   @override
   Widget build(BuildContext context) {
-    if (user == null) {
-      return CircularProgressIndicator(); // Или другой виджет загрузки
+    if (errorMessage.isNotEmpty) {
+      return Center(child: Text(errorMessage));
     }
 
-    bool isProfileVisible = user.role != 'STUDENT';
+    if (user == null) {
+      return Center(child: CircularProgressIndicator());
+    }
 
     return Drawer(
       child: Container(
@@ -66,7 +79,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
           children: [
             SizedBox(height: 20),
             CustomText(
-              text: '${user.surname} ${user.name} ${user.patronymic}',
+              text: '${user.surname ?? ''} ${user.name ?? ''} ${user.patronymic ?? ''}',
               style: widget.figmaTextStyles.mediumText.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),
@@ -83,28 +96,32 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
               icon: Icons.person,
               text: 'Профиль',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, ProfilePage(userId: widget.userId));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, ProfilePage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.group,
               text: 'Группы',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, GroupsPage(userId: widget.userId));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, GroupsPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.groups,
               text: 'Учащиеся',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, StudentsPage(userId: widget.userId));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, StudentsPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.account_balance,
               text: 'Преподаватели',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, ProfessorPage(userId: widget.userId));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, ProfessorPage(userId: widget.userId));
               },
             ),
             SizedBox(height: 20),
@@ -124,30 +141,52 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
               icon: Icons.home,
               text: 'Главная',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, MainPage(userId: widget.userId));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, MainPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.calendar_today,
               text: 'Календарь',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, CalendarPage(userId: widget.userId));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, CalendarPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.assignment,
               text: 'Задания',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: widget.userId));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, TasksPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
               icon: Icons.group_work,
               text: 'Проекты',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, ProjectPage(userId: widget.userId));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, ProjectPage(userId: widget.userId));
               },
             ),
+            if (user.role == 'ADMIN')
+              _buildMenuItem(
+                icon: Icons.fmd_bad_sharp,
+                text: 'Жалобы',
+                onTap: () {
+                  AppRoutes.navigateToPageWithFadeTransition(
+                      context, ComplaintPage(userId: widget.userId));
+                },
+              ),
+            if (user.role == 'ADMIN')
+              _buildMenuItem(
+                icon: Icons.person_add,
+                text: 'Создать пользователя',
+                onTap: () {
+                  AppRoutes.navigateToPageWithFadeTransition(
+                      context, UserCreatePage(userId: widget.userId));
+                },
+              ),// Remove the comma here
             SizedBox(height: 20),
             Divider(
               color: FigmaColors.darkBlueMain.withOpacity(0.2),
@@ -158,7 +197,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
               icon: Icons.settings,
               text: 'Настройки',
               onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(context, SettingsPage(userId: widget.userId,));
+                AppRoutes.navigateToPageWithFadeTransition(
+                    context, SettingsPage(userId: widget.userId));
               },
             ),
             _buildMenuItem(
@@ -179,7 +219,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
     required IconData icon,
     required String text,
     Color? iconColor,
-    required VoidCallback onTap, // Обновленный параметр onTap
+    required VoidCallback onTap,
   }) {
     return InkWell(
       onTap: onTap,

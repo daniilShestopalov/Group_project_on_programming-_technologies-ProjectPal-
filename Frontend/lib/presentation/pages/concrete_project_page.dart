@@ -5,8 +5,11 @@ class ConcreteProjectPage extends StatefulWidget {
   final int userId;
   final String subject;
   final String date;
+  final DateTime startDate;
+  final DateTime endDate;
   final String teacher;
   final String description;
+  final String fileLink;
   final int taskId;
 
   const ConcreteProjectPage({
@@ -14,15 +17,19 @@ class ConcreteProjectPage extends StatefulWidget {
     required this.userId,
     required this.subject,
     required this.date,
+    required this.startDate,
     required this.teacher,
-    required this.description, required this.taskId,
+    required this.description,
+    required this.taskId,
+    required this.fileLink,
+    required this.endDate,
   }) : super(key: key);
 
   @override
-  _ConcreteProjectPageState createState() => _ConcreteProjectPageState();
+  _ConcreteProjectState createState() => _ConcreteProjectState();
 }
 
-class _ConcreteProjectPageState extends State<ConcreteProjectPage> {
+class _ConcreteProjectState extends State<ConcreteProjectPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -43,6 +50,9 @@ class _ConcreteProjectPageState extends State<ConcreteProjectPage> {
         teacher: widget.teacher,
         description: widget.description,
         taskId: widget.taskId,
+        fileLink: widget.fileLink,
+        startDate: widget.startDate,
+        endDate: widget.endDate,
       ),
       bottomNavigationBar: CustomBottomBar(currentPage: 'project', userId: widget.userId,), // Добавляем кастомный нижний бар
     );

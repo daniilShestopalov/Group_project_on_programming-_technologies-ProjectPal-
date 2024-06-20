@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
 class ConcreteTaskPageContent extends StatefulWidget {
@@ -6,9 +5,11 @@ class ConcreteTaskPageContent extends StatefulWidget {
   final String subject;
   final String date;
   final DateTime startDate;
+  final DateTime endDate;
   final String teacher;
   final String description;
   final String fileLink;
+  final int groupId;
   final int taskId;
   final int studentId;
 
@@ -22,6 +23,7 @@ class ConcreteTaskPageContent extends StatefulWidget {
     required this.taskId,
     required this.fileLink,
     required this.studentId,
+    required this.groupId, required this.endDate,
   });
 
   @override
@@ -31,6 +33,7 @@ class ConcreteTaskPageContent extends StatefulWidget {
 class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   late Future<User?> _userFuture;
+  User? student;
 
   @override
   void initState() {
@@ -39,10 +42,21 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
   }
 
   Future<User?> _fetchUser() async {
-    ApiService apiService = ApiService();
-    String? token = await apiService.getJwtToken();
-    User user = await apiService.getUserById(token!, widget.userId);
-    return user;
+    try {
+      ApiService apiService = ApiService();
+      String? token = await apiService.getJwtToken();
+      if (token == null) {
+        throw Exception("Failed to get token");
+      }
+      User user = await apiService.getUserById(token, widget.userId);
+      setState(() {
+        student = user;
+      });
+      return user;
+    } catch (e) {
+      print('Failed to fetch user: $e');
+      return null;
+    }
   }
 
   DateTime calculateDeadline(String daysDifference) {
@@ -57,7 +71,10 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
     try {
       ApiService apiService = ApiService();
       String? token = await apiService.getJwtToken();
-      await apiService.deleteTask(token: token!, taskId: widget.taskId);
+      if (token == null) {
+        throw Exception("Failed to get token");
+      }
+      await apiService.deleteTask(token: token, taskId: widget.taskId);
       AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: widget.userId));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -76,61 +93,74 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
         padding: const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 100),
         child: Container(
           padding: EdgeInsets.only(top: 26),
-          child: TaskBlockOpenWidget(
-            subject: widget.subject,
-            date: widget.date,
-            teacher: widget.teacher,
-            userId: widget.userId,
-            instruction: widget.description,
-            taskId: widget.taskId,
-            taskLink: widget.fileLink,
-            studentId: widget.studentId,
+          child: FutureBuilder<User?>(
+            future: _userFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Ошибка загрузки данных'));
+              } else if (snapshot.hasData) {
+                return TaskBlockOpenWidget(
+                  subject: widget.subject,
+                  date: widget.date,
+                  teacher: widget.teacher,
+                  userId: widget.userId,
+                  description: widget.description,
+                  taskId: widget.taskId,
+                  taskLink: widget.fileLink,
+                  studentId: widget.studentId,
+                  groupId: widget.groupId, startDate: widget.startDate, endDate: widget.endDate,
+                );
+              } else {
+                return Center(child: Text('Данные не найдены'));
+              }
+            },
           ),
         ),
       ),
     ),
     floatingActionButton: FutureBuilder<User?>(
       future: _userFuture,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<User?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(); // Placeholder or loading indicator
+          return CircularProgressIndicator(); // Показываем индикатор загрузки
+        } else if (snapshot.hasData && snapshot.data!.role != 'STUDENT') {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                onPressed: deleteTask,
+                child: Icon(Icons.delete),
+                backgroundColor: Colors.red,
+              ),
+              SizedBox(height: 16),
+              FloatingActionButton(
+                onPressed: () {
+                  AppRoutes.navigateToPageWithFadeTransition(
+                    context,
+                    TasksUpdatePage(
+                      userId: widget.userId,
+                      subject: widget.subject,
+                      teacher: widget.teacher,
+                      description: widget.description,
+                      taskId: widget.taskId,
+                      endDate: calculateDeadline(widget.date),
+                      startDate: widget.startDate,
+                      fileLink: widget.fileLink,
+                    ),
+                  );
+                },
+                child: Icon(Icons.create_outlined),
+                backgroundColor: FigmaColors.contrastToMain,
+              ),
+              SizedBox(height: 30)
+            ],
+          );
         } else {
-          if (snapshot.hasData && snapshot.data!.role != 'STUDENT') {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  onPressed: deleteTask,
-                  child: Icon(Icons.delete),
-                  backgroundColor: Colors.red,
-                ),
-                SizedBox(height: 16),
-                FloatingActionButton(
-                  onPressed: () {
-                    AppRoutes.navigateToPageWithFadeTransition(
-                      context,
-                      TasksUpdatePage(
-                        userId: widget.userId,
-                        subject: widget.subject,
-                        teacher: widget.teacher,
-                        description: widget.description,
-                        taskId: widget.taskId,
-                        endDate: calculateDeadline(widget.date),
-                        startDate: widget.startDate,
-                        fileLink: widget.fileLink,
-                      ),
-                    );
-                  },
-                  child: Icon(Icons.create_outlined),
-                  backgroundColor: FigmaColors.contrastToMain,
-                ),
-                SizedBox(height: 30,)
-              ],
-            );
-          } else {
-            return Container(); // Return empty container for students or error cases
-          }
+          // Если нет данных или роль 'STUDENT', показываем пустой контейнер или другое состояние
+          return Container();
         }
       },
     ),

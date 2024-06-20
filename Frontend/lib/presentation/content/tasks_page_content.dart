@@ -55,6 +55,8 @@ class _TasksPageContentState extends State<TasksPageContent> {
           taskId: task.id,
           startDate: task.startDate,
           fileLink: task.fileLink,
+          role: user.role,
+          groupId: task.groupId,
         );
       }).toList());
 
@@ -169,6 +171,7 @@ class _TasksPageContentState extends State<TasksPageContent> {
                         return Padding(
                           padding: EdgeInsets.only(bottom: 16),
                           child: TaskBlockWidget(
+                            role: user!.role,
                             subject: taskBlocks[index].subject,
                             endDate: taskBlocks[index].endDate,
                             teacher: taskBlocks[index].teacher,
@@ -177,6 +180,7 @@ class _TasksPageContentState extends State<TasksPageContent> {
                             taskId: taskBlocks[index].taskId,
                             startDate: taskBlocks[index].startDate,
                             fileLink: taskBlocks[index].fileLink,
+                            groupId: taskBlocks[index].groupId,
                           ),
                         );
                       },

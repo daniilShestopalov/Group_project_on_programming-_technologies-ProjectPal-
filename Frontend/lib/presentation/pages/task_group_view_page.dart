@@ -1,7 +1,7 @@
 import 'package:project_pal/core/app_export.dart';
 
 class TaskGroupViewPage extends StatefulWidget {
-  final Group group;
+  final int groupId;
   final String subject;
   final DateTime endDate;
   final DateTime startDate;
@@ -15,7 +15,7 @@ class TaskGroupViewPage extends StatefulWidget {
   const TaskGroupViewPage({
     Key? key,
     required this.userId,
-    required this.group,
+    required this.groupId,
     required this.subject,
     required this.endDate,
     required this.startDate,
@@ -47,7 +47,7 @@ class _TaskGroupViewPageState extends State<TaskGroupViewPage> {
           figmaTextStyles: FigmaTextStyles(), userId: widget.userId),
       body: TaskGroupViewPageContent(
         userId: widget.userId,
-        group: widget.group,
+        groupId: widget.groupId,
         subject: widget.subject,
         endDate: widget.endDate,
         startDate: widget.startDate,
