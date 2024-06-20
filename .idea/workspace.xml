@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20c8accb-b2c1-4a18-b041-e4300cde7315" name="Changes" comment="Переработка старых экранов. Доведение до ума и обновление дизайна">
+      <change afterPath="$PROJECT_DIR$/Frontend/assets/localization/en.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/assets/localization/ru.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/api_service.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/lib/core/utils/app_localizations.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/concrete_project_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/group_create_page_content.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/group_update_page_content.dart" afterDir="false" />
@@ -34,6 +37,7 @@
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_search_field.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_block_open_update.dart" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Frontend/lib/widgets/custom_task_group_list_view_block.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/android/app/build.gradle" afterDir="false" />
@@ -114,6 +118,7 @@
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_view_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/profile_view_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/project_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/project_page_content.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/settings_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/settings_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/task_create_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/task_create_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/content/tasks_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/content/tasks_page_content.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/auth_page.dart" afterDir="false" />
@@ -134,6 +139,7 @@
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_2.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_3.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/reset_password_page_4.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/settings_page.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/task_create_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/task_create_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_1.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/lib/presentation/pages/welcome_page/welcome_page_2.dart" afterDir="false" />
@@ -222,6 +228,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "AnalyzeApkAction.lastApkPath": "C:/Users/ertna/OneDrive/Рабочий стол",
     "Flutter.Unnamed.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",

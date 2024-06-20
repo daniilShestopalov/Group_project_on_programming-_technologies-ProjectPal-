@@ -23,6 +23,8 @@ dependencies:
   dio: ^5.1.1
   url_launcher: ^6.0.17
   open_file: ^3.0.3
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -112,6 +114,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/icon/
+    - assets/localization/
   fonts:
     - family: Roboto
       fonts:

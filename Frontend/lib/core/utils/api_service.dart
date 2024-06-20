@@ -383,16 +383,11 @@ class ApiService {
   }
 
   Future<List<Project>> getProjectsByStudentIdAndMonth(
-      int studentId, int year, String month, int monthValue, bool leapYear, String token) async {
+      int studentId, int year, int month, String token) async {
     final url = Uri.parse('$baseUrl/project/student/month');
     final Map<String, dynamic> requestBody = {
       'id': studentId,
-      'yearMonth': {
-        'year': year,
-        'month': month,
-        'monthValue': monthValue,
-        'leapYear': leapYear,
-      },
+      'yearMonth': "$year-0$month"
     };
 
     try {

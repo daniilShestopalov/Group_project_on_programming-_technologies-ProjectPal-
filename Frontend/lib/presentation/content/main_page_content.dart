@@ -12,10 +12,10 @@ class MainPageContent extends StatefulWidget {
 class _MainPageContentState extends State<MainPageContent> {
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   late ApiService apiService;
-  late String token;
+  String? token;
   dynamic user;
-  late int allTasks;
-  late int notCompletedTasks;
+  int? allTasks;
+  int? notCompletedTasks;
   List<NotificationItem> notifications = [];
 
   @override
@@ -26,22 +26,69 @@ class _MainPageContentState extends State<MainPageContent> {
 
   Future<void> _initializeData() async {
     apiService = ApiService();
-    final token = await apiService.getJwtToken();
+    token = await apiService.getJwtToken();
     user = await apiService.getUserById(token!, widget.userId);
+
     int countTasks;
     int countProject;
+    DateTime currentDate = DateTime.now();
+
     if (user.role == 'STUDENT') {
-      countTasks = await apiService.getTasksCountByGroup(user.groupId, token);
-      countProject = await apiService.getProjectCountByUserId(user.id, token);
+      countTasks = await apiService.getTasksCountByGroup(user.groupId, token!);
+      countProject = await apiService.getProjectCountByUserId(user.id, token!);
+      List<Tasks> tasks = await apiService.getTasksByMonthAndGroup(user.groupId, currentDate.year,
+        currentDate.month, token!);
+      List<Project> projects = await apiService.getProjectsByStudentIdAndMonth(user.id, currentDate.year, currentDate.month, token!);
+
+      notifications = _generateNotifications(tasks, projects);
     } else {
-      countTasks = await apiService.getTasksCountByTeacherId(user.id, token);
-      countProject = await apiService.getProjectsCountByTeacherId(user.id, token);
+      countTasks = await apiService.getTasksCountByTeacherId(user.id, token!);
+      countProject = await apiService.getProjectsCountByTeacherId(user.id, token!);
     }
 
     setState(() {
       allTasks = countTasks;
       notCompletedTasks = countProject;
     });
+  }
+
+  List<NotificationItem> _generateNotifications(List<Tasks> tasks, List<Project> projects) {
+    List<NotificationItem> notifications = [];
+    DateTime now = DateTime.now();
+
+    for (Tasks task in tasks) {
+      Duration difference = task.endDate.difference(now);
+      String timeLeft = _formatDuration(difference);
+      notifications.add(NotificationItem(
+        text: 'Осталось $timeLeft времени до сдачи задачи "${task.name}"',
+        avatarUrl: null,
+        isSystem: true,
+      ));
+    }
+
+    for (Project project in projects) {
+      Duration difference = project.endDate.difference(now);
+      String timeLeft = _formatDuration(difference);
+      notifications.add(NotificationItem(
+        text: 'Осталось $timeLeft времени до сдачи проекта "${project.name}"',
+        avatarUrl: null,
+        isSystem: true,
+      ));
+    }
+
+    return notifications;
+  }
+
+  String _formatDuration(Duration duration) {
+    if (duration.inDays > 0) {
+      return '${duration.inDays} дней';
+    } else if (duration.inHours > 0) {
+      return '${duration.inHours} часов';
+    } else if (duration.inMinutes > 0) {
+      return '${duration.inMinutes} минут';
+    } else {
+      return 'меньше минуты';
+    }
   }
 
   void _showNotifications() {
@@ -52,7 +99,6 @@ class _MainPageContentState extends State<MainPageContent> {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +176,8 @@ class _MainPageContentState extends State<MainPageContent> {
           Container(
             child: Center(
               child: CustomPieChart(
-                allTasks: allTasks,
-                incompleteTasks: notCompletedTasks,
+                allTasks: allTasks ?? 0,
+                incompleteTasks: notCompletedTasks ?? 0,
               ),
             ),
           ),

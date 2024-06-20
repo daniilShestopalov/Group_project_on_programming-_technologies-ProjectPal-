@@ -43,7 +43,6 @@ export 'package:project_pal/widgets/custom_calendar_grid.dart';
 export 'package:project_pal/widgets/custom_task_block_open.dart';
 export 'package:project_pal/widgets/custom_group_list_block.dart';
 export 'package:project_pal/widgets/custom_group_list_view_block.dart';
-export 'package:project_pal/presentation/pages/settings_page.dart';
 export 'package:project_pal/presentation/content/settings_page_content.dart';
 export 'package:project_pal/presentation/pages/professors_page.dart';
 export 'package:project_pal/presentation/content/professors_page_content.dart';

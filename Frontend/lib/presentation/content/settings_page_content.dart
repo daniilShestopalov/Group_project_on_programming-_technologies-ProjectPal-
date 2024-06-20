@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
+
+import '../../core/utils/app_localizations.dart';  // Ваши импорты
 
 class SettingsPageContent extends StatefulWidget {
   final int userId;
@@ -21,7 +24,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Center(
             child: CustomText(
-              text: 'Настройки',
+              text: AppLocalizations.of(context)?.translate('settings') ?? 'Settings',
               style: figmaTextStyles.header1Medium.copyWith(
                 color: FigmaColors.darkBlueMain,
               ),
@@ -33,16 +36,42 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomButton(
-                text: 'Язык',
+                text: AppLocalizations.of(context)?.translate('language') ?? 'Language',
                 onPressed: () {
-                  // Обработчик нажатия кнопки "Язык"
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(AppLocalizations.of(context)?.translate('language') ?? 'Language'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextButton(
+                              child: Text('English'),
+                              onPressed: () { // Изменить язык на английский
+                                AppLocalizations.of(context)?.load();
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Русский'),
+                              onPressed: () {
+                                AppLocalizations.of(context)?.load();
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
                 figmaTextStyles: figmaTextStyles,
                 showArrows: false,
               ),
               SizedBox(height: 16),
               CustomButton(
-                text: 'Уведомления и звуки',
+                text: AppLocalizations.of(context)?.translate('notifications') ?? 'Notifications and Sounds',
                 onPressed: () {
                   // Обработчик нажатия кнопки "Уведомления и звуки"
                 },
@@ -51,7 +80,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
               ),
               SizedBox(height: 16),
               CustomButton(
-                text: 'Данные и память',
+                text: AppLocalizations.of(context)?.translate('data') ?? 'Data and Storage',
                 onPressed: () {
                   // Обработчик нажатия кнопки "Данные и память"
                 },

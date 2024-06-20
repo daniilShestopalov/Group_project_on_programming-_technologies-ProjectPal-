@@ -194,14 +194,6 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
             ),
             SizedBox(height: 10),
             _buildMenuItem(
-              icon: Icons.settings,
-              text: 'Настройки',
-              onTap: () {
-                AppRoutes.navigateToPageWithFadeTransition(
-                    context, SettingsPage(userId: widget.userId));
-              },
-            ),
-            _buildMenuItem(
               icon: Icons.exit_to_app,
               text: 'Выйти из профиля',
               iconColor: FigmaColors.red,
