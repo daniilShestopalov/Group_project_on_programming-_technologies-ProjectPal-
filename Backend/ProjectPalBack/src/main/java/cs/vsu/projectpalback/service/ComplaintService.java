@@ -68,4 +68,15 @@ public class ComplaintService {
         }
     }
 
+    public Long getCountOfComplaints() {
+        try {
+            Long count = complaintRepository.count();
+            LOGGER.info("Count of complaints: {}", count);
+            return count;
+        } catch (Exception e) {
+            LOGGER.error("Error counting complaints: {}", e.getMessage(), e);
+            throw new RuntimeException("Error counting complaints", e);
+        }
+    }
+
 }

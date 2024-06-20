@@ -79,4 +79,18 @@ public class ComplaintController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/count")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Get count of complaints", description = "Obtaining the count of complaints in the database")
+    public ResponseEntity<Long> getCountOfComplaints() {
+        try {
+            LOGGER.info("Counting complaints");
+            Long count = complaintService.getCountOfComplaints();
+            return ResponseEntity.ok(count);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
