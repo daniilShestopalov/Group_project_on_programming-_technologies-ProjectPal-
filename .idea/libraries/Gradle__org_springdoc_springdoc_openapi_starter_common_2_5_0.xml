@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springdoc:springdoc-openapi-starter-common:2.5.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.springdoc" artifactId="springdoc-openapi-starter-common" version="2.5.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springdoc/springdoc-openapi-starter-common/2.5.0/d83078092cc4e61ef502018c7560d466210cc14e/springdoc-openapi-starter-common-2.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springdoc/springdoc-openapi-starter-common/2.5.0/4c16ab1a9c2bfc5350fc07a52790cee5ae7ce2b7/springdoc-openapi-starter-common-2.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

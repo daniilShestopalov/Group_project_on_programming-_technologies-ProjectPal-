@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="635ab53d-ed8d-4dd7-b7bf-2704bbd124b0" name="Changes" comment="Moving an entire folder from a backend branch due to merge errors">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__ch_qos_logback_logback_classic_1_4_14.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__ch_qos_logback_logback_core_1_4_14.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_classmate_1_6_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_annotations_2_15_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_core_2_15_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_databind_2_15_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_dataformat_jackson_dataformat_toml_2_15_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_dataformat_jackson_dataformat_yaml_2_15_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_15_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_15_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_module_jackson_module_parameter_names_2_15_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_docker_java_docker_java_api_3_3_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_docker_java_docker_java_transport_3_3_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_docker_java_docker_java_transport_zerodep_3_3_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_gson_gson_2_10_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_jayway_jsonpath_json_path_2_9_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_sun_istack_istack_commons_runtime_4_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_zaxxer_HikariCP_5_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__commons_codec_commons_codec_1_16_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__commons_io_commons_io_2_15_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_jsonwebtoken_jjwt_api_0_12_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_jsonwebtoken_jjwt_impl_0_12_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_jsonwebtoken_jjwt_jackson_0_12_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_micrometer_micrometer_commons_1_12_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_micrometer_micrometer_core_1_12_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_micrometer_micrometer_jakarta9_1_12_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_micrometer_micrometer_observation_1_12_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_smallrye_jandex_3_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_swagger_core_v3_swagger_annotations_jakarta_2_2_21.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_swagger_core_v3_swagger_core_jakarta_2_2_21.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_swagger_core_v3_swagger_models_jakarta_2_2_21.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_activation_jakarta_activation_api_2_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_annotation_jakarta_annotation_api_2_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_inject_jakarta_inject_api_2_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_persistence_jakarta_persistence_api_3_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_transaction_jakarta_transaction_api_2_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_validation_jakarta_validation_api_3_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_xml_bind_jakarta_xml_bind_api_4_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__javax_servlet_javax_servlet_api_4_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_13_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_1_14_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_agent_1_14_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_java_dev_jna_jna_5_13_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_minidev_accessors_smart_2_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_minidev_json_smart_2_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_antlr_antlr4_runtime_4_13_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_commons_commons_compress_1_26_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_commons_commons_lang3_3_13_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_logging_log4j_log4j_api_2_21_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_logging_log4j_log4j_to_slf4j_2_21_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_tomcat_embed_tomcat_embed_core_10_1_19.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_tomcat_embed_tomcat_embed_el_10_1_19.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_tomcat_embed_tomcat_embed_websocket_10_1_19.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apiguardian_apiguardian_api_1_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_aspectj_aspectjweaver_1_9_21.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_assertj_assertj_core_3_24_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_awaitility_awaitility_4_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_checkerframework_checker_qual_3_31_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_eclipse_angus_angus_activation_2_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_eclipse_angus_jakarta_mail_2_0_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_flywaydb_flyway_core_9_22_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jaxb_jaxb_core_4_0_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jaxb_jaxb_runtime_4_0_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jaxb_txw2_4_0_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_2_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_2_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hdrhistogram_HdrHistogram_2_1_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hibernate_common_hibernate_commons_annotations_6_0_6_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hibernate_orm_hibernate_core_6_4_4_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jboss_logging_jboss_logging_3_5_3_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_annotations_17_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_jupiter_junit_jupiter_5_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_jupiter_junit_jupiter_api_5_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_jupiter_junit_jupiter_engine_5_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_jupiter_junit_jupiter_params_5_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_platform_junit_platform_commons_1_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_platform_junit_platform_engine_1_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_latencyutils_LatencyUtils_2_0_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_mapstruct_mapstruct_1_5_5_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_mapstruct_mapstruct_processor_1_5_5_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_mockito_mockito_core_5_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_mockito_mockito_junit_jupiter_5_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_objenesis_objenesis_3_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_opentest4j_opentest4j_1_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_ow2_asm_asm_9_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_postgresql_postgresql_42_6_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_projectlombok_lombok_1_18_30.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_projectlombok_lombok_mapstruct_binding_0_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_rnorth_duct_tape_duct_tape_1_0_8.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_skyscreamer_jsonassert_1_5_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_slf4j_jul_to_slf4j_2_0_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_slf4j_slf4j_api_2_0_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springdoc_springdoc_openapi_starter_common_2_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springdoc_springdoc_openapi_starter_webmvc_api_2_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springdoc_springdoc_openapi_starter_webmvc_ui_2_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_actuator_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_actuator_autoconfigure_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_autoconfigure_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_docker_compose_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_actuator_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_aop_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_data_jpa_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_jdbc_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_json_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_logging_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_mail_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_security_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_test_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_tomcat_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_web_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_test_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_test_autoconfigure_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_data_spring_data_commons_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_data_spring_data_jpa_3_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_config_6_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_core_6_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_crypto_6_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_test_6_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_web_6_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_aop_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_aspects_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_beans_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_context_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_context_support_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_core_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_expression_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_jcl_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_jdbc_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_orm_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_test_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_tx_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_web_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_webmvc_6_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_testcontainers_database_commons_1_19_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_testcontainers_jdbc_1_19_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_testcontainers_junit_jupiter_1_18_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_testcontainers_postgresql_1_18_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_testcontainers_testcontainers_1_19_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_webjars_swagger_ui_5_13_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_xmlunit_xmlunit_core_2_9_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_yaml_snakeyaml_2_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/ProjectPalBack.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/ProjectPalBack.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/ProjectPalBack.test.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/compose.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/ProjectPalBackApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/config/SwaggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/config/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/config/WebSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/ComplaintController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/FileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/GroupController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/ProjectAnswerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/ProjectController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/StudentProjectController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/TaskAnswerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/TaskController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/ChangeAvatarDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/ChangeGroupDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/ChangeGroupForManyDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/ComplaintDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/CreateUserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/GroupDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/IdWithMonthDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/IdWithTimeDateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/ProjectAnswerDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/ProjectDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/StudentProjectDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/TaskAnswerDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/TaskDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/UserIdTaskIdDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/UserWithoutPasswordDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/auth/AuthUserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/auth/ChangePasswordDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/auth/CodeDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/auth/PasswordChangeDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/auth/PasswordResetRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/auth/RegistrationUserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/dto/auth/TmpInitialLoginUserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/ComplaintMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/GroupMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/ProjectAnswerMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/ProjectMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/StudentProjectMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/TaskAnswerMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/TaskMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/mapper/UserWithoutPasswordMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/Complaint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/Group.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/Project.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/ProjectAnswer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/StudentProject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/Task.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/TaskAnswer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/auth/AuthModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/model/enumerate/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/repository/ComplaintRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/repository/GroupRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/repository/ProjectAnswerRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/repository/ProjectRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/repository/StudentProjectRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/repository/TaskAnswerRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/repository/TaskRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/security/JwtFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/security/JwtProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/security/JwtUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/ComplaintService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/FileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/GroupService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/PasswordResetService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/ProjectAnswerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/ProjectService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/StudentProjectService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/TaskAnswerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/TaskService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/java/cs/vsu/projectpalback/utils/FileUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/resources/db/migration/V1__Init_db.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/resources/db/migration/V2__Insert_users.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/resources/db/migration/V3__Create_complaints_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/main/resources/db/migration/V4__Add_some_test_dates.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/IntegrationEnvironment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/controller/AuthControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/controller/ComplaintControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/controller/FileControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/controller/GroupControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/controller/UserControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/AuthServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/ComplaintServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/FileServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/GroupServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/PasswordResetServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/ProjectAnswerServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/ProjectServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/StudentProjectServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/TaskAnswerServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/TaskServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/ProjectPalBack/src/test/java/cs/vsu/projectpalback/service/UserServiceTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/Backend/ProjectPalBack">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="backend" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;daniilShestopalov&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/daniilShestopalov/Group_project_on_programming-_technologies-ProjectPal-.git&quot;,
+    &quot;accountId&quot;: &quot;af56d141-b231-4c8c-9e97-0331339f7c5c&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;daniilShestopalov&quot;,
+    &quot;repository&quot;: &quot;Group_project_on_programming-_technologies-ProjectPal-&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2iCdjTwEcehDb606lTrczQeMNfT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Gradle.Build ProjectPalBack.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "Spring Boot.ProjectPalBackApplication.executor": "Run",
+    "git-widget-placeholder": "develop",
+    "jdk.selected.JAVA_MODULE": "21",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Проекты",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="ProjectPalBackApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="ProjectPalBack.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cs.vsu.projectpalback.ProjectPalBackApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="635ab53d-ed8d-4dd7-b7bf-2704bbd124b0" name="Changes" comment="" />
+      <created>1718998628576</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718998628576</updated>
+      <workItem from="1718998630869" duration="400000" />
+      <workItem from="1718999047034" duration="4327000" />
+      <workItem from="1719003549818" duration="355000" />
+      <workItem from="1719003920788" duration="2465000" />
+      <workItem from="1719007991725" duration="221000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added gitignore">
+      <option name="closed" value="true" />
+      <created>1718999962036</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1718999962036</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Remove">
+      <option name="closed" value="true" />
+      <created>1719001743406</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719001743406</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="develop" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added gitignore" />
+    <MESSAGE value="Remove" />
+    <MESSAGE value="Moving an entire folder from a backend branch due to merge errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moving an entire folder from a backend branch due to merge errors" />
+  </component>
+</project>

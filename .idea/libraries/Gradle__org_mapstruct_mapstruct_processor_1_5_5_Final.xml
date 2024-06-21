@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.mapstruct:mapstruct-processor:1.5.5.Final" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.mapstruct" artifactId="mapstruct-processor" version="1.5.5.Final" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.5.5.Final/897f6f115930b936287bef552bf5fe28cc64717d/mapstruct-processor-1.5.5.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.5.5.Final/f6ee5c53ac0366f0e4a72b663d0e69a9386afc18/mapstruct-processor-1.5.5.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
