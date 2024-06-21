@@ -28,6 +28,6 @@
 - [Figma](https://www.figma.com/file/S7XxRPfQKmesjIxc8riuUV/ProjectPal?type=design&node-id=0%3A1&mode=design&t=DXrIDECJ5bJ7ee6C-1)
 - [Trello](https://trello.com/invite/b/gXJcIMx4/ATTI2618eef655ef09bb2d0c8ff3fc2abc842EF5F6AA/приложение-projectpal)
 # Видео
-- [Видео-презентация приложения](https://youtu.be/7BYRHDHmcSs)
+- [Видео-презентация приложения](https://youtu.be/7_Ka6pkawLM)
 - [Видео-обзор клиентской части](https://youtu.be/GJ2GntVlOSs)
 - [Видео-обзор серверной части](https://youtu.be/_D5ZkuGC0RE)
