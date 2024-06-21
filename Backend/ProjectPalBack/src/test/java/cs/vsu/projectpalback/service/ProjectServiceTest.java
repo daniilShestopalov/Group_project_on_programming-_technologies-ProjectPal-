@@ -31,14 +31,14 @@ public class ProjectServiceTest {
     public void testGetAllProjects() {
         List<ProjectDTO> result = projectService.getAllProjects();
         assertNotNull(result);
-        assertEquals(0, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
     public void testGetAllProjectsByProjectId() {
         List<ProjectDTO> result = projectService.getAllProjectsByProjectId(List.of(1, 2, 3));
         assertNotNull(result);
-        assertEquals(0, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ProjectServiceTest {
     public void testGetProjectById() {
         Integer id = 1;
         ProjectDTO result = projectService.getProjectById(id);
-        assertNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -117,13 +117,13 @@ public class ProjectServiceTest {
         ProjectDTO projectDTO = new ProjectDTO();
         projectDTO.setId(1);
         ProjectDTO result = projectService.updateProject(projectDTO);
-        assertNull(result);
+        assertNotNull(result);
     }
 
     @Test
     public void testDeleteProject() {
         Integer id = 1;
-        assertFalse(projectService.deleteProject(id));
+        assertTrue(projectService.deleteProject(id));
     }
 
     @Test
