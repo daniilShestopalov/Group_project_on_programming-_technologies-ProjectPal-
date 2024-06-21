@@ -32,6 +32,15 @@
 - [Видео-обзор клиентской части](https://youtu.be/GJ2GntVlOSs)
 - [Видео-обзор серверной части](https://youtu.be/_D5ZkuGC0RE)
 # Инструкция
+## Тестовые данные:
+| Роль  | Временный логин | Временный пароль |
+| ------------- | ------------- |  ------------ |
+| Администратор  | admin  | adminpass  |
+| Преподаватель | teacher  | teachpass  |
+| Студент | student1  | stud1pass  |
+| Студент | student2  | stud2pass  |
+| Студент | student3  | stud3pass  |
+| Студент | student4  | stud4pass  |
 ## Первый запуск:
 ![Screenrecorder-2024-06-21-15-56-04-658](https://github.com/daniilShestopalov/Group_project_on_programming-_technologies-ProjectPal-/assets/90501362/9535004e-967b-42be-b0e0-d6bd5681e760)
 - Запуск: Откройте приложение.
