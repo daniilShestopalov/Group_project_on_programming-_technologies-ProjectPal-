@@ -153,7 +153,7 @@ class _UserCreatePageContentState extends State<UserCreatePageContent> {
                   print('Token for updating user: $token'); // Debug print
                   try {
                     await apiService.createUser(
-                      id: widget.userId,
+                      id: 0,
                       login: _loginController.text,
                       name: _nameController.text,
                       surname: _surnameController.text,

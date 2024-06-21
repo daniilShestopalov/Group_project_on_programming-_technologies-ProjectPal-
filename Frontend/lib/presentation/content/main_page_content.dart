@@ -29,8 +29,8 @@ class _MainPageContentState extends State<MainPageContent> {
     token = await apiService.getJwtToken();
     user = await apiService.getUserById(token!, widget.userId);
 
-    int countTasks;
-    int countProject;
+    int countTasks = 0;
+    int countProject = 0;
     DateTime currentDate = DateTime.now();
 
     if (user.role == 'STUDENT') {
@@ -44,6 +44,7 @@ class _MainPageContentState extends State<MainPageContent> {
     } else {
       countTasks = await apiService.getTasksCountByTeacherId(user.id, token!);
       countProject = await apiService.getProjectsCountByTeacherId(user.id, token!);
+
     }
 
     setState(() {

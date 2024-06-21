@@ -424,6 +424,7 @@ class _ProjectBlockOpenWidgetState extends State<ProjectBlockOpenWidget> {
                                 ProjectPage(
                                   userId: widget.userId,
                                 ));
+                            AppMetrica.reportEvent('Проект оценен');
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text('Работа оценена'),
                             ));
@@ -465,6 +466,7 @@ class _ProjectBlockOpenWidgetState extends State<ProjectBlockOpenWidget> {
                                 grade: grade ?? 0,
                                 fileLink: '$fileName',
                               );
+                              AppMetrica.reportEvent('Ответ на проект отправлен');
                               AppRoutes.navigateToPageWithFadeTransition(
                                   context,
                                   ProjectPage(

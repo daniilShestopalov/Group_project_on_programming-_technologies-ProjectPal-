@@ -46,6 +46,8 @@ class _ProjectPageContentState extends State<ProjectPageContent> {
       }
       final taskBlockWidgets = await Future.wait(projects.map((project) async {
         final teacher = await apiService.getUserById(token, project.teacherUserId);
+        print(project.endDate);
+        print('ДЕДЛАЙН');
         return ProjectBlockWidget(
           subject: project.name,
           endDate: project.endDate,

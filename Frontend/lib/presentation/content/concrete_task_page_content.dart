@@ -101,6 +101,7 @@ class _ConcreteTaskPageContentState extends State<ConcreteTaskPageContent> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Ошибка загрузки данных'));
               } else if (snapshot.hasData) {
+                AppMetrica.reportEvent('Открытие задания');
                 return TaskBlockOpenWidget(
                   subject: widget.subject,
                   date: widget.date,

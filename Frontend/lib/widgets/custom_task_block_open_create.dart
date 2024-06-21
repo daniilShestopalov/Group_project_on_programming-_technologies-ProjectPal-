@@ -48,6 +48,7 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
   DateTime? _selectedEndDate;
   List<Group> _groups = [];
   Group? _selectedGroup;
+  File? file;
 
   @override
   void initState() {
@@ -234,19 +235,10 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
                       type: FileType.custom,
                       allowedExtensions: ['pdf'],
                     );
-                    if (result != null && result.files.isNotEmpty) {
-                      try {
-                        String token = await apiService.getJwtToken() ?? '';
-                        String filePath = result.files.first.path!;
-                        File file = File(filePath);
-                        _fileLink.text = file.path.split('/').last;
-                        await apiService.uploadTaskFile(token, file, widget.taskId);
-                      } catch (e) {
-                        print('Error uploading file: $e');
-                      }
-                    } else {
-                      print('No file selected');
-                    }
+                        String filePath = result!.files.first.path!;
+                        file = File(filePath);
+                        _fileLink.text = file!.path.split('/').last;
+
                   },
                   figmaTextStyles: figmaTextStyles,
                   showArrows: false,
@@ -272,7 +264,11 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
                   startDate: _selectedStartDate ?? DateTime.now(),
                   endDate: _selectedEndDate!,
                 );
-                final students = await apiService.getUsersByGroup(_selectedGroup!.id, token);
+
+               await apiService.uploadTaskFile(token, file!, taskId!);
+
+
+               final students = await apiService.getUsersByGroup(_selectedGroup!.id, token);
                 for (var student in students) {
                   await apiService.createTaskAnswer(token: token,
                     taskId: taskId!,
@@ -285,6 +281,7 @@ class _TaskBlockOpenCreateWidgetState extends State<TaskBlockOpenCreateWidget> {
                     fileLink: ''
                 );}
 
+               AppMetrica.reportEvent('Задание создано');
                 AppRoutes.navigateToPageWithFadeTransition(context, TasksPage(userId: widget.userId));
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

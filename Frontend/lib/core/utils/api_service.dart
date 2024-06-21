@@ -882,6 +882,8 @@ class ApiService {
 
   Future<String?> downloadTaskFile(String token, int id, String filename) async {
     try {
+      print(id);
+      print(filename);
       var response = await http.get(
         Uri.parse('$baseUrl/file/download/task/$id/$filename'),
         headers: {
@@ -1497,8 +1499,8 @@ class ApiService {
     print('Updating user'); // Debug print
     print('Data to be sent: $data');
 
-    final response = await http.put(
-      Uri.parse('$baseUrl/user/without-password'),
+    final response = await http.post(
+      Uri.parse('$baseUrl/user'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
@@ -1528,7 +1530,7 @@ class ApiService {
   }
 
   Future<void> updateTask({
-    required String token,
+    required String? token,
     required int taskId,
     required String name,
     required int teacherUserId,
@@ -1683,7 +1685,7 @@ class ApiService {
       print('Response Status Code: ${response.statusCode}');
       print('Response Body: ${response.body}');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         print('Task Answer created successfully');
       } else {
         print(
@@ -1703,7 +1705,7 @@ class ApiService {
 
   Future<void> createProjectAnswer({
     required String token,
-    required int projectId,
+    required int? projectId,
     required int id,
     required DateTime submissionDate,
     required String teacherCommentary,
@@ -1761,7 +1763,7 @@ class ApiService {
     required String token,
     required int id,
     required int studentUserId,
-    required int projectId,
+    required int? projectId,
   }) async {
     final String url = '$baseUrl/student-project';
 
@@ -1982,8 +1984,8 @@ class ApiService {
       print('Response Status Code: ${response.statusCode}');
       print('Response Body: ${response.body}');
 
-      if (response.statusCode == 201) {
-        print('Group created successfully');
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        print('Project update successfully');
         try {
           Map<String, dynamic> responseBody = jsonDecode(response.body);
           int newGroupId = responseBody['id'];

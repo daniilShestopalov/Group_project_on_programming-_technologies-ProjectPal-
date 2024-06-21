@@ -279,7 +279,6 @@ class _TaskBlockOpenUpdateWidgetState extends State<TaskBlockOpenUpdateWidget> {
             text: 'Обновить задачу',
             onPressed: () async {
               String? token = await apiService.getJwtToken();
-              if (token != null && _selectedEndDate != null) {
                 await apiService.updateTask(
                   token: token,
                   taskId: widget.taskId,
@@ -297,7 +296,6 @@ class _TaskBlockOpenUpdateWidgetState extends State<TaskBlockOpenUpdateWidget> {
                     content: Text('Задание обновлено'),
                   ),
                 );
-              }
             },
             figmaTextStyles: figmaTextStyles,
           ),

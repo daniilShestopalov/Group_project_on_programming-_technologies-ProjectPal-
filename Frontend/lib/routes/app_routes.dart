@@ -5,6 +5,8 @@ class AppRoutes {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => WelcomePage1());
+      case '/auth':
+        return MaterialPageRoute(builder: (_) => AuthPage());
       default:
         return _errorRoute(settings);
     }

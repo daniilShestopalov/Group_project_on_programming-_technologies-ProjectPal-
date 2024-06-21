@@ -1,16 +1,33 @@
+import 'package:flutter/material.dart';
 import 'package:project_pal/core/app_export.dart';
 
-class RegistrationPage2 extends StatelessWidget {
-
+class RegistrationPage2 extends StatefulWidget {
   final User user;
 
   RegistrationPage2({required this.user});
 
+  @override
+  _RegistrationPage2State createState() => _RegistrationPage2State();
+}
+
+class _RegistrationPage2State extends State<RegistrationPage2> {
   final TextEditingController loginController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController copyPasswordController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final ApiService apiService = ApiService();
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
+  int phoneNumberLength = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    phoneNumberController.addListener(() {
+      setState(() {
+        phoneNumberLength = phoneNumberController.text.length;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,24 +73,23 @@ class RegistrationPage2 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomTextField(
-                      hintText: '${user.name}',
+                      hintText: '${widget.user.name}',
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
                     CustomTextField(
-                      hintText: '${user.surname}',
+                      hintText: '${widget.user.surname}',
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
                     CustomTextField(
-                      hintText: '${user.patronymic}',
+                      hintText: '${widget.user.patronymic}',
                       enabled: false,
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
-
                     CustomTextField(
                       hintText: 'Email',
                       controller: loginController,
@@ -81,11 +97,25 @@ class RegistrationPage2 extends StatelessWidget {
                       figmaTextStyles: figmaTextStyles,
                     ),
                     SizedBox(height: 17),
-                    CustomTextField(
-                      hintText: 'Номер телефона',
-                      controller: phoneNumberController,
-                      keyboardType: TextInputType.text,
-                      figmaTextStyles: figmaTextStyles,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomTextField(
+                          hintText: 'Номер телефона',
+                          controller: phoneNumberController,
+                          keyboardType: TextInputType.phone,
+                          figmaTextStyles: figmaTextStyles,
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          '$phoneNumberLength/10',
+                          style: TextStyle(
+                            color: phoneNumberLength == 10
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 17),
                     CustomTextField(
@@ -98,6 +128,7 @@ class RegistrationPage2 extends StatelessWidget {
                     SizedBox(height: 17),
                     CustomTextField(
                       hintText: 'Повторите пароль',
+                      controller: copyPasswordController,
                       obscureText: true,
                       maxLines: 1,
                       figmaTextStyles: figmaTextStyles,
@@ -109,8 +140,9 @@ class RegistrationPage2 extends StatelessWidget {
                         String login = loginController.text;
                         String phoneNumber = phoneNumberController.text;
                         String password = passwordController.text;
+                        String copyPassword = copyPasswordController.text;
 
-                        if (login.isNotEmpty && phoneNumber.isNotEmpty && password.isNotEmpty) {
+                        if (login.isNotEmpty && phoneNumber.isNotEmpty && phoneNumber.length == 10 && password.isNotEmpty && password == copyPassword) {
                           if (!isValidEmail(login)) {
                             // Показать диалоговое окно с ошибкой валидации
                             showDialog(
@@ -130,7 +162,7 @@ class RegistrationPage2 extends StatelessWidget {
                           }
 
                           try {
-                            await apiService.registerUser(user.id, login, phoneNumber, password);
+                            await apiService.registerUser(widget.user.id, login, phoneNumber, password);
                             print("registration successful");
 
                             // Переход на следующую страницу после успешной регистрации
@@ -156,19 +188,18 @@ class RegistrationPage2 extends StatelessWidget {
                           print("Empty login, phone number or password");
                           // Ошибка: пустое поле логина, номера телефона или пароля
                           showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Ошибка'),
-                              content: Text('Пожалуйста, заполните все поля'),
-                              actions: [
-                                TextButton(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                  title: Text('Ошибка'),
+                                  content: Text('Пожалуйста, заполните все поля корректно'),
+                                  actions: [
+                                  TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+                        child: Text('OK'),
+                                  )],
+                        ),
+                        );
+                      }
                       },
                       figmaTextStyles: figmaTextStyles,
                     ),
@@ -186,5 +217,4 @@ class RegistrationPage2 extends StatelessWidget {
     final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegex.hasMatch(email);
   }
-
 }

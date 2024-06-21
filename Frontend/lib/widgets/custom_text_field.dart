@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines; // Новый параметр для задания максимального количества строк
   final TextEditingController? controller;
   final FigmaTextStyles figmaTextStyles;
+  final onChanged;
 
   const CustomTextField({
     Key? key,
@@ -19,11 +20,13 @@ class CustomTextField extends StatelessWidget {
     this.maxLines, // Добавляем параметр для максимального количества строк
     this.controller,
     required this.figmaTextStyles,
+    this.onChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChanged,
       controller: controller,
       enabled: enabled,
       keyboardType: keyboardType,

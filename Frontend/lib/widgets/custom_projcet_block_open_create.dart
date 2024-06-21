@@ -47,6 +47,7 @@ class _ProjectBlockOpenCreateWidgetState
   final FigmaTextStyles figmaTextStyles = FigmaTextStyles();
   DateFormat dateFormat = DateFormat("yyyy-MM-dd");
   bool isEditing = true;
+  File? file;
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
   List<User> allStudents = [];
@@ -346,20 +347,10 @@ class _ProjectBlockOpenCreateWidgetState
                       type: FileType.custom,
                       allowedExtensions: ['pdf'],
                     );
-                    if (result != null && result.files.isNotEmpty) {
-                      try {
-                        String token = await apiService.getJwtToken() ?? '';
-                        String filePath = result.files.first.path!;
-                        File file = File(filePath);
-                        _fileLink.text = file.path.split('/').last;
-                        await apiService.uploadProjectFile(
-                            token, file, widget.projectId);
-                      } catch (e) {
-                        print('Error uploading file: $e');
-                      }
-                    } else {
-                      print('No file selected');
-                    }
+                        String filePath = result!.files.first.path!;
+                        file = File(filePath);
+                        _fileLink.text = file!.path.split('/').last;
+
                   },
                   text: 'Прикрепить файл задания',
                   figmaTextStyles: figmaTextStyles,
@@ -383,10 +374,11 @@ class _ProjectBlockOpenCreateWidgetState
                   startDate: _selectedStartDate ?? DateTime.now(),
                   endDate: _selectedEndDate!,
                 );
-
+                await apiService.uploadProjectFile(
+                    token, file!, projectId!);
                 await apiService.createProjectAnswer
                   (token: token,
-                    projectId: projectId!,
+                    projectId: projectId,
                     id: 0,
                     submissionDate: DateTime.now(),
                     teacherCommentary: '',
@@ -407,9 +399,10 @@ class _ProjectBlockOpenCreateWidgetState
                   context,
                   ProjectPage(userId: widget.userId),
                 );
+                AppMetrica.reportEvent('Проект создано');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Задание создано'),
+                    content: Text('Проект создано'),
                   ),
                 );
               }
