@@ -29,5 +29,5 @@
 - [Trello](https://trello.com/invite/b/gXJcIMx4/ATTI2618eef655ef09bb2d0c8ff3fc2abc842EF5F6AA/приложение-projectpal)
 # Видео
 - [Видео-презентация приложения](https://youtu.be/7BYRHDHmcSs)
-- [Видео-обзор клиентской части](https://youtu.be/yq_ubeAi_IM)
+- [Видео-обзор клиентской части](https://youtu.be/GJ2GntVlOSs)
 - [Видео-обзор серверной части](https://youtu.be/_D5ZkuGC0RE)
