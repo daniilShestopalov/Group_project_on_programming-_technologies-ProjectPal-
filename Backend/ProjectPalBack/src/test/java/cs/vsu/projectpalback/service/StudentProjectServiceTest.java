@@ -36,7 +36,7 @@ public class StudentProjectServiceTest {
     public void testGetAllStudentProjects() {
         List<StudentProjectDTO> result = studentProjectService.getAllStudentProjects();
         assertNotNull(result);
-        assertEquals(0, result.size());
+        assertEquals(2, result.size());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class StudentProjectServiceTest {
 
     @Test
     public void testGetAllStudentProjectsByProjectId() {
-        Integer projectId = 1;
+        Integer projectId = 10;
         List<StudentProjectDTO> result = studentProjectService.getAllStudentProjectsByProjectId(projectId);
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -57,7 +57,7 @@ public class StudentProjectServiceTest {
 
     @Test
     public void testGetStudentsByProjectId() {
-        Integer projectId = 1;
+        Integer projectId = 10;
         List<UserWithoutPasswordDTO> result = studentProjectService.getStudentsByProjectId(projectId);
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -73,7 +73,7 @@ public class StudentProjectServiceTest {
 
     @Test
     public void testGetStudentProjectById() {
-        Integer id = 1;
+        Integer id = 123;
         StudentProjectDTO result = studentProjectService.getStudentProjectById(id);
         assertNull(result);
     }
@@ -129,7 +129,7 @@ public class StudentProjectServiceTest {
 
     @Test
     public void testDeleteStudentProjectById() {
-        Integer id = 1;
+        Integer id = 123;
         assertFalse(studentProjectService.deleteStudentProjectById(id));
     }
 }

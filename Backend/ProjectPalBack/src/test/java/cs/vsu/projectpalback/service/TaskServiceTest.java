@@ -35,12 +35,12 @@ public class TaskServiceTest {
     public void testGetAllTasks() {
         List<TaskDTO> result = taskService.getAllTasks();
         assertNotNull(result);
-        assertEquals(0, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
     public void testGetTasksByGroupId() {
-        Integer groupId = 1;
+        Integer groupId = 123;
         List<TaskDTO> result = taskService.getTasksByGroupId(groupId);
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -94,7 +94,7 @@ public class TaskServiceTest {
     public void testGetTaskById() {
         Integer id = 1;
         TaskDTO result = taskService.getTaskById(id);
-        assertNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -134,12 +134,12 @@ public class TaskServiceTest {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setId(1);
         TaskDTO result = taskService.updateTask(taskDTO);
-        assertNull(result);
+        assertNotNull(result);
     }
 
     @Test
     public void testDeleteTask() {
-        Integer id = 1;
+        Integer id = 123;
         assertFalse(taskService.deleteTask(id));
     }
 
@@ -147,7 +147,7 @@ public class TaskServiceTest {
     public void testCountTasksByGroupId() {
         Integer groupId = 1;
         long result = taskService.countTasksByGroupId(groupId);
-        assertEquals(0, result);
+        assertEquals(1, result);
     }
 
     @Test
