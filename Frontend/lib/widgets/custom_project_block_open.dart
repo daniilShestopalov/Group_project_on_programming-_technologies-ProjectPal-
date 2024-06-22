@@ -129,7 +129,7 @@ class _ProjectBlockOpenWidgetState extends State<ProjectBlockOpenWidget> {
           } else if (days < 0 && grade != null) {
             remainingDaysText = 'Выполнено';
           } else {
-            remainingDaysText = 'Просрочено';
+            remainingDaysText = 'Просроч.';
           }
 
           return SingleChildScrollView(
@@ -502,7 +502,7 @@ class _ProjectBlockOpenWidgetState extends State<ProjectBlockOpenWidget> {
   Color _getTaskColor() {
     int remainingDays = int.parse(widget.date);
 
-    if (remainingDays <= 0 || (grade == null || grade == 2)) {
+    if (remainingDays <= 0 && (grade == null || grade == 2)) {
       return Color(0xFFC55353); // Цвет C55353
     } else if (grade == 0) {
       return Color(0xFFFCEBC1); // Цвет FCEBC1

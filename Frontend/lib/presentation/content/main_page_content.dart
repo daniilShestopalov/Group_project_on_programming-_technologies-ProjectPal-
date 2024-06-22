@@ -61,7 +61,7 @@ class _MainPageContentState extends State<MainPageContent> {
       Duration difference = task.endDate.difference(now);
       String timeLeft = _formatDuration(difference);
       notifications.add(NotificationItem(
-        text: 'Осталось $timeLeft времени до сдачи задачи "${task.name}"',
+        text: 'Осталось $timeLeft до сдачи задачи "${task.name}"',
         avatarUrl: null,
         isSystem: true,
       ));
@@ -71,7 +71,7 @@ class _MainPageContentState extends State<MainPageContent> {
       Duration difference = project.endDate.difference(now);
       String timeLeft = _formatDuration(difference);
       notifications.add(NotificationItem(
-        text: 'Осталось $timeLeft времени до сдачи проекта "${project.name}"',
+        text: 'Осталось $timeLeft до сдачи проекта "${project.name}"',
         avatarUrl: null,
         isSystem: true,
       ));

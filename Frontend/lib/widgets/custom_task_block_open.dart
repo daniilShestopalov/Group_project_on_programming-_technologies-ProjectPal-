@@ -64,6 +64,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
       }
       user = await apiService.getUserById(token, widget.userId);
       print(widget.taskId);
+      print(widget.studentId);
       final Map<String, dynamic> data = await apiService.getTaskAnswerByTaskIdAndByStudentId(
           token, widget.taskId, widget.studentId);
       if (data.isNotEmpty) {
@@ -433,15 +434,11 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                           type: FileType.custom,
                           allowedExtensions: ['pdf'],
                         );
-                        if (result != null && result.files.isNotEmpty) {
-                          try {
                             String? token = await apiService.getJwtToken();
-                            if (token != null) {
-                              String filePath = result.files.first.path!;
+                              String filePath = result!.files.first.path!;
                               File file = File(filePath);
                               String fileName = file.path.split('/').last;
-                              await apiService.uploadTaskAnswerFile(token, file, idAnswer!);
-                              if (idAnswer != null) {
+                              await apiService.uploadTaskAnswerFile(token!, file, idAnswer!);
                                 AppMetrica.reportEvent('Ответ отправлен');
                                 await apiService.updateTaskAnswer(
                                   token: token,
@@ -465,18 +462,6 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
                                     content: Text('Работа отправлена'),
                                   ),
                                 );
-                              } else {
-                                print('Error: answer ID is null');
-                              }
-                            } else {
-                              print('Token is null');
-                            }
-                          } catch (e) {
-                            print('Error uploading file: $e');
-                          }
-                        } else {
-                          print('No file selected');
-                        }
                       },
                       figmaTextStyles: figmaTextStyles,
                       showArrows: false,
@@ -493,7 +478,7 @@ class _TaskBlockOpenWidgetState extends State<TaskBlockOpenWidget> {
   Color _getTaskColor() {
     int remainingDays = int.parse(widget.date);
 
-    if (remainingDays <= 0 || (grade == null || grade == 2)) {
+    if (remainingDays <= 0 && (grade == null || grade == 2)) {
       return Color(0xFFC76767); // Цвет C55353
     } else if (grade == 0) {
       return Color(0xFFFCEBC1); // Цвет FCEBC1
