@@ -1,27 +1,123 @@
 name: project_pal
 description: A new Flutter project.
 version: 1.0.0+1
-environment: 
+
+environment:
   sdk: '>=2.12.0 <3.0.0'
-dependencies: 
-  flutter: 
-    sdk: flutter
-  flutter_localizations: 
+
+dependencies:
+  flutter:
     sdk: flutter
   cached_network_image: ^3.3.0
+  file_picker: ^8.0.1
   flutter_svg: ^2.0.9
-  intl: ^0.18.0
-dev_dependencies: 
-  flutter_test: 
+  http: ^1.2.0
+  intl: ^0.19.0
+  mime: ^1.0.0
+  appmetrica_plugin: ^2.0.0
+  fl_chart: ^0.68.0
+  shared_preferences: ^2.0.0
+  flutter_secure_storage: ^9.2.2
+  image_picker: ^1.1.1
+  path_provider: ^2.0.2
+  dio: ^5.1.1
+  url_launcher: ^6.0.17
+  open_file: ^3.0.3
+  flutter_localizations:
     sdk: flutter
-flutter: 
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
+
+flutter_native_splash:
+  # Основные параметры
+  color: "#f7faf8"
+  image: assets/icon/splash.png
+  # branding: assets/brand.png
+  # branding_mode: bottom
+
+  # Параметры для тёмного режима
+  # color_dark: "#042a49"
+  # background_image_dark: "assets/dark-background.png"
+  # image_dark: assets/splash-invert.png
+  # branding_dark: assets/brand-dark.png
+
+  # Конфигурация для Android 12 и выше
+  android_12:
+    # Изображение иконки для сплэш-экрана (если не указано, используется иконка запуска)
+    image: assets/icon/splash.png
+
+    # Цвет фона сплэш-экрана
+    color: "#f7faf8"
+
+    # Цвет фона иконки
+    # icon_background_color: "#111111"
+
+    # Брендинг для сплэш-экрана
+    # branding: assets/brand.png
+
+    # Параметры для тёмного режима Android 12+
+    # image_dark: assets/android12splash-invert.png
+    # color_dark: "#042a49"
+    # icon_background_color_dark: "#eeeeee"
+
+    # Платформо-специфические параметры (опционально)
+    # color_android: "#42a5f5"
+    # color_dark_android: "#042a49"
+    # color_ios: "#42a5f5"
+    # color_dark_ios: "#042a49"
+    # color_web: "#42a5f5"
+    # color_dark_web: "#042a49"
+    # image_android: assets/splash-android.png
+    # image_dark_android: assets/splash-invert-android.png
+    # image_ios: assets/splash-ios.png
+    # image_dark_ios: assets/splash-invert-ios.png
+    # image_web: assets/splash-web.gif
+    # image_dark_web: assets/splash-invert-web.gif
+    # background_image_android: "assets/background-android.png"
+    # background_image_dark_android: "assets/dark-background-android.png"
+    # background_image_ios: "assets/background-ios.png"
+    # background_image_dark_ios: "assets/dark-background-ios.png"
+    # background_image_web: "assets/background-web.png"
+    # background_image_dark_web: "assets/dark-background-web.png"
+    # branding_android: assets/brand-android.png
+    # branding_dark_android: assets/brand-dark-android.png
+    # branding_ios: assets/brand-ios.png
+    # branding_dark_ios: assets/brand-dark-ios.png
+    # branding_web: assets/brand-web.gif
+    # branding_dark_web: assets/brand-dark-web.gif
+
+    # Позиционирование изображения
+    # android_gravity: center
+    # ios_content_mode: center
+    # web_image_mode: center
+
+    # Ориентация экрана для Android
+    # android_screen_orientation: sensorLandscape
+
+    # Полноэкранный режим
+    # fullscreen: true
+
+    # Спецификация файлов info.plist для iOS (если имя файла изменено)
+    # info_plist_files:
+    #  - 'ios/Runner/Info-Debug.plist'
+    #  - 'ios/Runner/Info-Release.plist'
+
+
+
+
+
+flutter:
   uses-material-design: true
-  assets: 
+  assets:
     - assets/
     - assets/images/
-  fonts: 
+    - assets/icon/
+    - assets/localization/
+  fonts:
     - family: Roboto
-      fonts: 
+      fonts:
         - asset: assets/fonts/RobotoBold.ttf
           weight: 700
         - asset: assets/fonts/RobotoMedium.ttf
